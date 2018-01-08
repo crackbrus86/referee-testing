@@ -13,11 +13,22 @@ class RefereeTesting {
         add_menu_page("Referee Testing", "Тестування", "manage_options", "referee-testing", array("RefereeTesting", "editQuestons"));
     }
 
+    public function loadQuestionsApp(){
+        wp_register_script('react_register', plugins_url('/node_modules/react/umd/react.development.js', __FILE__));
+        wp_enqueue_script('react_register');
+        wp_register_script('react_dom_register', plugins_url('/node_modules/react-dom/umd/react-dom.development.js', __FILE__));
+        wp_enqueue_script('react_dom_register');
+        wp_register_script('questions_bundle', plugins_url('/dist/questions-bundle.js', __FILE__));
+        wp_enqueue_script('questions_bundle');
+    }
+
     public function editQuestons(){
+        RefereeTesting::loadQuestionsApp();
         $plName = "Запитання до тестування";
         $otput=<<<_END
 <div class="container-fluid">
         <h2>$plName</h2>
+        <div id="app"></div>
 </div>
 _END;
 echo $otput;
