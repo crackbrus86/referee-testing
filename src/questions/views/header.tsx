@@ -1,7 +1,15 @@
 import * as React from "react";
+import * as Models from "../models/questions";
+import { QuestionEditTemplate } from "./partials/questionEditTemplate";
 
-export const QuestionsHeader = () => {
+interface HeaderProps{
+    question: Models.Question;
+    changeQuestion: (value: string) => void;
+}
+
+export const QuestionsHeader = (props: HeaderProps) => {
     return <div>
-        <button type="button">Додати питання</button>
+        <QuestionEditTemplate question={props.question} changeText={props.changeQuestion} />
+        <button type="button">Створити питання</button>
     </div>
 }

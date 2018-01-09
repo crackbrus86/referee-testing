@@ -7,11 +7,15 @@ export interface runAjaxProps{
 }
 
 var beforeFunc = () => {
-    console.log("111!");
+    var blackout = document.createElement("div");
+    blackout.className = "black-out";
+    blackout.innerHTML = "<i class='fa fa-refresh fa-5x fa-spin' aria-hidden='true'></i>";
+    document.body.appendChild(blackout);
 }
 
 var afterFunc = () => {
-    console.log("222!");
+    var blackout = document.getElementsByClassName("black-out")[0];
+    blackout.remove();
 }
 
 export const runAjax = (props: runAjaxProps) => {

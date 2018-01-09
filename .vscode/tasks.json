@@ -1,0 +1,12 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Styles Compile",
+            "type": "shell",
+            "command": "node-sass css/styles.scss css/dist/styles.css",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}

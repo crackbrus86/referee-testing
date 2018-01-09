@@ -1,0 +1,16 @@
+.black-out{
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    bottom: 0px; 
+    right: 0px; 
+    z-index: 10000; 
+    background-color: rgba(0, 0, 0,0.6);
+
+    i.fa{
+        color: #faff21;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+    }
+}
