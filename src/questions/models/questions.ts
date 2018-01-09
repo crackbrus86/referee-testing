@@ -1,7 +1,3 @@
-export interface QuestionsState{
-    questions: Question[];
-}
-
 export interface Question{
     id: number;
     text: string;

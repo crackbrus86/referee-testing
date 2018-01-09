@@ -1,7 +1,12 @@
 import * as React from "react";
-import {QuestionsState, Question} from "../models/questions";
+import {Question} from "../models/questions";
 import {QuestionsHeader} from "./header";
 import {QuestionsList} from "./questionsList";
+import * as services from "../services/services";
+
+export interface QuestionsState{
+    questions: Question[];
+}
 export class Questions extends React.Component<any,QuestionsState>{
     constructor(props: any){
         super(props);
@@ -10,6 +15,7 @@ export class Questions extends React.Component<any,QuestionsState>{
         }
     }
     componentDidMount(){
+        services.getAll();
         this.setState({questions: [
             {
                 text: "test",

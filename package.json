@@ -19,6 +19,7 @@
   "dependencies": {
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
+    "jquery": "^3.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
