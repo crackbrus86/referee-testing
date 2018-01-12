@@ -10,3 +10,7 @@ export interface Answer{
     text: string;
     isCorrect: boolean;
 }
+
+export interface InsertQuestion_Contract{
+    text: string;
+}

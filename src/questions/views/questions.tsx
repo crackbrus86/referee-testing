@@ -20,7 +20,11 @@ export class Questions extends React.Component<any,QuestionsState>{
             }
         }
     }
-    componentDidMount(){
+
+    fetchQuestions(){
+        services.getAll().then(data => {
+            this.setState({questions: JSON.parse(data)});
+        })
     }
 
     changeQuestionText(newText: string){
@@ -28,9 +32,31 @@ export class Questions extends React.Component<any,QuestionsState>{
         tmp.text = newText;
         this.setState({defaultQuestion: tmp});
     }
+
+    backToDefault(){
+        this.setState({defaultQuestion: {
+            id: null,
+            text: "",
+            answers: []
+        }})
+    }
+
+    createQuestion(){
+        services.insert({
+            text: this.state.defaultQuestion.text
+        }).then(() => {
+            this.backToDefault();
+            this.fetchQuestions();
+        });
+    }
+
+    componentDidMount(){
+        this.fetchQuestions();
+    }
+
     render(){
         return <div className="questions-app">
-            <QuestionsHeader question={this.state.defaultQuestion} changeQuestion={this.changeQuestionText.bind(this)} />
+            <QuestionsHeader question={this.state.defaultQuestion} changeQuestion={this.changeQuestionText.bind(this)} createQuestion={this.createQuestion.bind(this)} />
             <QuestionsList questions={this.state.questions} />
         </div>
     }
