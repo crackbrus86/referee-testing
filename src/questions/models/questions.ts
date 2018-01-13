@@ -2,6 +2,7 @@ export interface Question{
     id: number;
     text: string;
     answers?: Answer[];
+    [key: string]: any;
 }
 
 export interface Answer{
@@ -9,8 +10,10 @@ export interface Answer{
     questionId: number;
     text: string;
     isCorrect: boolean;
+    [key: string]: any;
 }
 
 export interface InsertQuestion_Contract{
     text: string;
+    answers?: Answer[];
 }

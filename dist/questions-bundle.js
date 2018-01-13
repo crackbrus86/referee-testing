@@ -108,7 +108,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var header_1 = __webpack_require__(4);
 var questionsList_1 = __webpack_require__(6);
-var services = __webpack_require__(7);
+var services = __webpack_require__(8);
 var Questions = /** @class */ (function (_super) {
     __extends(Questions, _super);
     function Questions(props) {
@@ -129,11 +129,6 @@ var Questions = /** @class */ (function (_super) {
             _this.setState({ questions: JSON.parse(data) });
         });
     };
-    Questions.prototype.changeQuestionText = function (newText) {
-        var tmp = this.state.defaultQuestion;
-        tmp.text = newText;
-        this.setState({ defaultQuestion: tmp });
-    };
     Questions.prototype.backToDefault = function () {
         this.setState({ defaultQuestion: {
                 id: null,
@@ -141,10 +136,37 @@ var Questions = /** @class */ (function (_super) {
                 answers: []
             } });
     };
+    Questions.prototype.changeDefaultQuestion = function (newText) {
+        var tmp = this.state.defaultQuestion;
+        tmp.text = newText;
+        this.setState({ defaultQuestion: tmp });
+    };
+    Questions.prototype.addDefaultAswer = function () {
+        var answer = {
+            id: null,
+            questionId: null,
+            text: "",
+            isCorrect: false
+        };
+        var defQuestion = this.state.defaultQuestion;
+        defQuestion.answers.push(answer);
+        this.setState({ defaultQuestion: defQuestion });
+    };
+    Questions.prototype.changeDefaultAnswer = function (index, field, value) {
+        var question = this.state.defaultQuestion;
+        question.answers[index][field] = value;
+        this.setState({ defaultQuestion: question });
+    };
+    Questions.prototype.deleteDefaultAnswer = function (index) {
+        var question = this.state.defaultQuestion;
+        question.answers.splice(index, 1);
+        this.setState({ defaultQuestion: question });
+    };
     Questions.prototype.createQuestion = function () {
         var _this = this;
         services.insert({
-            text: this.state.defaultQuestion.text
+            text: this.state.defaultQuestion.text,
+            answers: this.state.defaultQuestion.answers
         }).then(function () {
             _this.backToDefault();
             _this.fetchQuestions();
@@ -155,7 +177,7 @@ var Questions = /** @class */ (function (_super) {
     };
     Questions.prototype.render = function () {
         return React.createElement("div", { className: "questions-app" },
-            React.createElement(header_1.QuestionsHeader, { question: this.state.defaultQuestion, changeQuestion: this.changeQuestionText.bind(this), createQuestion: this.createQuestion.bind(this) }),
+            React.createElement(header_1.QuestionsHeader, { question: this.state.defaultQuestion, changeQuestion: this.changeDefaultQuestion.bind(this), addAnswer: this.addDefaultAswer.bind(this), createQuestion: this.createQuestion.bind(this), changeDefaultAnswer: this.changeDefaultAnswer.bind(this), deleteAnswer: this.deleteDefaultAnswer.bind(this) }),
             React.createElement(questionsList_1.QuestionsList, { questions: this.state.questions }));
     };
     return Questions;
@@ -174,7 +196,7 @@ var React = __webpack_require__(0);
 var questionEditTemplate_1 = __webpack_require__(5);
 exports.QuestionsHeader = function (props) {
     return React.createElement("div", null,
-        React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion }),
+        React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion, addAnswer: props.addAnswer, changeDefaultAnswer: props.changeDefaultAnswer, deleteAnswer: props.deleteAnswer }),
         React.createElement("button", { type: "button", onClick: function () { return props.createQuestion(); } }, "\u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u043F\u0438\u0442\u0430\u043D\u043D\u044F"));
 };
 
@@ -188,16 +210,18 @@ exports.QuestionsHeader = function (props) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 exports.QuestionEditTemplate = function (props) {
-    var answers = props.question.answers.map(function (x, index) { return React.createElement("div", null,
-        React.createElement("input", { type: "text", key: index, value: x.text })); });
+    var answers = props.question.answers.map(function (x, index) { return React.createElement("div", { key: index },
+        React.createElement("input", { type: "checkbox", checked: x.isCorrect, onChange: function (e) { return props.changeDefaultAnswer(index, "isCorrect", e.target.checked); } }),
+        React.createElement("input", { type: "text", value: x.text, onChange: function (e) { return props.changeDefaultAnswer(index, "text", e.target.value); } }),
+        React.createElement("i", { className: "fa fa-close", onClick: function () { return props.deleteAnswer(index); } })); });
     return React.createElement("div", { className: "quesion-edit-tpl" },
         React.createElement("div", null,
-            React.createElement("label", null,
-                "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F",
-                React.createElement("textarea", { value: props.question.text, onChange: function (e) { return props.changeText(e.target.value); } }))),
+            React.createElement("label", null, "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F"),
+            React.createElement("textarea", { value: props.question.text, onChange: function (e) { return props.changeText(e.target.value); } })),
         React.createElement("div", null,
             React.createElement("label", null, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456"),
-            answers));
+            answers,
+            React.createElement("span", { onClick: function () { return props.addAnswer(); } }, " + \u0414\u043E\u0434\u0430\u0442\u0438 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u044C")));
 };
 
 
@@ -209,11 +233,16 @@ exports.QuestionEditTemplate = function (props) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var questionReviewTemplate_1 = __webpack_require__(7);
 exports.QuestionsList = function (props) {
     if (!props.questions.length)
         return React.createElement("p", null, "\u0416\u043E\u0434\u043D\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u043D\u044F \u043D\u0435 \u0431\u0443\u043B\u043E \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043E");
-    var items = props.questions.map(function (x) { return React.createElement("li", { key: x.id }, x.text); });
-    return React.createElement("ul", null, items);
+    var items = props.questions.map(function (x, index) { return React.createElement("div", { key: index },
+        React.createElement("div", null,
+            React.createElement("i", { className: "fa fa-edit" }),
+            React.createElement("i", { className: "fa fa-close" })),
+        React.createElement(questionReviewTemplate_1.QuestionReviewTemplate, { question: x })); });
+    return React.createElement("div", null, items);
 };
 
 
@@ -224,7 +253,30 @@ exports.QuestionsList = function (props) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(8);
+var React = __webpack_require__(0);
+exports.QuestionReviewTemplate = function (props) {
+    var answers = props.question.answers.map(function (answer, index) {
+        var check = (answer.isCorrect) ? React.createElement("i", { className: "fa fa-check" }) : null;
+        return React.createElement("li", { key: index },
+            check,
+            answer.text);
+    });
+    return React.createElement("div", null,
+        React.createElement("div", null,
+            React.createElement("p", null, props.question.text)),
+        React.createElement("div", null,
+            React.createElement("ul", null, answers)));
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var load_1 = __webpack_require__(9);
 var dir = "../wp-content/plugins/referee-testing/api/questions/";
 exports.getAll = function () {
     return load_1.runAjax({
@@ -242,13 +294,13 @@ exports.insert = function (contract) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(9);
+var $ = __webpack_require__(10);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -270,7 +322,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

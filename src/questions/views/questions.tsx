@@ -27,12 +27,6 @@ export class Questions extends React.Component<any,QuestionsState>{
         })
     }
 
-    changeQuestionText(newText: string){
-        let tmp: Models.Question = this.state.defaultQuestion;
-        tmp.text = newText;
-        this.setState({defaultQuestion: tmp});
-    }
-
     backToDefault(){
         this.setState({defaultQuestion: {
             id: null,
@@ -41,9 +35,40 @@ export class Questions extends React.Component<any,QuestionsState>{
         }})
     }
 
+    changeDefaultQuestion(newText: string){
+        let tmp: Models.Question = this.state.defaultQuestion;
+        tmp.text = newText;
+        this.setState({defaultQuestion: tmp});
+    }    
+
+    addDefaultAswer(){
+        let answer: Models.Answer = {
+            id: null,
+            questionId: null,
+            text: "",
+            isCorrect: false
+        }
+        var defQuestion = this.state.defaultQuestion;
+        defQuestion.answers.push(answer);
+        this.setState({defaultQuestion: defQuestion});
+    }
+
+    changeDefaultAnswer(index: number, field: string, value: any){
+        var question = this.state.defaultQuestion;
+        question.answers[index][field] = value;
+        this.setState({defaultQuestion: question});
+    }
+    
+    deleteDefaultAnswer(index: number){
+        var question = this.state.defaultQuestion;
+        question.answers.splice(index, 1);
+        this.setState({defaultQuestion: question});
+    }
+
     createQuestion(){
         services.insert({
-            text: this.state.defaultQuestion.text
+            text: this.state.defaultQuestion.text,
+            answers: this.state.defaultQuestion.answers
         }).then(() => {
             this.backToDefault();
             this.fetchQuestions();
@@ -56,7 +81,14 @@ export class Questions extends React.Component<any,QuestionsState>{
 
     render(){
         return <div className="questions-app">
-            <QuestionsHeader question={this.state.defaultQuestion} changeQuestion={this.changeQuestionText.bind(this)} createQuestion={this.createQuestion.bind(this)} />
+            <QuestionsHeader 
+                question={this.state.defaultQuestion} 
+                changeQuestion={this.changeDefaultQuestion.bind(this)} 
+                addAnswer={this.addDefaultAswer.bind(this)}
+                createQuestion={this.createQuestion.bind(this)}
+                changeDefaultAnswer={this.changeDefaultAnswer.bind(this)}
+                deleteAnswer={this.deleteDefaultAnswer.bind(this)}
+                />
             <QuestionsList questions={this.state.questions} />
         </div>
     }
