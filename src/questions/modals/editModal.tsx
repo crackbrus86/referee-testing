@@ -25,7 +25,7 @@ export const QuestionModal = (props: Props) =>{
             addAnswer={props.addAnswer}
             deleteAnswer={props.deleteAnswer}
               />
-            <div><button type="button" onClick={() => props.saveQuestion()}>Зберегти</button></div>
+            <div><button type="button" onClick={() => props.saveQuestion()} disabled={!props.question.text.length || !props.question.answers.length}>Зберегти</button></div>
         </div>
     </Modal>;
 }

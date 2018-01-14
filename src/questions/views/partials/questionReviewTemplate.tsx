@@ -8,10 +8,16 @@ interface Props{
 export const QuestionReviewTemplate = (props: Props) => {
     var answers = props.question.answers.map((answer, index) => {
         var check = (answer.isCorrect)? <i className="fa fa-check"></i> : null;
-        return <li key={index}>{check}{answer.text}</li>
+        return <li key={index}><span className="is-right-span">{check}</span>{answer.text}</li>
     });
-    return <div>
-        <div><p>{props.question.text}</p></div>
-        <div><ul>{answers}</ul></div>
+    return <div className="question-wrap">
+        <div className="question-panel q-list-panel">
+            <label>Запитання</label>
+            <p>{props.question.text}</p>
+        </div>
+        <div className="question-panel q-list-panel">
+            <label>Відповіді</label>
+            <ul>{answers}</ul>
+        </div>
     </div>
 }

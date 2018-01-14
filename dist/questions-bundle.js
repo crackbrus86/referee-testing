@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,25 +71,49 @@ module.exports = React;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+module.exports = ReactDOM;
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var questions_1 = __webpack_require__(3);
+exports.QuestionEditTemplate = function (props) {
+    var answers = props.question.answers.map(function (x, index) { return React.createElement("div", { key: index },
+        React.createElement("input", { type: "checkbox", checked: x.isCorrect, onChange: function (e) { return props.changeAnswer(index, "isCorrect", e.target.checked); } }),
+        React.createElement("input", { type: "text", value: x.text, onChange: function (e) { return props.changeAnswer(index, "text", e.target.value); } }),
+        React.createElement("i", { className: "fa fa-close", onClick: function () { return props.deleteAnswer(index); } })); });
+    return React.createElement("div", { className: "question-wrap" },
+        React.createElement("div", { className: "question-panel" },
+            React.createElement("label", null, "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F"),
+            React.createElement("textarea", { value: props.question.text, onChange: function (e) { return props.changeText(e.target.value); }, maxLength: 450 })),
+        React.createElement("div", { className: "question-panel" },
+            React.createElement("label", null, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456"),
+            answers,
+            React.createElement("span", { className: "add-answer", onClick: function () { return props.addAnswer(); } }, " + \u0414\u043E\u0434\u0430\u0442\u0438 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u044C")));
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(1);
+var questions_1 = __webpack_require__(4);
 ReactDOM.render(React.createElement(questions_1.Questions, null), document.getElementById("app"));
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = ReactDOM;
-
-/***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -106,9 +130,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var header_1 = __webpack_require__(4);
+var header_1 = __webpack_require__(5);
 var questionsList_1 = __webpack_require__(6);
 var services = __webpack_require__(8);
+var editModal_1 = __webpack_require__(11);
 var Questions = /** @class */ (function (_super) {
     __extends(Questions, _super);
     function Questions(props) {
@@ -119,7 +144,8 @@ var Questions = /** @class */ (function (_super) {
                 id: null,
                 text: "",
                 answers: []
-            }
+            },
+            modalQuestion: null
         };
         return _this;
     }
@@ -136,31 +162,58 @@ var Questions = /** @class */ (function (_super) {
                 answers: []
             } });
     };
-    Questions.prototype.changeDefaultQuestion = function (newText) {
-        var tmp = this.state.defaultQuestion;
-        tmp.text = newText;
-        this.setState({ defaultQuestion: tmp });
+    Questions.prototype.chooseModalQuestion = function (question) {
+        this.setState({ modalQuestion: question });
     };
-    Questions.prototype.addDefaultAswer = function () {
+    Questions.prototype.closeModalQuestion = function () {
+        this.setState({ modalQuestion: null });
+    };
+    Questions.prototype.changeQuestion = function (newText) {
+        var tmp = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
+        tmp.text = newText;
+        if (!this.state.modalQuestion)
+            this.setState({ defaultQuestion: tmp });
+        else
+            this.setState({ modalQuestion: tmp });
+    };
+    Questions.prototype.addAswer = function () {
         var answer = {
             id: null,
             questionId: null,
             text: "",
             isCorrect: false
         };
-        var defQuestion = this.state.defaultQuestion;
-        defQuestion.answers.push(answer);
-        this.setState({ defaultQuestion: defQuestion });
+        var tmpQuestion = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
+        tmpQuestion.answers.push(answer);
+        if (!this.state.modalQuestion)
+            this.setState({ defaultQuestion: tmpQuestion });
+        else
+            this.setState({ modalQuestion: tmpQuestion });
     };
-    Questions.prototype.changeDefaultAnswer = function (index, field, value) {
-        var question = this.state.defaultQuestion;
+    Questions.prototype.changeAnswer = function (index, field, value) {
+        var question = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
         question.answers[index][field] = value;
-        this.setState({ defaultQuestion: question });
+        if (!this.state.modalQuestion)
+            this.setState({ defaultQuestion: question });
+        else
+            this.setState({ modalQuestion: question });
     };
-    Questions.prototype.deleteDefaultAnswer = function (index) {
-        var question = this.state.defaultQuestion;
+    Questions.prototype.deleteAnswer = function (index) {
+        var question = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
         question.answers.splice(index, 1);
-        this.setState({ defaultQuestion: question });
+        if (!this.state.modalQuestion)
+            this.setState({ defaultQuestion: question });
+        else
+            this.setState({ modalQuestion: question });
+    };
+    Questions.prototype.updateQuestion = function () {
+        var _this = this;
+        services.update({
+            question: this.state.modalQuestion
+        }).then(function () {
+            _this.closeModalQuestion();
+            _this.fetchQuestions();
+        });
     };
     Questions.prototype.createQuestion = function () {
         var _this = this;
@@ -177,28 +230,13 @@ var Questions = /** @class */ (function (_super) {
     };
     Questions.prototype.render = function () {
         return React.createElement("div", { className: "questions-app" },
-            React.createElement(header_1.QuestionsHeader, { question: this.state.defaultQuestion, changeQuestion: this.changeDefaultQuestion.bind(this), addAnswer: this.addDefaultAswer.bind(this), createQuestion: this.createQuestion.bind(this), changeDefaultAnswer: this.changeDefaultAnswer.bind(this), deleteAnswer: this.deleteDefaultAnswer.bind(this) }),
-            React.createElement(questionsList_1.QuestionsList, { questions: this.state.questions }));
+            React.createElement(header_1.QuestionsHeader, { question: this.state.defaultQuestion, changeQuestion: this.changeQuestion.bind(this), addAnswer: this.addAswer.bind(this), createQuestion: this.createQuestion.bind(this), changeDefaultAnswer: this.changeAnswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this) }),
+            React.createElement(questionsList_1.QuestionsList, { questions: this.state.questions, onEdit: this.chooseModalQuestion.bind(this) }),
+            React.createElement(editModal_1.QuestionModal, { question: this.state.modalQuestion, changeQuestion: this.changeQuestion.bind(this), changeAnswer: this.changeAnswer.bind(this), addAnswer: this.addAswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this), saveQuestion: this.updateQuestion.bind(this), onClose: this.closeModalQuestion.bind(this) }));
     };
     return Questions;
 }(React.Component));
 exports.Questions = Questions;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var questionEditTemplate_1 = __webpack_require__(5);
-exports.QuestionsHeader = function (props) {
-    return React.createElement("div", null,
-        React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion, addAnswer: props.addAnswer, changeAnswer: props.changeDefaultAnswer, deleteAnswer: props.deleteAnswer }),
-        React.createElement("button", { type: "button", onClick: function () { return props.createQuestion(); } }, "\u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u043F\u0438\u0442\u0430\u043D\u043D\u044F"));
-};
 
 
 /***/ }),
@@ -209,19 +247,11 @@ exports.QuestionsHeader = function (props) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-exports.QuestionEditTemplate = function (props) {
-    var answers = props.question.answers.map(function (x, index) { return React.createElement("div", { key: index },
-        React.createElement("input", { type: "checkbox", checked: x.isCorrect, onChange: function (e) { return props.changeAnswer(index, "isCorrect", e.target.checked); } }),
-        React.createElement("input", { type: "text", value: x.text, onChange: function (e) { return props.changeAnswer(index, "text", e.target.value); } }),
-        React.createElement("i", { className: "fa fa-close", onClick: function () { return props.deleteAnswer(index); } })); });
-    return React.createElement("div", { className: "quesion-edit-tpl" },
-        React.createElement("div", null,
-            React.createElement("label", null, "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F"),
-            React.createElement("textarea", { value: props.question.text, onChange: function (e) { return props.changeText(e.target.value); } })),
-        React.createElement("div", null,
-            React.createElement("label", null, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456"),
-            answers,
-            React.createElement("span", { onClick: function () { return props.addAnswer(); } }, " + \u0414\u043E\u0434\u0430\u0442\u0438 \u0432\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u044C")));
+var questionEditTemplate_1 = __webpack_require__(2);
+exports.QuestionsHeader = function (props) {
+    return React.createElement("div", { className: "questions-app-header" },
+        React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion, addAnswer: props.addAnswer, changeAnswer: props.changeDefaultAnswer, deleteAnswer: props.deleteAnswer }),
+        React.createElement("button", { type: "button", onClick: function () { return props.createQuestion(); }, disabled: !props.question.text.length || !props.question.answers.length }, "\u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u043F\u0438\u0442\u0430\u043D\u043D\u044F"));
 };
 
 
@@ -237,12 +267,12 @@ var questionReviewTemplate_1 = __webpack_require__(7);
 exports.QuestionsList = function (props) {
     if (!props.questions.length)
         return React.createElement("p", null, "\u0416\u043E\u0434\u043D\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u043D\u044F \u043D\u0435 \u0431\u0443\u043B\u043E \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043E");
-    var items = props.questions.map(function (x, index) { return React.createElement("div", { key: index },
-        React.createElement("div", null,
-            React.createElement("i", { className: "fa fa-edit" }),
+    var items = props.questions.map(function (x, index) { return React.createElement("div", { key: index, className: "questions-list-item" },
+        React.createElement("div", { className: "questions-list-item-head" },
+            React.createElement("i", { className: "fa fa-edit", onClick: function () { return props.onEdit(x); } }),
             React.createElement("i", { className: "fa fa-close" })),
         React.createElement(questionReviewTemplate_1.QuestionReviewTemplate, { question: x })); });
-    return React.createElement("div", null, items);
+    return React.createElement("div", { className: "questions-list" }, items);
 };
 
 
@@ -258,13 +288,15 @@ exports.QuestionReviewTemplate = function (props) {
     var answers = props.question.answers.map(function (answer, index) {
         var check = (answer.isCorrect) ? React.createElement("i", { className: "fa fa-check" }) : null;
         return React.createElement("li", { key: index },
-            check,
+            React.createElement("span", { className: "is-right-span" }, check),
             answer.text);
     });
-    return React.createElement("div", null,
-        React.createElement("div", null,
+    return React.createElement("div", { className: "question-wrap" },
+        React.createElement("div", { className: "question-panel q-list-panel" },
+            React.createElement("label", null, "\u0417\u0430\u043F\u0438\u0442\u0430\u043D\u043D\u044F"),
             React.createElement("p", null, props.question.text)),
-        React.createElement("div", null,
+        React.createElement("div", { className: "question-panel q-list-panel" },
+            React.createElement("label", null, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0434\u0456"),
             React.createElement("ul", null, answers)));
 };
 
@@ -287,6 +319,13 @@ exports.getAll = function () {
 exports.insert = function (contract) {
     return load_1.runAjax({
         url: dir + "insert.php",
+        type: "POST",
+        data: contract
+    });
+};
+exports.update = function (contract) {
+    return load_1.runAjax({
+        url: dir + "update.php",
         type: "POST",
         data: contract
     });
@@ -10579,6 +10618,71 @@ if ( !noGlobal ) {
 
 return jQuery;
 } );
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var modal_1 = __webpack_require__(12);
+var questionEditTemplate_1 = __webpack_require__(2);
+exports.QuestionModal = function (props) {
+    if (!props.question)
+        return null;
+    return React.createElement(modal_1.Modal, null,
+        React.createElement("div", { className: "question-edit-modal" },
+            React.createElement("div", { className: "modal-header" },
+                React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
+            React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion, changeAnswer: props.changeAnswer, addAnswer: props.addAnswer, deleteAnswer: props.deleteAnswer }),
+            React.createElement("div", null,
+                React.createElement("button", { type: "button", onClick: function () { return props.saveQuestion(); }, disabled: !props.question.text.length || !props.question.answers.length }, "\u0417\u0431\u0435\u0440\u0435\u0433\u0442\u0438"))));
+};
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(1);
+var modalRoot = document.body;
+var Modal = /** @class */ (function (_super) {
+    __extends(Modal, _super);
+    function Modal(props) {
+        var _this = _super.call(this, props) || this;
+        _this.el = document.createElement("div");
+        _this.el.className = "modal-black-out";
+        return _this;
+    }
+    Modal.prototype.componentDidMount = function () {
+        modalRoot.appendChild(this.el);
+    };
+    Modal.prototype.componentWillUnmount = function () {
+        modalRoot.removeChild(this.el);
+    };
+    Modal.prototype.render = function () {
+        return ReactDOM.createPortal(this.props.children, this.el);
+    };
+    return Modal;
+}(React.Component));
+exports.Modal = Modal;
 
 
 /***/ })

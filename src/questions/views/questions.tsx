@@ -3,6 +3,7 @@ import * as Models from "../models/questions";
 import {QuestionsHeader} from "./header";
 import {QuestionsList} from "./questionsList";
 import * as services from "../services/services";
+import {QuestionModal} from "../modals/editModal";
 
 export interface QuestionsState{
     questions: Models.Question[];
@@ -37,38 +38,51 @@ export class Questions extends React.Component<any,QuestionsState>{
         }})
     }
 
-    chooseModalQuestion(index: number){
-        
+    chooseModalQuestion(question: Models.Question){
+        this.setState({modalQuestion: question});
     }
 
-    changeDefaultQuestion(newText: string){
-        let tmp: Models.Question = this.state.defaultQuestion;
+    closeModalQuestion(){
+        this.setState({modalQuestion: null});
+    }
+
+    changeQuestion(newText: string){
+        let tmp: Models.Question = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
         tmp.text = newText;
-        this.setState({defaultQuestion: tmp});
+        if(!this.state.modalQuestion) this.setState({defaultQuestion: tmp}); else this.setState({modalQuestion: tmp});        
     }    
 
-    addDefaultAswer(){
+    addAswer(){
         let answer: Models.Answer = {
             id: null,
             questionId: null,
             text: "",
             isCorrect: false
         }
-        var defQuestion = this.state.defaultQuestion;
-        defQuestion.answers.push(answer);
-        this.setState({defaultQuestion: defQuestion});
+        var tmpQuestion = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
+        tmpQuestion.answers.push(answer);
+        if(!this.state.modalQuestion) this.setState({defaultQuestion: tmpQuestion}); else this.setState({modalQuestion: tmpQuestion});
     }
 
-    changeDefaultAnswer(index: number, field: string, value: any){
-        var question = this.state.defaultQuestion;
+    changeAnswer(index: number, field: string, value: any){
+        var question = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
         question.answers[index][field] = value;
-        this.setState({defaultQuestion: question});
+        if(!this.state.modalQuestion) this.setState({defaultQuestion: question}); else this.setState({modalQuestion: question});
     }
     
-    deleteDefaultAnswer(index: number){
-        var question = this.state.defaultQuestion;
+    deleteAnswer(index: number){
+        var question = (!this.state.modalQuestion) ? this.state.defaultQuestion : this.state.modalQuestion;
         question.answers.splice(index, 1);
-        this.setState({defaultQuestion: question});
+        if(!this.state.modalQuestion) this.setState({defaultQuestion: question}); else this.setState({modalQuestion: question});
+    }
+
+    updateQuestion(){
+        services.update({
+            question: this.state.modalQuestion
+        }).then(() => {
+            this.closeModalQuestion();
+            this.fetchQuestions();
+        });
     }
 
     createQuestion(){
@@ -89,13 +103,21 @@ export class Questions extends React.Component<any,QuestionsState>{
         return <div className="questions-app">
             <QuestionsHeader 
                 question={this.state.defaultQuestion} 
-                changeQuestion={this.changeDefaultQuestion.bind(this)} 
-                addAnswer={this.addDefaultAswer.bind(this)}
+                changeQuestion={this.changeQuestion.bind(this)} 
+                addAnswer={this.addAswer.bind(this)}
                 createQuestion={this.createQuestion.bind(this)}
-                changeDefaultAnswer={this.changeDefaultAnswer.bind(this)}
-                deleteAnswer={this.deleteDefaultAnswer.bind(this)}
+                changeDefaultAnswer={this.changeAnswer.bind(this)}
+                deleteAnswer={this.deleteAnswer.bind(this)}
                 />
-            <QuestionsList questions={this.state.questions} />
+            <QuestionsList questions={this.state.questions} onEdit={this.chooseModalQuestion.bind(this)} />
+            <QuestionModal question={this.state.modalQuestion} 
+            changeQuestion={this.changeQuestion.bind(this)}
+            changeAnswer={this.changeAnswer.bind(this)}
+            addAnswer={this.addAswer.bind(this)}
+            deleteAnswer={this.deleteAnswer.bind(this)}
+            saveQuestion={this.updateQuestion.bind(this)}
+            onClose={this.closeModalQuestion.bind(this)}
+            />
         </div>
     }
 }

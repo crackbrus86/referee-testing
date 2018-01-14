@@ -15,15 +15,15 @@ export const QuestionEditTemplate = (props: Props) => {
         <input type="text" value={x.text} onChange={e => props.changeAnswer(index, "text", e.target.value)} />
         <i className="fa fa-close" onClick={() => props.deleteAnswer(index)}></i>
         </div>);
-    return <div className="quesion-edit-tpl">
-        <div>
+    return <div className="question-wrap">
+        <div className="question-panel">
             <label>Запитання</label>
-            <textarea value={props.question.text} onChange={e => props.changeText(e.target.value)} />            
+            <textarea value={props.question.text} onChange={e => props.changeText(e.target.value)} maxLength={450} />            
         </div>
-        <div>
+        <div  className="question-panel">
             <label>Відповіді</label>
             {answers}
-            <span onClick={() => props.addAnswer()}> + Додати відповідь</span>
+            <span className="add-answer" onClick={() => props.addAnswer()}> + Додати відповідь</span>
         </div>
     </div>
 }

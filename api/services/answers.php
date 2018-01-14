@@ -20,16 +20,22 @@ class AnswersService{
         return $this->db->query($sql);
     }
 
-    public function getByQuestionId($queryId = null)
+    public function getByQuestionId($questionId = null)
     {
         $answers = array();
-        if(!$queryId) return  $answers;
-        $sql = $this->db->prepare("SELECT * FROM $this->table WHERE questionId = %d", $queryId);
+        if(!$questionId) return  $answers;
+        $sql = $this->db->prepare("SELECT * FROM $this->table WHERE questionId = %d", $questionId);
         $result = $this->db->get_results($sql);
         foreach($result as $item){
             array_push($answers, new Answer((int)$item->id, (int)$item->questionId, $item->text, (bool)$item->isCorrect));
         }
         return $answers;
+    }
+
+    public function deleteByQuestionId($questionId)
+    {
+        $sql = $this->db->prepare("DELETE FROM $this->table WHERE questionId = %d", $questionId);
+        return $this->db->query($sql);
     }
 }
 ?>

@@ -1,4 +1,4 @@
-.black-out {
+.modal-black-out, .black-out {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -6,8 +6,133 @@
   right: 0px;
   z-index: 10000;
   background-color: rgba(0, 0, 0, 0.6); }
-  .black-out i.fa {
-    color: #faff21;
+  .modal-black-out i.fa-spin, .black-out i.fa-spin {
+    color: #8921ff;
     position: absolute;
     left: 50%;
     top: 50%; }
+
+.questions-app .questions-app-header {
+  background-color: #fff;
+  margin-right: 25px;
+  padding: 5px;
+  box-shadow: 0 0 1px 0 #000; }
+  .questions-app .questions-app-header button {
+    border: none;
+    padding: 3px 10px;
+    cursor: pointer;
+    margin: 5px;
+    background-color: #527ace;
+    color: #fff;
+    text-transform: uppercase; }
+    .questions-app .questions-app-header button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6; }
+    .questions-app .questions-app-header button:hover:not(:disabled) {
+      background-color: #7d94c5; }
+
+.questions-app .questions-list {
+  margin-top: 10px;
+  margin-right: 25px;
+  overflow-y: auto;
+  max-height: 500px; }
+  .questions-app .questions-list .questions-list-item {
+    border-bottom: 1px solid #b1b1b1;
+    margin-bottom: 10px;
+    background-color: #fff; }
+    .questions-app .questions-list .questions-list-item .questions-list-item-head {
+      background-color: #7e94c5;
+      color: #fff;
+      text-align: right;
+      text-shadow: 0 0 1px #000; }
+      .questions-app .questions-list .questions-list-item .questions-list-item-head i {
+        margin: 0 2px;
+        cursor: pointer; }
+    .questions-app .questions-list .questions-list-item .is-right-span {
+      width: 20px;
+      display: inline-block; }
+
+.questions-app .question-wrap {
+  display: flex;
+  flex-direction: row; }
+  .questions-app .question-wrap .question-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 5px; }
+    .questions-app .question-wrap .question-panel.q-list-panel {
+      width: 50%; }
+    .questions-app .question-wrap .question-panel label {
+      display: block;
+      font-weight: 600;
+      color: #0a5fa2;
+      font-size: 1.2em;
+      line-height: 1.6em;
+      text-transform: uppercase; }
+    .questions-app .question-wrap .question-panel textarea {
+      min-width: 300px;
+      min-height: 65px; }
+    .questions-app .question-wrap .question-panel input[type=text] {
+      min-width: 300px; }
+    .questions-app .question-wrap .question-panel .add-answer {
+      cursor: pointer; }
+      .questions-app .question-wrap .question-panel .add-answer:hover {
+        text-decoration: underline; }
+    .questions-app .question-wrap .question-panel .fa-close {
+      cursor: pointer;
+      font-size: 1.2em; }
+
+.question-edit-modal {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  width: 700px;
+  margin-left: -350px;
+  background-color: #fff; }
+  .question-edit-modal .modal-header {
+    text-align: right;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 4px;
+    font-size: 1.2em; }
+    .question-edit-modal .modal-header .fa-close {
+      cursor: pointer; }
+  .question-edit-modal button {
+    border: none;
+    padding: 3px 10px;
+    cursor: pointer;
+    margin: 5px;
+    background-color: #527ace;
+    color: #fff;
+    text-transform: uppercase; }
+    .question-edit-modal button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6; }
+    .question-edit-modal button:hover:not(:disabled) {
+      background-color: #7d94c5; }
+  .question-edit-modal .question-wrap {
+    display: flex;
+    flex-direction: row; }
+    .question-edit-modal .question-wrap .question-panel {
+      display: flex;
+      flex-direction: column;
+      padding: 5px; }
+      .question-edit-modal .question-wrap .question-panel.q-list-panel {
+        width: 50%; }
+      .question-edit-modal .question-wrap .question-panel label {
+        display: block;
+        font-weight: 600;
+        color: #0a5fa2;
+        font-size: 1.2em;
+        line-height: 1.6em;
+        text-transform: uppercase; }
+      .question-edit-modal .question-wrap .question-panel textarea {
+        min-width: 300px;
+        min-height: 65px; }
+      .question-edit-modal .question-wrap .question-panel input[type=text] {
+        min-width: 300px; }
+      .question-edit-modal .question-wrap .question-panel .add-answer {
+        cursor: pointer; }
+        .question-edit-modal .question-wrap .question-panel .add-answer:hover {
+          text-decoration: underline; }
+      .question-edit-modal .question-wrap .question-panel .fa-close {
+        cursor: pointer;
+        font-size: 1.2em; }

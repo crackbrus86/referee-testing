@@ -12,7 +12,7 @@ interface HeaderProps{
 }
 
 export const QuestionsHeader = (props: HeaderProps) => {
-    return <div>
+    return <div className="questions-app-header">
         <QuestionEditTemplate 
         question={props.question} 
         changeText={props.changeQuestion} 
@@ -20,6 +20,6 @@ export const QuestionsHeader = (props: HeaderProps) => {
         changeAnswer={props.changeDefaultAnswer} 
         deleteAnswer={props.deleteAnswer}
         />
-        <button type="button" onClick={() => props.createQuestion()}>Створити питання</button>
+        <button type="button" onClick={() => props.createQuestion()} disabled={!props.question.text.length || !props.question.answers.length}>Створити питання</button>
     </div>
 }

@@ -8,6 +8,7 @@ export class Modal extends React.Component<any,any>{
     constructor(props: any){
         super(props);
         this.el = document.createElement("div");
+        this.el.className = "modal-black-out";
     }
 
     componentDidMount(){

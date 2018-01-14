@@ -17,3 +17,7 @@ export interface InsertQuestion_Contract{
     text: string;
     answers?: Answer[];
 }
+
+export interface UpdateQuestion_Contract{
+    question: Question;
+}
