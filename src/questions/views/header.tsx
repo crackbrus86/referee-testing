@@ -17,7 +17,7 @@ export const QuestionsHeader = (props: HeaderProps) => {
         question={props.question} 
         changeText={props.changeQuestion} 
         addAnswer={props.addAnswer} 
-        changeDefaultAnswer={props.changeDefaultAnswer} 
+        changeAnswer={props.changeDefaultAnswer} 
         deleteAnswer={props.deleteAnswer}
         />
         <button type="button" onClick={() => props.createQuestion()}>Створити питання</button>

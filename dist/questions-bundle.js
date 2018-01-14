@@ -196,7 +196,7 @@ var React = __webpack_require__(0);
 var questionEditTemplate_1 = __webpack_require__(5);
 exports.QuestionsHeader = function (props) {
     return React.createElement("div", null,
-        React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion, addAnswer: props.addAnswer, changeDefaultAnswer: props.changeDefaultAnswer, deleteAnswer: props.deleteAnswer }),
+        React.createElement(questionEditTemplate_1.QuestionEditTemplate, { question: props.question, changeText: props.changeQuestion, addAnswer: props.addAnswer, changeAnswer: props.changeDefaultAnswer, deleteAnswer: props.deleteAnswer }),
         React.createElement("button", { type: "button", onClick: function () { return props.createQuestion(); } }, "\u0421\u0442\u0432\u043E\u0440\u0438\u0442\u0438 \u043F\u0438\u0442\u0430\u043D\u043D\u044F"));
 };
 
@@ -211,8 +211,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 exports.QuestionEditTemplate = function (props) {
     var answers = props.question.answers.map(function (x, index) { return React.createElement("div", { key: index },
-        React.createElement("input", { type: "checkbox", checked: x.isCorrect, onChange: function (e) { return props.changeDefaultAnswer(index, "isCorrect", e.target.checked); } }),
-        React.createElement("input", { type: "text", value: x.text, onChange: function (e) { return props.changeDefaultAnswer(index, "text", e.target.value); } }),
+        React.createElement("input", { type: "checkbox", checked: x.isCorrect, onChange: function (e) { return props.changeAnswer(index, "isCorrect", e.target.checked); } }),
+        React.createElement("input", { type: "text", value: x.text, onChange: function (e) { return props.changeAnswer(index, "text", e.target.value); } }),
         React.createElement("i", { className: "fa fa-close", onClick: function () { return props.deleteAnswer(index); } })); });
     return React.createElement("div", { className: "quesion-edit-tpl" },
         React.createElement("div", null,

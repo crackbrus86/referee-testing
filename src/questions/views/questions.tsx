@@ -7,6 +7,7 @@ import * as services from "../services/services";
 export interface QuestionsState{
     questions: Models.Question[];
     defaultQuestion: Models.Question;
+    modalQuestion: Models.Question;
 }
 export class Questions extends React.Component<any,QuestionsState>{
     constructor(props: any){
@@ -17,7 +18,8 @@ export class Questions extends React.Component<any,QuestionsState>{
                 id: null,
                 text: "",
                 answers: []
-            }
+            },
+            modalQuestion: null
         }
     }
 
@@ -33,6 +35,10 @@ export class Questions extends React.Component<any,QuestionsState>{
             text: "",
             answers: []
         }})
+    }
+
+    chooseModalQuestion(index: number){
+        
     }
 
     changeDefaultQuestion(newText: string){

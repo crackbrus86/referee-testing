@@ -5,14 +5,14 @@ interface Props {
     question: Models.Question;
     changeText: (value: string) => void;
     addAnswer: () => void;
-    changeDefaultAnswer: (index: number, field: string, value: any) => void;
+    changeAnswer: (index: number, field: string, value: any) => void;
     deleteAnswer: (index: number) => void;
 }
 
 export const QuestionEditTemplate = (props: Props) => {
     var answers = props.question.answers.map((x, index) => <div key={index}>
-        <input type="checkbox" checked={x.isCorrect} onChange={e => props.changeDefaultAnswer(index, "isCorrect", e.target.checked )} />
-        <input type="text" value={x.text} onChange={e => props.changeDefaultAnswer(index, "text", e.target.value)} />
+        <input type="checkbox" checked={x.isCorrect} onChange={e => props.changeAnswer(index, "isCorrect", e.target.checked )} />
+        <input type="text" value={x.text} onChange={e => props.changeAnswer(index, "text", e.target.value)} />
         <i className="fa fa-close" onClick={() => props.deleteAnswer(index)}></i>
         </div>);
     return <div className="quesion-edit-tpl">
