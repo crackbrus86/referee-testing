@@ -4,11 +4,16 @@ import {QuestionsHeader} from "./header";
 import {QuestionsList} from "./questionsList";
 import * as services from "../services/services";
 import {QuestionModal} from "../modals/editModal";
+import {ConfirmDialog} from "../../components/confirm";
 
 export interface QuestionsState{
     questions: Models.Question[];
     defaultQuestion: Models.Question;
     modalQuestion: Models.Question;
+    deleteDialog?: {
+        questionId: number;
+        show: boolean;
+    }
 }
 export class Questions extends React.Component<any,QuestionsState>{
     constructor(props: any){
@@ -20,7 +25,11 @@ export class Questions extends React.Component<any,QuestionsState>{
                 text: "",
                 answers: []
             },
-            modalQuestion: null
+            modalQuestion: null,
+            deleteDialog: {
+                questionId: null,
+                show: false
+            }
         }
     }
 
@@ -76,6 +85,29 @@ export class Questions extends React.Component<any,QuestionsState>{
         if(!this.state.modalQuestion) this.setState({defaultQuestion: question}); else this.setState({modalQuestion: question});
     }
 
+    closeDialog(){
+        this.setState({deleteDialog: {
+            questionId: null,
+            show: false
+        }});
+    }
+
+    openDeleteDialog(questionId: number){
+        this.setState({deleteDialog: {
+            questionId: questionId,
+            show: true
+        }});
+    }
+
+    deleteQuestion(){
+        services.deleteQuestion({
+            questionId: this.state.deleteDialog.questionId
+        }).then(() => {
+            this.closeDialog();
+            this.fetchQuestions();
+        })
+    }
+
     updateQuestion(){
         services.update({
             question: this.state.modalQuestion
@@ -109,7 +141,7 @@ export class Questions extends React.Component<any,QuestionsState>{
                 changeDefaultAnswer={this.changeAnswer.bind(this)}
                 deleteAnswer={this.deleteAnswer.bind(this)}
                 />
-            <QuestionsList questions={this.state.questions} onEdit={this.chooseModalQuestion.bind(this)} />
+            <QuestionsList questions={this.state.questions} onEdit={this.chooseModalQuestion.bind(this)} onDelete={this.openDeleteDialog.bind(this)} />
             <QuestionModal question={this.state.modalQuestion} 
             changeQuestion={this.changeQuestion.bind(this)}
             changeAnswer={this.changeAnswer.bind(this)}
@@ -117,6 +149,12 @@ export class Questions extends React.Component<any,QuestionsState>{
             deleteAnswer={this.deleteAnswer.bind(this)}
             saveQuestion={this.updateQuestion.bind(this)}
             onClose={this.closeModalQuestion.bind(this)}
+            />
+            <ConfirmDialog 
+            show={this.state.deleteDialog.show} 
+            message={"Ви впевнені що хочете видалити це питання?"} 
+            onClose={this.closeDialog.bind(this)}
+            onConfirm={this.deleteQuestion.bind(this)}
             />
         </div>
     }

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -105,15 +105,57 @@ exports.QuestionEditTemplate = function (props) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var ReactDOM = __webpack_require__(1);
-var questions_1 = __webpack_require__(4);
-ReactDOM.render(React.createElement(questions_1.Questions, null), document.getElementById("app"));
+var modalRoot = document.body;
+var Modal = /** @class */ (function (_super) {
+    __extends(Modal, _super);
+    function Modal(props) {
+        var _this = _super.call(this, props) || this;
+        _this.el = document.createElement("div");
+        _this.el.className = "modal-black-out";
+        return _this;
+    }
+    Modal.prototype.componentDidMount = function () {
+        modalRoot.appendChild(this.el);
+    };
+    Modal.prototype.componentWillUnmount = function () {
+        modalRoot.removeChild(this.el);
+    };
+    Modal.prototype.render = function () {
+        return ReactDOM.createPortal(this.props.children, this.el);
+    };
+    return Modal;
+}(React.Component));
+exports.Modal = Modal;
 
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(1);
+var questions_1 = __webpack_require__(5);
+ReactDOM.render(React.createElement(questions_1.Questions, null), document.getElementById("app"));
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -130,10 +172,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var header_1 = __webpack_require__(5);
-var questionsList_1 = __webpack_require__(6);
-var services = __webpack_require__(8);
-var editModal_1 = __webpack_require__(11);
+var header_1 = __webpack_require__(6);
+var questionsList_1 = __webpack_require__(7);
+var services = __webpack_require__(9);
+var editModal_1 = __webpack_require__(12);
+var confirm_1 = __webpack_require__(13);
 var Questions = /** @class */ (function (_super) {
     __extends(Questions, _super);
     function Questions(props) {
@@ -145,7 +188,11 @@ var Questions = /** @class */ (function (_super) {
                 text: "",
                 answers: []
             },
-            modalQuestion: null
+            modalQuestion: null,
+            deleteDialog: {
+                questionId: null,
+                show: false
+            }
         };
         return _this;
     }
@@ -206,6 +253,27 @@ var Questions = /** @class */ (function (_super) {
         else
             this.setState({ modalQuestion: question });
     };
+    Questions.prototype.closeDialog = function () {
+        this.setState({ deleteDialog: {
+                questionId: null,
+                show: false
+            } });
+    };
+    Questions.prototype.openDeleteDialog = function (questionId) {
+        this.setState({ deleteDialog: {
+                questionId: questionId,
+                show: true
+            } });
+    };
+    Questions.prototype.deleteQuestion = function () {
+        var _this = this;
+        services.deleteQuestion({
+            questionId: this.state.deleteDialog.questionId
+        }).then(function () {
+            _this.closeDialog();
+            _this.fetchQuestions();
+        });
+    };
     Questions.prototype.updateQuestion = function () {
         var _this = this;
         services.update({
@@ -231,8 +299,9 @@ var Questions = /** @class */ (function (_super) {
     Questions.prototype.render = function () {
         return React.createElement("div", { className: "questions-app" },
             React.createElement(header_1.QuestionsHeader, { question: this.state.defaultQuestion, changeQuestion: this.changeQuestion.bind(this), addAnswer: this.addAswer.bind(this), createQuestion: this.createQuestion.bind(this), changeDefaultAnswer: this.changeAnswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this) }),
-            React.createElement(questionsList_1.QuestionsList, { questions: this.state.questions, onEdit: this.chooseModalQuestion.bind(this) }),
-            React.createElement(editModal_1.QuestionModal, { question: this.state.modalQuestion, changeQuestion: this.changeQuestion.bind(this), changeAnswer: this.changeAnswer.bind(this), addAnswer: this.addAswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this), saveQuestion: this.updateQuestion.bind(this), onClose: this.closeModalQuestion.bind(this) }));
+            React.createElement(questionsList_1.QuestionsList, { questions: this.state.questions, onEdit: this.chooseModalQuestion.bind(this), onDelete: this.openDeleteDialog.bind(this) }),
+            React.createElement(editModal_1.QuestionModal, { question: this.state.modalQuestion, changeQuestion: this.changeQuestion.bind(this), changeAnswer: this.changeAnswer.bind(this), addAnswer: this.addAswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this), saveQuestion: this.updateQuestion.bind(this), onClose: this.closeModalQuestion.bind(this) }),
+            React.createElement(confirm_1.ConfirmDialog, { show: this.state.deleteDialog.show, message: "Ви впевнені що хочете видалити це питання?", onClose: this.closeDialog.bind(this), onConfirm: this.deleteQuestion.bind(this) }));
     };
     return Questions;
 }(React.Component));
@@ -240,7 +309,7 @@ exports.Questions = Questions;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -256,28 +325,28 @@ exports.QuestionsHeader = function (props) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var questionReviewTemplate_1 = __webpack_require__(7);
+var questionReviewTemplate_1 = __webpack_require__(8);
 exports.QuestionsList = function (props) {
     if (!props.questions.length)
         return React.createElement("p", null, "\u0416\u043E\u0434\u043D\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u043D\u044F \u043D\u0435 \u0431\u0443\u043B\u043E \u0441\u0442\u0432\u043E\u0440\u0435\u043D\u043E");
     var items = props.questions.map(function (x, index) { return React.createElement("div", { key: index, className: "questions-list-item" },
         React.createElement("div", { className: "questions-list-item-head" },
             React.createElement("i", { className: "fa fa-edit", onClick: function () { return props.onEdit(x); } }),
-            React.createElement("i", { className: "fa fa-close" })),
+            React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onDelete(x.id); } })),
         React.createElement(questionReviewTemplate_1.QuestionReviewTemplate, { question: x })); });
     return React.createElement("div", { className: "questions-list" }, items);
 };
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -302,13 +371,13 @@ exports.QuestionReviewTemplate = function (props) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(9);
+var load_1 = __webpack_require__(10);
 var dir = "../wp-content/plugins/referee-testing/api/questions/";
 exports.getAll = function () {
     return load_1.runAjax({
@@ -330,16 +399,23 @@ exports.update = function (contract) {
         data: contract
     });
 };
+exports.deleteQuestion = function (contract) {
+    return load_1.runAjax({
+        url: dir + "delete.php",
+        type: "POST",
+        data: contract
+    });
+};
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(10);
+var $ = __webpack_require__(11);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -361,7 +437,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10621,14 +10697,14 @@ return jQuery;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(12);
+var modal_1 = __webpack_require__(3);
 var questionEditTemplate_1 = __webpack_require__(2);
 exports.QuestionModal = function (props) {
     if (!props.question)
@@ -10644,45 +10720,26 @@ exports.QuestionModal = function (props) {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(1);
-var modalRoot = document.body;
-var Modal = /** @class */ (function (_super) {
-    __extends(Modal, _super);
-    function Modal(props) {
-        var _this = _super.call(this, props) || this;
-        _this.el = document.createElement("div");
-        _this.el.className = "modal-black-out";
-        return _this;
-    }
-    Modal.prototype.componentDidMount = function () {
-        modalRoot.appendChild(this.el);
-    };
-    Modal.prototype.componentWillUnmount = function () {
-        modalRoot.removeChild(this.el);
-    };
-    Modal.prototype.render = function () {
-        return ReactDOM.createPortal(this.props.children, this.el);
-    };
-    return Modal;
-}(React.Component));
-exports.Modal = Modal;
+var modal_1 = __webpack_require__(3);
+exports.ConfirmDialog = function (props) {
+    if (!props.show)
+        return null;
+    return React.createElement(modal_1.Modal, null,
+        React.createElement("div", { className: "confirm-dialog" },
+            React.createElement("div", { className: "confirm-dialog-header" },
+                React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
+            React.createElement("div", { className: "confirm-dialog-content" }, props.message),
+            React.createElement("div", { className: "confirm-dialog-footer" },
+                React.createElement("button", { type: "button", className: "confirm", onClick: function () { return props.onConfirm(); } }, "\u0422\u0430\u043A"),
+                React.createElement("button", { type: "button", className: "cancel", onClick: function () { return props.onClose(); } }, "\u041D\u0456"))));
+};
 
 
 /***/ })

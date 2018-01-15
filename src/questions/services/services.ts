@@ -25,3 +25,11 @@ export const update = (contract: Models.UpdateQuestion_Contract) => {
         data: contract
     })
 }
+
+export const deleteQuestion = (contract: Models.DeleteQuestion_Cotract) => {
+    return runAjax({
+        url: dir + "delete.php",
+        type: "POST",
+        data: contract
+    })
+}

@@ -41,6 +41,7 @@ class QuestionsService{
     
     public function delete($id)
     {
-        global $wpdb;
+        $sql = $this->db->prepare("DELETE FROM $this->tableName WHERE id = %d", $id);
+        return $this->db->query($sql);
     }      
 }

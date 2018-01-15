@@ -5,6 +5,7 @@ import {QuestionReviewTemplate} from "./partials/questionReviewTemplate";
 interface QuestionListProps{
     questions: Question[];
     onEdit: (question: Question) => void;
+    onDelete: (questionId: number) => void;
 }
 
 export const QuestionsList = (props: QuestionListProps) => {
@@ -12,7 +13,7 @@ export const QuestionsList = (props: QuestionListProps) => {
     var items = props.questions.map((x,index) => <div key={index} className="questions-list-item">
         <div className="questions-list-item-head">
             <i className="fa fa-edit" onClick={() => props.onEdit(x)}></i>
-            <i className="fa fa-close"></i>
+            <i className="fa fa-close" onClick={() => props.onDelete(x.id)}></i>
         </div>
         <QuestionReviewTemplate question={x} />
     </div>);

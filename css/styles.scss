@@ -192,3 +192,53 @@
         }
     }   
 }
+
+.confirm-dialog{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 200px;
+    margin-left: -100px;
+    background-color: #fff;
+
+    .confirm-dialog-header{
+        text-align: right;
+        border-bottom: 1px solid #dcdcdc;
+        padding: 4px;
+        font-size: 1.2em;
+
+        .fa-close{
+            cursor: pointer;
+        }
+    }
+
+    .confirm-dialog-content{
+        padding: 5px;
+        text-align: center;
+    }
+
+    .confirm-dialog-footer{
+        button{
+            border: none;
+            padding: 3px 10px;
+            cursor: pointer;
+            margin: 5px;
+            text-transform: uppercase;  
+            color: #fff;
+            text-shadow: 0 0 1px #000; 
+            
+            &.confirm{
+                background-color: #4CAF50;
+                &:hover{
+                    background-color: #5dd062;
+                }
+            }
+            &.cancel{
+                background-color: #e91e1e;
+                &:hover{
+                    background-color: #ff6c6c;
+                }
+            }
+        }
+    }
+}

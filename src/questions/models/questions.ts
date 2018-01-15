@@ -21,3 +21,7 @@ export interface InsertQuestion_Contract{
 export interface UpdateQuestion_Contract{
     question: Question;
 }
+
+export interface DeleteQuestion_Cotract{
+    questionId: number;
+}
