@@ -18,3 +18,14 @@
         `isCorrect` INT(1) DEFAULT NULL
     ) {$charset_collate}";
     dbDelta($sql);
+
+    $tb_members = $wpdb->get_blog_prefix()."rt_members";
+    $sql = "CREATE TABLE IF NOT EXISTS {$tb_members} (
+        `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `name` VARCHAR(200) NOT NULL,
+        `surname` VARCHAR(200) NOT NULL,
+        `midName` VARCHAR(200) NOT NULL,
+        `email` VARCHAR(200) NOT NULL,
+        `pass` VARCHAR(200) NOT NULL
+    ) {$charset_collate}";
+    dbDelta($sql);
