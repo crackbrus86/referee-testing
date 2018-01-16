@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Models from "../models/quiz";
 import {SignIn} from "./partials/sign.in";
 import {Register} from  "./partials/register";
+import * as services from "../services/services";
 
 interface Props{
     user: Models.Member;
@@ -42,10 +43,21 @@ export class Login extends React.Component<Props, State>{
         this.setState({viewType: LoginViewTypes.Register});
     }
 
+    registerMember(){
+        services.register({
+            name: this.state.member.name,
+            surname: this.state.member.surname,
+            midName: this.state.member.midName,
+            email: this.state.member.email,
+            password: this.state.password,
+            confirm: this.state.confirm
+        });
+    }
+
     render(){
         if(!!this.props.user) return null;
         var form = (this.state.viewType)? 
-        <Register member={this.state.member} password={this.state.password} confirm={this.state.confirm} /> : 
+        <Register member={this.state.member} password={this.state.password} confirm={this.state.confirm} onRegister={this.registerMember.bind(this)} /> : 
         <SignIn email={this.state.member.email} password={this.state.password} />;
         return <div>
             <div>

@@ -4,7 +4,8 @@ import * as Models from "../../models/quiz";
 interface Props{
     member: Models.Member,
     password: string,
-    confirm: string
+    confirm: string,
+    onRegister: () => void;
 }
 
 export const Register = (props: Props) => {
@@ -35,7 +36,7 @@ export const Register = (props: Props) => {
                 <input type="password" value={props.confirm} />
             </div>             
             <div>
-                <button type="button">Реєструватися</button>
+                <button type="button" onClick={() => props.onRegister()}>Реєструватися</button>
             </div>           
         </form>
     </div>

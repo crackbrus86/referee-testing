@@ -1,6 +1,6 @@
 <?php
 require_once "../config/connect.php";
-require_once "../models/question.php";
+require_once "../models/member.php";
 
 class MembersService{
     private $table;
@@ -10,5 +10,13 @@ class MembersService{
         global $wpdb;
         $this->db = $wpdb;
         $this->table = $this->db->get_blog_prefix() . "rt_members";
+    }
+
+    public function insert($name, $surname, $midName, $email, $pass)
+    {
+        $member = new Member(null, $name, $surname, $email);
+        $sql = $this->db->prepare("INSERT INTO $this->table (name, surname, midName, email, pass) VALUES (%s, %s, %s, %s, %s)", $member->name, $member->surname,
+        $member->midName, $member->email, $pass);
+        return $this->db->query($sql);
     }
 }
