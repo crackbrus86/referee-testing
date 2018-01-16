@@ -51,13 +51,51 @@ export class Login extends React.Component<Props, State>{
             email: this.state.member.email,
             password: this.state.password,
             confirm: this.state.confirm
+        }).then(data => {
+            let response: Models.Register_Response = JSON.parse(data);
+            if(response.status) this.restoreDefaults();
+            alert(response.message);
+        });
+    }
+
+    changeMember(field: string, value: string){
+        var mb = this.state.member;
+        mb[field] = value;
+        this.setState({member: mb});
+    }
+
+    changePassword(type: string, value: string){
+        switch(type){
+            case "password":
+                this.setState({password: value});
+                break;
+            case "confirm":
+                this.setState({confirm: value});
+                break;
+        }
+    }
+
+    restoreDefaults(){
+        this.setState({
+            member: {
+                name: '',
+                surname: '',
+                midName: '',
+                email: ''
+            },
+            viewType: LoginViewTypes.SignIn,
+            password: '',
+            confirm: ''
         });
     }
 
     render(){
         if(!!this.props.user) return null;
         var form = (this.state.viewType)? 
-        <Register member={this.state.member} password={this.state.password} confirm={this.state.confirm} onRegister={this.registerMember.bind(this)} /> : 
+        <Register member={this.state.member} password={this.state.password} 
+        confirm={this.state.confirm} 
+        onRegister={this.registerMember.bind(this)} onMemberChange={this.changeMember.bind(this)}
+        onPasswordChange={this.changePassword.bind(this)} /> : 
         <SignIn email={this.state.member.email} password={this.state.password} />;
         return <div>
             <div>

@@ -14,9 +14,14 @@ class MembersService{
 
     public function insert($name, $surname, $midName, $email, $pass)
     {
-        $member = new Member(null, $name, $surname, $email);
+        $member = new Member(null, $name, $surname, $midName, $email);
         $sql = $this->db->prepare("INSERT INTO $this->table (name, surname, midName, email, pass) VALUES (%s, %s, %s, %s, %s)", $member->name, $member->surname,
         $member->midName, $member->email, $pass);
         return $this->db->query($sql);
+    }
+
+    public function isEmailBusy()
+    {
+
     }
 }

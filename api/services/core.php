@@ -19,5 +19,9 @@ class Core{
     public static function comparePass($password, $confirm){
         return $password == $confirm;
     }
+
+    public static function sendEmail(){
+        
+    }
 }
 ?>

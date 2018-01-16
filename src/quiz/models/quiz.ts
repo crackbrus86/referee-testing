@@ -4,6 +4,7 @@ export interface Member{
     surname: string;
     midName: string;
     email: string;
+    [key: string]: any;
 }
 
 export interface Register_Contract{
@@ -13,6 +14,11 @@ export interface Register_Contract{
     email: string;
     password: string;
     confirm: string;
+}
+
+export interface Register_Response{
+    status: boolean;
+    message: string;
 }
 
 export interface SignIn_Contract{

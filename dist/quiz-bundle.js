@@ -175,6 +175,7 @@ var Login = /** @class */ (function (_super) {
         this.setState({ viewType: LoginViewTypes.Register });
     };
     Login.prototype.registerMember = function () {
+        var _this = this;
         services.register({
             name: this.state.member.name,
             surname: this.state.member.surname,
@@ -182,13 +183,46 @@ var Login = /** @class */ (function (_super) {
             email: this.state.member.email,
             password: this.state.password,
             confirm: this.state.confirm
+        }).then(function (data) {
+            var response = JSON.parse(data);
+            if (response.status)
+                _this.restoreDefaults();
+            alert(response.message);
+        });
+    };
+    Login.prototype.changeMember = function (field, value) {
+        var mb = this.state.member;
+        mb[field] = value;
+        this.setState({ member: mb });
+    };
+    Login.prototype.changePassword = function (type, value) {
+        switch (type) {
+            case "password":
+                this.setState({ password: value });
+                break;
+            case "confirm":
+                this.setState({ confirm: value });
+                break;
+        }
+    };
+    Login.prototype.restoreDefaults = function () {
+        this.setState({
+            member: {
+                name: '',
+                surname: '',
+                midName: '',
+                email: ''
+            },
+            viewType: LoginViewTypes.SignIn,
+            password: '',
+            confirm: ''
         });
     };
     Login.prototype.render = function () {
         if (!!this.props.user)
             return null;
         var form = (this.state.viewType) ?
-            React.createElement(register_1.Register, { member: this.state.member, password: this.state.password, confirm: this.state.confirm, onRegister: this.registerMember.bind(this) }) :
+            React.createElement(register_1.Register, { member: this.state.member, password: this.state.password, confirm: this.state.confirm, onRegister: this.registerMember.bind(this), onMemberChange: this.changeMember.bind(this), onPasswordChange: this.changePassword.bind(this) }) :
             React.createElement(sign_in_1.SignIn, { email: this.state.member.email, password: this.state.password });
         return React.createElement("div", null,
             React.createElement("div", null,
@@ -236,22 +270,22 @@ exports.Register = function (props) {
         React.createElement("form", null,
             React.createElement("div", null,
                 React.createElement("label", null, "\u043F\u0440\u0456\u0437\u0432\u0438\u0449\u0435"),
-                React.createElement("input", { type: "text", value: props.member.surname })),
+                React.createElement("input", { type: "text", value: props.member.surname, onChange: function (e) { return props.onMemberChange("surname", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("label", null, "\u0456\u043C'\u044F"),
-                React.createElement("input", { type: "text", value: props.member.name })),
+                React.createElement("input", { type: "text", value: props.member.name, onChange: function (e) { return props.onMemberChange("name", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("label", null, "\u043F\u043E-\u0431\u0430\u0442\u044C\u043A\u043E\u0432\u0456"),
-                React.createElement("input", { type: "text", value: props.member.midName })),
+                React.createElement("input", { type: "text", value: props.member.midName, onChange: function (e) { return props.onMemberChange("midName", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("label", null, "email"),
-                React.createElement("input", { type: "email", value: props.member.email })),
+                React.createElement("input", { type: "email", value: props.member.email, onChange: function (e) { return props.onMemberChange("email", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("label", null, "\u043F\u0430\u0440\u043E\u043B\u044C"),
-                React.createElement("input", { type: "password", value: props.password })),
+                React.createElement("input", { type: "password", value: props.password, onChange: function (e) { return props.onPasswordChange("password", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("label", null, "\u043F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043D\u043D\u044F \u043F\u0430\u0440\u043E\u043B\u044F"),
-                React.createElement("input", { type: "password", value: props.confirm })),
+                React.createElement("input", { type: "password", value: props.confirm, onChange: function (e) { return props.onPasswordChange("confirm", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("button", { type: "button", onClick: function () { return props.onRegister(); } }, "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"))));
 };
