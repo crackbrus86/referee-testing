@@ -6,12 +6,14 @@ import * as services from "../services/services";
 
 interface Props{
     user: Models.Member;
+    setUser?: (member: Models.Member) => void;
 }
 interface State{
     member: Models.Member,
     viewType?: number;
     password?: string;
     confirm?: string;
+    signData?: Models.SignIn
 }
 
 enum LoginViewTypes {
@@ -31,7 +33,11 @@ export class Login extends React.Component<Props, State>{
             },
             viewType: 0,
             password: '',
-            confirm: ''
+            confirm: '',
+            signData: {
+                email: '',
+                password: ''
+            }
         }
     }
 
@@ -89,6 +95,35 @@ export class Login extends React.Component<Props, State>{
         });
     }
 
+    changeSignData(field: string, value: any){
+        var sd = this.state.signData;
+        sd[field] = value;
+        this.setState({signData: sd});
+    }
+
+    signIn(){
+        services.signIn({
+            email: this.state.signData.email,
+            password: this.state.signData.password
+        }).then(data => {
+            let response: Models.SignIn_Response = JSON.parse(data);
+            if(response.state){
+                this.restoreDefaulysSignIn();
+                alert(response.message);
+                this.props.setUser(response.object);
+            }else{
+                alert(response.message);
+            }
+        });
+    }
+
+    restoreDefaulysSignIn(){
+        this.setState({signData: {
+            email: '',
+            password: ''
+        }});
+    }
+
     render(){
         if(!!this.props.user) return null;
         var form = (this.state.viewType)? 
@@ -96,7 +131,7 @@ export class Login extends React.Component<Props, State>{
         confirm={this.state.confirm} 
         onRegister={this.registerMember.bind(this)} onMemberChange={this.changeMember.bind(this)}
         onPasswordChange={this.changePassword.bind(this)} /> : 
-        <SignIn email={this.state.member.email} password={this.state.password} />;
+        <SignIn credentials={this.state.signData} onChange={this.changeSignData.bind(this)} onSignIn={this.signIn.bind(this)} />;
         return <div>
             <div>
                 <button type="button" onClick={this.showSingIn.bind(this)}>Увійти</button>

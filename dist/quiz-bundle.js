@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,19 +77,93 @@ module.exports = React;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var layout_1 = __webpack_require__(3);
-ReactDOM.render(React.createElement(layout_1.RtQuiz, null), document.getElementById("quiz-app"));
+exports.isFormValid = function (formObject, required) {
+    for (var i = 0; i < required.length; i++) {
+        if (!formObject[required[i]])
+            return true;
+    }
+    return false;
+};
+exports.isFieldValid = function (field, text) {
+    if (text === void 0) { text = "Це поле є обов'язковим"; }
+    if (!!field)
+        return null;
+    return React.createElement("i", { className: "invalid" },
+        "*",
+        React.createElement("sub", null, text));
+};
+exports.isEmailValid = function (field) {
+    if (!field)
+        return React.createElement("i", { className: "invalid" },
+            "*",
+            React.createElement("sub", null, "Це поле є обов'язковим"));
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    if (!pattern.test(field))
+        return React.createElement("i", { className: "invalid" },
+            "*",
+            React.createElement("sub", null, "Не вірно вказано email"));
+};
 
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var load_1 = __webpack_require__(9);
+var dir = "../wp-content/plugins/referee-testing/api/quiz/";
+exports.register = function (contract) {
+    return load_1.runAjax({
+        url: dir + "register.php",
+        type: "POST",
+        data: contract
+    });
+};
+exports.signIn = function (contract) {
+    return load_1.runAjax({
+        url: dir + "signin.php",
+        type: "POST",
+        data: contract
+    });
+};
+exports.getUser = function () {
+    return load_1.runAjax({
+        url: dir + "getUser.php",
+        type: "GET"
+    });
+};
+exports.signOut = function (contract) {
+    return load_1.runAjax({
+        url: dir + "signout.php",
+        type: "GET",
+        data: contract
+    });
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(4);
+var layout_1 = __webpack_require__(5);
+ReactDOM.render(React.createElement(layout_1.RtQuiz, null), document.getElementById("quiz-app"));
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -106,7 +180,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var login_1 = __webpack_require__(4);
+var login_1 = __webpack_require__(6);
+var quiz_1 = __webpack_require__(11);
+var services = __webpack_require__(2);
 var RtQuiz = /** @class */ (function (_super) {
     __extends(RtQuiz, _super);
     function RtQuiz(props) {
@@ -116,9 +192,32 @@ var RtQuiz = /** @class */ (function (_super) {
         };
         return _this;
     }
+    RtQuiz.prototype.setUser = function (member) {
+        this.setState({ user: member });
+    };
+    RtQuiz.prototype.getUser = function () {
+        var _this = this;
+        services.getUser().then(function (data) {
+            if (data)
+                _this.setUser(JSON.parse(data));
+        });
+    };
+    RtQuiz.prototype.signOut = function () {
+        var _this = this;
+        services.signOut({
+            logout: this.state.user.id
+        }).then(function () {
+            _this.setState({ user: null });
+            _this.getUser();
+        });
+    };
+    RtQuiz.prototype.componentDidMount = function () {
+        this.getUser();
+    };
     RtQuiz.prototype.render = function () {
         return React.createElement("div", null,
-            React.createElement(login_1.Login, { user: this.state.user }));
+            React.createElement(login_1.Login, { user: this.state.user, setUser: this.setUser.bind(this) }),
+            React.createElement(quiz_1.Quiz, { user: this.state.user, onSignOut: this.signOut.bind(this) }));
     };
     return RtQuiz;
 }(React.Component));
@@ -126,7 +225,7 @@ exports.RtQuiz = RtQuiz;
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -143,9 +242,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var sign_in_1 = __webpack_require__(5);
-var register_1 = __webpack_require__(6);
-var services = __webpack_require__(8);
+var sign_in_1 = __webpack_require__(7);
+var register_1 = __webpack_require__(8);
+var services = __webpack_require__(2);
 var LoginViewTypes;
 (function (LoginViewTypes) {
     LoginViewTypes[LoginViewTypes["SignIn"] = 0] = "SignIn";
@@ -164,7 +263,11 @@ var Login = /** @class */ (function (_super) {
             },
             viewType: 0,
             password: '',
-            confirm: ''
+            confirm: '',
+            signData: {
+                email: '',
+                password: ''
+            }
         };
         return _this;
     }
@@ -218,12 +321,40 @@ var Login = /** @class */ (function (_super) {
             confirm: ''
         });
     };
+    Login.prototype.changeSignData = function (field, value) {
+        var sd = this.state.signData;
+        sd[field] = value;
+        this.setState({ signData: sd });
+    };
+    Login.prototype.signIn = function () {
+        var _this = this;
+        services.signIn({
+            email: this.state.signData.email,
+            password: this.state.signData.password
+        }).then(function (data) {
+            var response = JSON.parse(data);
+            if (response.state) {
+                _this.restoreDefaulysSignIn();
+                alert(response.message);
+                _this.props.setUser(response.object);
+            }
+            else {
+                alert(response.message);
+            }
+        });
+    };
+    Login.prototype.restoreDefaulysSignIn = function () {
+        this.setState({ signData: {
+                email: '',
+                password: ''
+            } });
+    };
     Login.prototype.render = function () {
         if (!!this.props.user)
             return null;
         var form = (this.state.viewType) ?
             React.createElement(register_1.Register, { member: this.state.member, password: this.state.password, confirm: this.state.confirm, onRegister: this.registerMember.bind(this), onMemberChange: this.changeMember.bind(this), onPasswordChange: this.changePassword.bind(this) }) :
-            React.createElement(sign_in_1.SignIn, { email: this.state.member.email, password: this.state.password });
+            React.createElement(sign_in_1.SignIn, { credentials: this.state.signData, onChange: this.changeSignData.bind(this), onSignIn: this.signIn.bind(this) });
         return React.createElement("div", null,
             React.createElement("div", null,
                 React.createElement("button", { type: "button", onClick: this.showSingIn.bind(this) }, "\u0423\u0432\u0456\u0439\u0442\u0438"),
@@ -236,36 +367,42 @@ exports.Login = Login;
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var Validation = __webpack_require__(1);
 exports.SignIn = function (props) {
+    var required = ["email", "password"];
     return React.createElement("div", null,
         React.createElement("form", null,
             React.createElement("div", null,
-                React.createElement("label", null, "email"),
-                React.createElement("input", { type: "email" })),
+                React.createElement("label", null,
+                    "Email",
+                    Validation.isFieldValid(props.credentials.email)),
+                React.createElement("input", { type: "email", value: props.credentials.email, onChange: function (e) { return props.onChange("email", e.target.value); } })),
             React.createElement("div", null,
-                React.createElement("label", null, "\u043F\u0430\u0440\u043E\u043B\u044C"),
-                React.createElement("input", { type: "password" })),
+                React.createElement("label", null,
+                    "\u041F\u0430\u0440\u043E\u043B\u044C",
+                    Validation.isFieldValid(props.credentials.password)),
+                React.createElement("input", { type: "password", value: props.credentials.password, onChange: function (e) { return props.onChange("password", e.target.value); } })),
             React.createElement("div", null,
-                React.createElement("button", { type: "button" }, "\u0423\u0432\u0456\u0439\u0442\u0438"))));
+                React.createElement("button", { type: "button", onClick: function () { return props.onSignIn(); }, disabled: Validation.isFormValid(props.credentials, required) }, "\u0423\u0432\u0456\u0439\u0442\u0438"))));
 };
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(7);
+var Validation = __webpack_require__(1);
 exports.Register = function (props) {
     var required = ["name", "surname", "midName", "email"];
     return React.createElement("div", null,
@@ -302,60 +439,6 @@ exports.Register = function (props) {
                 React.createElement("input", { type: "password", value: props.confirm, onChange: function (e) { return props.onPasswordChange("confirm", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("button", { type: "button", onClick: function () { return props.onRegister(); }, disabled: Validation.isFormValid(props.member, required) || !props.password.length || !props.confirm.length }, "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"))));
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-exports.isFormValid = function (formObject, required) {
-    for (var i = 0; i < required.length; i++) {
-        if (!formObject[required[i]])
-            return true;
-    }
-    return false;
-};
-exports.isFieldValid = function (field, text) {
-    if (text === void 0) { text = "Це поле є обов'язковим"; }
-    if (!!field)
-        return null;
-    return React.createElement("i", { className: "invalid" },
-        "*",
-        React.createElement("sub", null, text));
-};
-exports.isEmailValid = function (field) {
-    if (!field)
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Це поле є обов'язковим"));
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    if (!pattern.test(field))
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Не вірно вказано email"));
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(9);
-var dir = "../wp-content/plugins/referee-testing/api/quiz/";
-exports.register = function (contract) {
-    return load_1.runAjax({
-        url: dir + "register.php",
-        type: "POST",
-        data: contract
-    });
 };
 
 
@@ -10645,6 +10728,47 @@ if ( !noGlobal ) {
 
 return jQuery;
 } );
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var Quiz = /** @class */ (function (_super) {
+    __extends(Quiz, _super);
+    function Quiz() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Quiz.prototype.render = function () {
+        var _this = this;
+        if (!this.props.user)
+            return null;
+        var user = this.props.user;
+        var fullName = user.surname + " " + user.name + " " + user.midName;
+        return React.createElement("div", null,
+            React.createElement("div", null,
+                React.createElement("p", null,
+                    "\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447: ",
+                    fullName),
+                React.createElement("button", { type: "button", onClick: function () { return _this.props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438")));
+    };
+    return Quiz;
+}(React.Component));
+exports.Quiz = Quiz;
 
 
 /***/ })

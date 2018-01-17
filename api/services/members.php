@@ -25,4 +25,12 @@ class MembersService{
         $sql = $this->db->prepare("SELECT COUNT(*) FROM $this->table WHERE email = %s", $email);
         return $this->db->get_var($sql);
     }
+
+    public function getMember($email, $pass)
+    {
+        $sql = $this->db->prepare("SELECT id, name, surname, midName, email FROM $this->table WHERE email = %s AND pass = %s", $email, $pass);
+        $result = $this->db->get_row($sql);
+        $member = ($result)? new Member($result->id, $result->name, $result->surname, $result->midName, $result->email) : null;
+        return $member;
+    }
 }

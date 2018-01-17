@@ -10,3 +10,26 @@ export const register = (contract: Models.Register_Contract) => {
         data: contract
     })
 }
+
+export const signIn = (contract: Models.SignIn_Contract) => {
+    return runAjax({
+        url: dir + "signin.php",
+        type: "POST",
+        data: contract
+    })
+}
+
+export const getUser = () => {
+    return runAjax({
+        url: dir + "getUser.php",
+        type: "GET"
+    })
+}
+
+export const signOut = (contract: Models.SignOut_Contract) => {
+    return runAjax({
+        url: dir + "signout.php",
+        type: "GET",
+        data: contract
+    })
+}

@@ -9,6 +9,11 @@ define('RT_DIR', plugin_dir_path(__FILE__));
 add_action("admin_menu", array("RefereeTesting", "initSettings"));
 add_action("admin_init", array("RefereeTesting", "initDb"));
 
+add_action( 'init', 'do_session_start' ); 
+function do_session_start() { 
+    if ( !session_id() ) session_start(); 
+}
+
 // wp_register_script('react_register', plugins_url('/node_modules/react/umd/react.development.js', __FILE__));
 wp_register_script('react_register', 'https://unpkg.com/react@16/umd/react.development.js');
 wp_enqueue_script('react_register');
