@@ -20,8 +20,9 @@ class MembersService{
         return $this->db->query($sql);
     }
 
-    public function isEmailBusy()
+    public function isEmailBusy($email)
     {
-
+        $sql = $this->db->prepare("SELECT COUNT(*) FROM $this->table WHERE email = %s", $email);
+        return $this->db->get_var($sql);
     }
 }

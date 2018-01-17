@@ -27,6 +27,9 @@ if(!Core::validateString($name)){
 }elseif(!Core::validateString($email) || !Core::validateEmail($email)){
     $output->status = false;
     $output->message = "Не правильно введено email!";
+}elseif($mService->isEmailBusy($email)){
+    $output->status = false;
+    $output->message = "Цей email вже зайнятий кимось іншим!";
 }elseif(!Core::validateString($password)){
     $output->status = false;
     $output->message = "Не введено пароль!";
@@ -38,12 +41,20 @@ if(!Core::validateString($name)){
     $output->message = "Пароль та підтвердження не співпадають!";
 }
 
+$tmpPass = $password;
 $password = Core::hashString($password);
 $confirm = Core::hashString($confirm);
 
 if($output->status){
     $mService->insert($name, $surname, $midName, $email, $password);
     $output->message = "Реєстрація пройшла успішно!";
+    $subj = "Підтвердження реєстрації";
+    $mess = "Шановний $surname $name $midName!<br>
+    Ви успішно пройшли реєстрацію у системі екзаменування суддів ФПУ. Для
+    доступу в систему використовуйте це email і Ваш пароль: <br>
+    <strong>email</strong>: $email <br>
+    <strong>пароль</strong>: $tmpPass";
+    Core::sendEmail($email, $subj, $mess);
 }
 
 $result = json_encode($output);

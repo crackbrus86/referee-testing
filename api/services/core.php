@@ -20,8 +20,16 @@ class Core{
         return $password == $confirm;
     }
 
-    public static function sendEmail(){
-        
+    public static function sendEmail($email, $subj, $mess){
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: Eudemo <crackbrus86@gmail.com>' . "\r\n";
+        $headers .= 'Cc: ' . "\r\n";
+        $headers .= 'Bcc: ' . "\r\n";
+        $for = $email;
+        $subject = $subj;
+        $message = $mess;
+        mail($for, $subject, $message, $headers);        
     }
 }
 ?>

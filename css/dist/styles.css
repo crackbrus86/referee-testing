@@ -170,3 +170,6 @@
       background-color: #e91e1e; }
       .confirm-dialog .confirm-dialog-footer button.cancel:hover {
         background-color: #ff6c6c; }
+
+.invalid {
+  color: red; }
