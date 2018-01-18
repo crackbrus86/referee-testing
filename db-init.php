@@ -29,3 +29,14 @@
         `pass` VARCHAR(200) NOT NULL
     ) {$charset_collate}";
     dbDelta($sql);
+
+    $tb_quiz = $wpdb->get_blog_prefix()."rt_quiz";
+    $sql = "CREATE TABLE IF NOT EXISTS {$tb_quiz} (
+        `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `memberId` BIGINT NOT NULL,
+        `startDate` DATETIME DEFAULT NULL,
+        `endDate` DATETIME DEFAULT NULL,
+        `score` INT,
+        `isPassed` INT(1)
+    ) {$charset_collate}";
+    dbDelta($sql);

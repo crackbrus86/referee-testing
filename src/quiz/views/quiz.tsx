@@ -15,10 +15,12 @@ export class Quiz extends React.Component<Props, State>{
         if(!this.props.user) return null;
         var user = this.props.user;
         var fullName = user.surname + " " + user.name + " " + user.midName;
-        return <div>
-            <div>
+        return <div className="rt-quiz">
+            <div className="rt-quiz-header">
                 <p>Користувач: {fullName}</p>
                 <button type="button" onClick={() => this.props.onSignOut()}>Вийти</button>
+            </div>
+            <div className="rt-quiz-body">
             </div>
         </div>
     }

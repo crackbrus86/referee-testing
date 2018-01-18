@@ -218,14 +218,17 @@
     }
 
     .confirm-dialog-footer{
+        text-align: center;
+        border-top: 1px solid #ccc;
         button{
             border: none;
             padding: 3px 10px;
             cursor: pointer;
-            margin: 5px;
+            margin: 5px 16px;
             text-transform: uppercase;  
             color: #fff;
-            text-shadow: 0 0 1px #000; 
+            text-shadow: 0 0 1px #000;
+            min-width: 45px; 
             
             &.confirm{
                 background-color: #4CAF50;
