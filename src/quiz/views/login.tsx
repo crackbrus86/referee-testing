@@ -3,6 +3,7 @@ import * as Models from "../models/quiz";
 import {SignIn} from "./partials/sign.in";
 import {Register} from  "./partials/register";
 import * as services from "../services/services";
+import * as classnames from "classnames";
 
 interface Props{
     user: Models.Member;
@@ -132,10 +133,10 @@ export class Login extends React.Component<Props, State>{
         onRegister={this.registerMember.bind(this)} onMemberChange={this.changeMember.bind(this)}
         onPasswordChange={this.changePassword.bind(this)} /> : 
         <SignIn credentials={this.state.signData} onChange={this.changeSignData.bind(this)} onSignIn={this.signIn.bind(this)} />;
-        return <div>
-            <div>
-                <button type="button" onClick={this.showSingIn.bind(this)}>Увійти</button>
-                <button type="button" onClick={this.showRegister.bind(this)}>Зареєструватися</button>
+        return <div className="rt-login">
+            <div className="rt-login-header">
+                <button type="button" className={classnames("sign-in", {active: !this.state.viewType})} onClick={this.showSingIn.bind(this)}>Увійти</button>
+                <button type="button" className={classnames("register", {active: !!this.state.viewType})} onClick={this.showRegister.bind(this)}>Зареєструватися</button>
             </div>
             {form}
         </div>

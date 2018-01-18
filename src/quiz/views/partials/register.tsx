@@ -40,7 +40,7 @@ export const Register = (props: Props) => {
                 <input type="password" value={props.confirm} onChange={e => props.onPasswordChange("confirm", e.target.value)} />
             </div>             
             <div>
-                <button type="button" onClick={() => props.onRegister()} 
+                <button type="button" className="form-submit" onClick={() => props.onRegister()} 
                 disabled={Validation.isFormValid(props.member, required) || !props.password.length || !props.confirm.length}>Реєструватися</button>
             </div>           
         </form>

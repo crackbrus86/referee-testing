@@ -181,7 +181,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var login_1 = __webpack_require__(6);
-var quiz_1 = __webpack_require__(11);
+var quiz_1 = __webpack_require__(12);
 var services = __webpack_require__(2);
 var RtQuiz = /** @class */ (function (_super) {
     __extends(RtQuiz, _super);
@@ -245,6 +245,7 @@ var React = __webpack_require__(0);
 var sign_in_1 = __webpack_require__(7);
 var register_1 = __webpack_require__(8);
 var services = __webpack_require__(2);
+var classnames = __webpack_require__(11);
 var LoginViewTypes;
 (function (LoginViewTypes) {
     LoginViewTypes[LoginViewTypes["SignIn"] = 0] = "SignIn";
@@ -355,10 +356,10 @@ var Login = /** @class */ (function (_super) {
         var form = (this.state.viewType) ?
             React.createElement(register_1.Register, { member: this.state.member, password: this.state.password, confirm: this.state.confirm, onRegister: this.registerMember.bind(this), onMemberChange: this.changeMember.bind(this), onPasswordChange: this.changePassword.bind(this) }) :
             React.createElement(sign_in_1.SignIn, { credentials: this.state.signData, onChange: this.changeSignData.bind(this), onSignIn: this.signIn.bind(this) });
-        return React.createElement("div", null,
-            React.createElement("div", null,
-                React.createElement("button", { type: "button", onClick: this.showSingIn.bind(this) }, "\u0423\u0432\u0456\u0439\u0442\u0438"),
-                React.createElement("button", { type: "button", onClick: this.showRegister.bind(this) }, "\u0417\u0430\u0440\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F")),
+        return React.createElement("div", { className: "rt-login" },
+            React.createElement("div", { className: "rt-login-header" },
+                React.createElement("button", { type: "button", className: classnames("sign-in", { active: !this.state.viewType }), onClick: this.showSingIn.bind(this) }, "\u0423\u0432\u0456\u0439\u0442\u0438"),
+                React.createElement("button", { type: "button", className: classnames("register", { active: !!this.state.viewType }), onClick: this.showRegister.bind(this) }, "\u0417\u0430\u0440\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F")),
             form);
     };
     return Login;
@@ -390,7 +391,7 @@ exports.SignIn = function (props) {
                     Validation.isFieldValid(props.credentials.password)),
                 React.createElement("input", { type: "password", value: props.credentials.password, onChange: function (e) { return props.onChange("password", e.target.value); } })),
             React.createElement("div", null,
-                React.createElement("button", { type: "button", onClick: function () { return props.onSignIn(); }, disabled: Validation.isFormValid(props.credentials, required) }, "\u0423\u0432\u0456\u0439\u0442\u0438"))));
+                React.createElement("button", { type: "button", className: "form-submit", onClick: function () { return props.onSignIn(); }, disabled: Validation.isFormValid(props.credentials, required) }, "\u0423\u0432\u0456\u0439\u0442\u0438"))));
 };
 
 
@@ -438,7 +439,7 @@ exports.Register = function (props) {
                     Validation.isFieldValid(props.confirm)),
                 React.createElement("input", { type: "password", value: props.confirm, onChange: function (e) { return props.onPasswordChange("confirm", e.target.value); } })),
             React.createElement("div", null,
-                React.createElement("button", { type: "button", onClick: function () { return props.onRegister(); }, disabled: Validation.isFormValid(props.member, required) || !props.password.length || !props.confirm.length }, "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"))));
+                React.createElement("button", { type: "button", className: "form-submit", onClick: function () { return props.onRegister(); }, disabled: Validation.isFormValid(props.member, required) || !props.password.length || !props.confirm.length }, "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"))));
 };
 
 
@@ -10732,6 +10733,61 @@ return jQuery;
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2016 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				classes.push(classNames.apply(null, arg));
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -173,3 +173,51 @@
 
 .invalid {
   color: red; }
+
+.rt-login {
+  font-family: Arial, Helvetica, sans-serif; }
+  .rt-login .rt-login-header {
+    padding: 5px; }
+    .rt-login .rt-login-header button {
+      margin: 0 5px 0 0;
+      padding: 5px 7px;
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: #fff;
+      text-shadow: 0 0 1px #000;
+      cursor: pointer; }
+      .rt-login .rt-login-header button.sign-in {
+        background-color: #59d05d; }
+        .rt-login .rt-login-header button.sign-in:hover {
+          background-color: #6bd86f; }
+      .rt-login .rt-login-header button.register {
+        background-color: #905ace; }
+        .rt-login .rt-login-header button.register:hover {
+          background-color: #af73f3; }
+      .rt-login .rt-login-header button.active {
+        text-decoration: underline; }
+  .rt-login form label {
+    font-size: 14px; }
+  .rt-login form input {
+    padding: 4px;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px; }
+    .rt-login form input:focus {
+      background-color: #fff; }
+  .rt-login form .form-submit {
+    margin: 20px 5px 0 0;
+    padding: 5px 7px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: #fff;
+    text-shadow: 0 0 1px #000;
+    background-color: #bf1252; }
+    .rt-login form .form-submit:hover {
+      background-color: #d8155c; }
+    .rt-login form .form-submit:disabled {
+      cursor: not-allowed; }

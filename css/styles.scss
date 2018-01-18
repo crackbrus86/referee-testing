@@ -245,3 +245,70 @@
 .invalid{
     color: red;
 }
+
+.rt-login{
+    font-family: Arial, Helvetica, sans-serif;
+    .rt-login-header{
+        padding: 5px;
+        button{
+            margin: 0 5px 0 0;
+            padding: 5px 7px;
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: #fff;
+            text-shadow: 0 0 1px #000;
+            cursor: pointer;
+
+            &.sign-in{
+                background-color: #59d05d;
+                &:hover{
+                    background-color: #6bd86f;
+                }
+            }
+            &.register{
+                background-color: #905ace;
+                &:hover{
+                    background-color: #af73f3;
+                }
+            }
+            &.active{
+                text-decoration: underline;
+            }
+        }
+    }
+    form{
+        label{
+            font-size: 14px;
+        }
+        input{
+            padding: 4px;
+            border: 1px solid #ccc;
+            background-color: #f7f7f7;
+            width: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            &:focus{
+                background-color: #fff;
+            }
+        }
+        .form-submit{
+            margin: 20px 5px 0 0;
+            padding: 5px 7px;
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: #fff;
+            text-shadow: 0 0 1px #000;
+            background-color: #bf1252;
+
+            &:hover{
+                background-color: #d8155c;
+            }
+
+            &:disabled{
+                cursor: not-allowed;
+            }
+        }
+    }
+}

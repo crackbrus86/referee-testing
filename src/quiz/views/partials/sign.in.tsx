@@ -21,7 +21,7 @@ export const SignIn = (props: Props) => {
                 <input type="password" value={props.credentials.password} onChange={e => props.onChange("password", e.target.value)} />
             </div> 
             <div>
-                <button type="button" onClick={() => props.onSignIn()} disabled={Validation.isFormValid(props.credentials, required)}>Увійти</button>
+                <button type="button" className="form-submit" onClick={() => props.onSignIn()} disabled={Validation.isFormValid(props.credentials, required)}>Увійти</button>
             </div>           
         </form>
     </div>

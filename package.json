@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/crackbrus86/referee-testing#readme",
   "dependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
+    "classnames": "^2.2.5",
     "jquery": "^3.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
