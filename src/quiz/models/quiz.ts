@@ -41,3 +41,33 @@ export interface SignIn_Response{
 export interface SignOut_Contract{
     logout: number;
 }
+
+export interface Question{
+    id: number;
+    text: string;
+    answers?: Answer[];
+    [key: string]: any;
+}
+
+export interface Answer{
+    id: number;
+    questionId: number;
+    text: string;
+    isCorrect: boolean;
+    [key: string]: any;
+}
+
+export interface Quiz{
+    id?: number;
+    memberId?: number;
+    startDate?: Date;
+    endDate?: Date;
+    score?: number;
+    isPassed?: boolean;
+    dateOfFinish?: Date;
+}
+
+export interface FinishQuiz_Contract{
+    quiz: Quiz,
+    questions: Question[]
+}

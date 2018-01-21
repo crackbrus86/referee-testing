@@ -33,3 +33,25 @@ export const signOut = (contract: Models.SignOut_Contract) => {
         data: contract
     })
 }
+
+export const startQuiz = () => {
+    return runAjax({
+        url: dir + "startQuiz.php",
+        type: "POST"
+    })
+}
+
+export const getQuestions = () => {
+    return runAjax({
+        url: dir + "getQuestions.php",
+        type: "GET"
+    })
+}
+
+export const finishQuiz = (contract: Models.FinishQuiz_Contract) => {
+    return runAjax({
+        url: dir + "finishQuiz.php",
+        type: "POST",
+        data: contract
+    })
+}

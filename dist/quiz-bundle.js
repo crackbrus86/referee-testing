@@ -76,42 +76,6 @@ module.exports = React;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-exports.isFormValid = function (formObject, required) {
-    for (var i = 0; i < required.length; i++) {
-        if (!formObject[required[i]])
-            return true;
-    }
-    return false;
-};
-exports.isFieldValid = function (field, text) {
-    if (text === void 0) { text = "Це поле є обов'язковим"; }
-    if (!!field)
-        return null;
-    return React.createElement("i", { className: "invalid" },
-        "*",
-        React.createElement("sub", null, text));
-};
-exports.isEmailValid = function (field) {
-    if (!field)
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Це поле є обов'язковим"));
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    if (!pattern.test(field))
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Не вірно вказано email"));
-};
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
 var load_1 = __webpack_require__(9);
 var dir = "../wp-content/plugins/referee-testing/api/quiz/";
 exports.register = function (contract) {
@@ -140,6 +104,61 @@ exports.signOut = function (contract) {
         type: "GET",
         data: contract
     });
+};
+exports.startQuiz = function () {
+    return load_1.runAjax({
+        url: dir + "startQuiz.php",
+        type: "POST"
+    });
+};
+exports.getQuestions = function () {
+    return load_1.runAjax({
+        url: dir + "getQuestions.php",
+        type: "GET"
+    });
+};
+exports.finishQuiz = function (contract) {
+    return load_1.runAjax({
+        url: dir + "finishQuiz.php",
+        type: "POST",
+        data: contract
+    });
+};
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+exports.isFormValid = function (formObject, required) {
+    for (var i = 0; i < required.length; i++) {
+        if (!formObject[required[i]])
+            return true;
+    }
+    return false;
+};
+exports.isFieldValid = function (field, text) {
+    if (text === void 0) { text = "Це поле є обов'язковим"; }
+    if (!!field)
+        return null;
+    return React.createElement("i", { className: "invalid" },
+        "*",
+        React.createElement("sub", null, text));
+};
+exports.isEmailValid = function (field) {
+    if (!field)
+        return React.createElement("i", { className: "invalid" },
+            "*",
+            React.createElement("sub", null, "Це поле є обов'язковим"));
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    if (!pattern.test(field))
+        return React.createElement("i", { className: "invalid" },
+            "*",
+            React.createElement("sub", null, "Не вірно вказано email"));
 };
 
 
@@ -182,7 +201,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var login_1 = __webpack_require__(6);
 var quiz_1 = __webpack_require__(12);
-var services = __webpack_require__(2);
+var services = __webpack_require__(1);
 var RtQuiz = /** @class */ (function (_super) {
     __extends(RtQuiz, _super);
     function RtQuiz(props) {
@@ -244,7 +263,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var sign_in_1 = __webpack_require__(7);
 var register_1 = __webpack_require__(8);
-var services = __webpack_require__(2);
+var services = __webpack_require__(1);
 var classnames = __webpack_require__(11);
 var LoginViewTypes;
 (function (LoginViewTypes) {
@@ -375,7 +394,7 @@ exports.Login = Login;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(1);
+var Validation = __webpack_require__(2);
 exports.SignIn = function (props) {
     var required = ["email", "password"];
     return React.createElement("div", null,
@@ -403,7 +422,7 @@ exports.SignIn = function (props) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(1);
+var Validation = __webpack_require__(2);
 exports.Register = function (props) {
     var required = ["name", "surname", "midName", "email"];
     return React.createElement("div", null,
@@ -10804,27 +10823,225 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var services = __webpack_require__(1);
+var countdown_1 = __webpack_require__(13);
+var question_1 = __webpack_require__(14);
 var Quiz = /** @class */ (function (_super) {
     __extends(Quiz, _super);
-    function Quiz() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Quiz(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            quiz: null,
+            questions: [],
+            done: [],
+            postponed: [],
+            currentQuestion: null,
+            qty: 0
+        };
+        return _this;
     }
+    Quiz.prototype.startQuiz = function () {
+        var _this = this;
+        services.startQuiz().then(function (date) {
+            var response = JSON.parse(date);
+            var quiz = {
+                id: response.id,
+                memberId: response.memberId,
+                startDate: response.startDate,
+                endDate: response.endDate,
+                score: response.score,
+                isPassed: response.isPassed,
+                dateOfFinish: response.dateOfFinish
+            };
+            _this.setState({ quiz: quiz });
+            _this.getQuestions();
+        });
+    };
+    Quiz.prototype.getQuestions = function () {
+        var _this = this;
+        services.getQuestions().then(function (data) {
+            var response = JSON.parse(data);
+            _this.setState({ questions: response, qty: response.length });
+            _this.getNextQuestion();
+        });
+    };
+    Quiz.prototype.getNextQuestion = function () {
+        var questions = this.state.questions;
+        if (!questions.length) {
+            this.setState({ currentQuestion: null });
+            this.resetPostponed();
+        }
+        else {
+            this.setState({ currentQuestion: questions.shift() });
+            this.setState({ questions: questions });
+        }
+    };
+    Quiz.prototype.resetPostponed = function () {
+        var postponed = this.state.postponed;
+        if (postponed.length) {
+            this.setState({ currentQuestion: postponed.shift() });
+            this.setState({ questions: postponed });
+        }
+    };
+    Quiz.prototype.postponeQuestion = function () {
+        var postponed = this.state.postponed;
+        postponed.push(this.state.currentQuestion);
+        this.getNextQuestion();
+    };
+    Quiz.prototype.answerQuestion = function () {
+        var done = this.state.done;
+        done.push(this.state.currentQuestion);
+        this.getNextQuestion();
+    };
+    Quiz.prototype.changeAnswer = function (id, value) {
+        var question = this.state.currentQuestion;
+        question.answers.forEach(function (answer) {
+            if (answer.id == id)
+                answer.isCorrect = value;
+            return answer;
+        });
+        this.setState({ currentQuestion: question });
+    };
+    Quiz.prototype.finishQuiz = function () {
+        var _this = this;
+        services.finishQuiz({
+            quiz: this.state.quiz,
+            questions: this.state.done
+        }).then(function () {
+            _this.setState({
+                quiz: null,
+                questions: [],
+                done: [],
+                postponed: [],
+                currentQuestion: null,
+                qty: 0
+            });
+        });
+    };
     Quiz.prototype.render = function () {
         var _this = this;
         if (!this.props.user)
             return null;
         var user = this.props.user;
         var fullName = user.surname + " " + user.name + " " + user.midName;
-        return React.createElement("div", null,
+        var renderQuiz = (!this.state.quiz) ? React.createElement("div", { className: "start-quiz-area" },
+            React.createElement("button", { type: "button", onClick: this.startQuiz.bind(this) }, "\u041F\u043E\u0447\u0430\u0442\u0438 \u043D\u043E\u0432\u0438\u0439 \u0435\u043A\u0437\u0430\u043C\u0435\u043D")) :
             React.createElement("div", null,
+                React.createElement(countdown_1.Countdown, { till: this.state.quiz.endDate }),
+                React.createElement("div", null,
+                    React.createElement("div", null,
+                        React.createElement("span", null, "\u0423\u0441\u044C\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u044C: "),
+                        this.state.qty),
+                    React.createElement("div", null,
+                        React.createElement("span", null, "\u0417\u0430\u043B\u0438\u0448\u0438\u043B\u043E\u0441\u044C: "),
+                        this.state.questions.length),
+                    React.createElement("div", null,
+                        React.createElement("span", null, "\u041F\u0440\u043E\u043F\u0443\u0449\u0435\u043D\u043E: "),
+                        this.state.postponed.length),
+                    React.createElement("div", null,
+                        React.createElement("span", null, "\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E: "),
+                        this.state.done.length)),
+                React.createElement(question_1.QuestionView, { question: this.state.currentQuestion, onAnswer: this.answerQuestion.bind(this), onChange: this.changeAnswer.bind(this), onPostpone: this.postponeQuestion.bind(this) }));
+        var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0) ? React.createElement("div", null,
+            React.createElement("button", { type: "button", onClick: this.finishQuiz.bind(this) }, "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0438 \u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F")) : null;
+        return React.createElement("div", { className: "rt-quiz" },
+            React.createElement("div", { className: "rt-quiz-header" },
                 React.createElement("p", null,
                     "\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447: ",
                     fullName),
-                React.createElement("button", { type: "button", onClick: function () { return _this.props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438")));
+                React.createElement("button", { type: "button", onClick: function () { return _this.props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438")),
+            React.createElement("div", { className: "rt-quiz-body" }, renderQuiz),
+            sendQuiz);
     };
     return Quiz;
 }(React.Component));
 exports.Quiz = Quiz;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var Countdown = /** @class */ (function (_super) {
+    __extends(Countdown, _super);
+    function Countdown(props) {
+        var _this = _super.call(this, props) || this;
+        _this.timerId = null;
+        _this.state = {
+            now: new Date()
+        };
+        return _this;
+    }
+    Countdown.prototype.componentDidMount = function () {
+        var _this = this;
+        this.timerId = setInterval(function () { return _this.tick(); }, 1000);
+    };
+    Countdown.prototype.componentWillUnmount = function () {
+        clearInterval(this.timerId);
+    };
+    Countdown.prototype.tick = function () {
+        this.setState({ now: new Date() });
+    };
+    Countdown.prototype.render = function () {
+        if (!this.props.till)
+            return null;
+        var endTime = new Date(this.props.till.toString());
+        var timeDiff = Math.abs(endTime.getTime() - this.state.now.getTime());
+        var diffHours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
+        var diffMin = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        var diffSec = Math.floor((timeDiff % (1000 * 60)) / 1000);
+        return React.createElement("div", null,
+            React.createElement("div", null,
+                diffHours,
+                " \u0433\u043E\u0434. ",
+                diffMin,
+                " \u0445\u0432. ",
+                diffSec,
+                " \u0441\u0435\u043A."));
+    };
+    return Countdown;
+}(React.Component));
+exports.Countdown = Countdown;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+exports.QuestionView = function (props) {
+    if (!props.question)
+        return null;
+    var answers = props.question.answers.map(function (answer, index) {
+        return React.createElement("div", { key: index },
+            React.createElement("input", { type: "checkbox", checked: answer.isCorrect, onChange: function (e) { return props.onChange(answer.id, e.target.checked); } }),
+            React.createElement("label", null, answer.text));
+    });
+    return React.createElement("div", null,
+        React.createElement("div", null, props.question.text),
+        React.createElement("div", null,
+            React.createElement("form", null, answers)),
+        React.createElement("div", null,
+            React.createElement("button", { type: "button", onClick: function () { return props.onPostpone(); } }, "\u041F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438"),
+            React.createElement("button", { type: "button", onClick: function () { return props.onAnswer(); } }, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438")));
+};
 
 
 /***/ })

@@ -37,5 +37,16 @@ class AnswersService{
         $sql = $this->db->prepare("DELETE FROM $this->table WHERE questionId = %d", $questionId);
         return $this->db->query($sql);
     }
+
+    public function getForQuizByQuestId($questionId = null)
+    {
+        $answers = array();
+        $sql = $this->db->prepare("SELECT id, questionId, text FROM $this->table WHERE questionId = %d", $questionId);
+        $result = $this->db->get_results($sql);
+        foreach($result as $item){
+            array_push($answers, new Answer((int)$item->id, (int)$item->questionId, $item->text, false));
+        }
+        return $answers;
+    }
 }
 ?>

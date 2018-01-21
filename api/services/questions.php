@@ -5,6 +5,7 @@ require_once "../models/question.php";
 class QuestionsService{
     private $tableName;
     private $db;
+    const MAX_QUIZ_QUESTIONS = 5;
 
     public function __construct()
     {
@@ -43,5 +44,16 @@ class QuestionsService{
     {
         $sql = $this->db->prepare("DELETE FROM $this->tableName WHERE id = %d", $id);
         return $this->db->query($sql);
-    }      
+    }   
+    
+    public function getQuestionsForQuiz()
+    {
+        $questions = array();
+        $sql = $this->db->prepare("SELECT * FROM $this->tableName ORDER BY RAND() LIMIT %d", self::MAX_QUIZ_QUESTIONS);
+        $result = $this->db->get_results($sql);
+        foreach($result as $item){
+            array_push($questions, new Question((int)$item->id, $item->text));
+        }
+        return $questions;
+    }
 }

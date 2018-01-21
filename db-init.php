@@ -37,6 +37,17 @@
         `startDate` DATETIME DEFAULT NULL,
         `endDate` DATETIME DEFAULT NULL,
         `score` INT,
-        `isPassed` INT(1)
+        `isPassed` INT(1),
+        `dateOfFinish` DATETIME DEFAULT NULL
+    ) {$charset_collate}";
+    dbDelta($sql);
+
+    $tb_quiz_results = $wpdb->get_blog_prefix()."rt_quiz_results";
+    $sql = "CREATE TABLE IF NOT EXISTS {$tb_quiz_results} (
+        `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `quizId` BIGINT NOT NULL,
+        `questionId` BIGINT NOT NULL,
+        `answerId` BIGINT NOT NULL,
+        `answerValue` INT(1)
     ) {$charset_collate}";
     dbDelta($sql);
