@@ -71,3 +71,13 @@ export interface FinishQuiz_Contract{
     quiz: Quiz,
     questions: Question[]
 }
+
+export interface GetSummary_Contract{
+    id: number;
+}
+
+export interface GetSummary_Response{
+    status: boolean;
+    reason: string;
+    score: number;
+}

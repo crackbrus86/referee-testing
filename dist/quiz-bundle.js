@@ -124,6 +124,13 @@ exports.finishQuiz = function (contract) {
         data: contract
     });
 };
+exports.getSummary = function (contract) {
+    return load_1.runAjax({
+        url: dir + "getSummary.php",
+        type: "POST",
+        data: contract
+    });
+};
 
 
 /***/ }),
@@ -10826,6 +10833,7 @@ var React = __webpack_require__(0);
 var services = __webpack_require__(1);
 var countdown_1 = __webpack_require__(13);
 var question_1 = __webpack_require__(14);
+var summary_1 = __webpack_require__(15);
 var Quiz = /** @class */ (function (_super) {
     __extends(Quiz, _super);
     function Quiz(props) {
@@ -10836,7 +10844,8 @@ var Quiz = /** @class */ (function (_super) {
             done: [],
             postponed: [],
             currentQuestion: null,
-            qty: 0
+            qty: 0,
+            summary: null
         };
         return _this;
     }
@@ -10909,13 +10918,24 @@ var Quiz = /** @class */ (function (_super) {
             questions: this.state.done
         }).then(function () {
             _this.setState({
-                quiz: null,
                 questions: [],
                 done: [],
                 postponed: [],
                 currentQuestion: null,
                 qty: 0
             });
+            _this.getSummary();
+        });
+    };
+    Quiz.prototype.getSummary = function () {
+        var _this = this;
+        services.getSummary({
+            id: this.state.quiz.id
+        }).then(function (data) {
+            var summary = JSON.parse(data);
+            if (summary) {
+                _this.setState({ summary: summary });
+            }
         });
     };
     Quiz.prototype.render = function () {
@@ -10951,7 +10971,8 @@ var Quiz = /** @class */ (function (_super) {
                     fullName),
                 React.createElement("button", { type: "button", onClick: function () { return _this.props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438")),
             React.createElement("div", { className: "rt-quiz-body" }, renderQuiz),
-            sendQuiz);
+            sendQuiz,
+            React.createElement(summary_1.Summary, { summary: this.state.summary }));
     };
     return Quiz;
 }(React.Component));
@@ -11041,6 +11062,24 @@ exports.QuestionView = function (props) {
         React.createElement("div", null,
             React.createElement("button", { type: "button", onClick: function () { return props.onPostpone(); } }, "\u041F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438"),
             React.createElement("button", { type: "button", onClick: function () { return props.onAnswer(); } }, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438")));
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+exports.Summary = function (props) {
+    if (!props.summary)
+        return null;
+    var title = (props.summary.status) ? React.createElement("span", null, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!") : React.createElement("span", null, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u0435 \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!");
+    return React.createElement("div", null,
+        React.createElement("div", null, title),
+        React.createElement("div", null, props.summary.reason));
 };
 
 

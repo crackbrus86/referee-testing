@@ -55,3 +55,11 @@ export const finishQuiz = (contract: Models.FinishQuiz_Contract) => {
         data: contract
     })
 }
+
+export const getSummary = (contract: Models.GetSummary_Contract) => {
+    return runAjax({
+        url: dir + "getSummary.php",
+        type: "POST",
+        data: contract
+    })
+}

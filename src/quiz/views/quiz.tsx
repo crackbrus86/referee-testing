@@ -3,6 +3,7 @@ import * as Models from "../models/quiz";
 import * as services from "../services/services";
 import {Countdown} from "../../components/countdown";
 import {QuestionView} from "./partials/question";
+import {Summary} from "./partials/summary";
 
 interface Props{
     user: Models.Member;
@@ -16,6 +17,7 @@ interface State{
     postponed: Models.Question[];
     currentQuestion: Models.Question;
     qty: number;
+    summary: Models.GetSummary_Response;
 }
 
 export class Quiz extends React.Component<Props, State>{
@@ -27,7 +29,8 @@ export class Quiz extends React.Component<Props, State>{
             done: [],
             postponed: [],
             currentQuestion: null,
-            qty: 0
+            qty: 0,
+            summary: null
         }
     }
 
@@ -102,13 +105,24 @@ export class Quiz extends React.Component<Props, State>{
             questions: this.state.done
         }).then(() => {
             this.setState({
-                quiz: null,
                 questions: [],
                 done: [],
                 postponed: [],
                 currentQuestion: null,
                 qty: 0
             });
+            this.getSummary();
+        });
+    }
+
+    getSummary(){
+        services.getSummary({
+            id: this.state.quiz.id
+        }).then(data => {
+            let summary: Models.GetSummary_Response = JSON.parse(data);
+            if(summary){
+                this.setState({summary: summary});
+            }
         });
     }
 
@@ -138,6 +152,7 @@ export class Quiz extends React.Component<Props, State>{
                 {renderQuiz}
             </div>
             {sendQuiz}
+            <Summary summary={this.state.summary} />
         </div>
     }
 }

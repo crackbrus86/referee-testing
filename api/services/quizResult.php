@@ -37,11 +37,4 @@ class QuizResultService{
         $result = $this->db->get_results($sql);
         return $result;
     }
-
-//     "SELECT qr.id, qr.quizId, qt.id as questionId, qt.text as questionText, an.id as answerId, an.text as answerText, (qr.answerValue = an.isCorrect) as isCorrect FROM wp_rt_quiz_results AS qr 
-//     JOIN wp_rt_questions as qt 
-//     ON qr.questionId = qt.id
-//     JOIN wp_rt_answers as an
-//     ON qr.answerId = an.id
-//    WHERE qr.quizId = 1"
 }
