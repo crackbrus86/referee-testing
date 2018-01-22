@@ -30,7 +30,7 @@ class QuizService{
 
     public function update($id, $score, $isPassed, $dateOfFinish)
     {
-        $sql = $this->db->prepare("UPDATE $this->table SET dateOfFinish = %s, score = %d, isPassed = %d WHERE id = %d", $id, $score, $isPassed , $dateOfFinish);
+        $sql = $this->db->prepare("UPDATE $this->table SET dateOfFinish = %s, score = %d, isPassed = %d WHERE id = %d", $dateOfFinish, $score, $isPassed, $id);
         return $this->db->query($sql);
     }
 }

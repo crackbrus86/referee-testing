@@ -56,4 +56,9 @@ class QuestionsService{
         }
         return $questions;
     }
+
+    public function getMaxQuestionsQty()
+    {
+        return self::MAX_QUIZ_QUESTIONS;
+    }
 }
