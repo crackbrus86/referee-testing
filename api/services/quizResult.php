@@ -38,3 +38,10 @@ class QuizResultService{
         return $result;
     }
 }
+
+// SELECT qr.id, qr.questionId, qn.text, (SUM((qr.answerValue = an.isCorrect)) = COUNT(qr.questionId)) as isTrue FROM wp_rt_quiz_results as qr
+// JOIN wp_rt_answers as an
+// ON qr.answerId = an.id
+// JOIN wp_rt_questions as qn
+// ON qr.questionId = qn.id
+// WHERE quizId = 2 GROUP BY qr.questionId

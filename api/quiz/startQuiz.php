@@ -9,7 +9,7 @@ if(isset($_SESSION["currentTUser"])){
     $user = unserialize($_SESSION["currentTUser"]);
     $startDate = date("Y-m-d H:i:s");
     // $endDate = date("Y-m-d H:i:s", strtotime('+2 hours'));
-    $endDate = date("Y-m-d H:i:s", strtotime('+1 minutes'));
+    $endDate = date("Y-m-d H:i:s", strtotime('+5 minutes'));
     $newQuiz = new Quiz(null, $user->id, $startDate, $endDate);
     $quizServise = new QuizService();
     $quizId = $quizServise->insert($newQuiz->memberId, $newQuiz->startDate, $newQuiz->endDate);
