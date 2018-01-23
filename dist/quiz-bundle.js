@@ -10845,7 +10845,8 @@ var Quiz = /** @class */ (function (_super) {
             postponed: [],
             currentQuestion: null,
             qty: 0,
-            summary: null
+            summary: null,
+            till: null
         };
         return _this;
     }
@@ -10862,7 +10863,7 @@ var Quiz = /** @class */ (function (_super) {
                 isPassed: response.isPassed,
                 dateOfFinish: response.dateOfFinish
             };
-            _this.setState({ quiz: quiz });
+            _this.setState({ quiz: quiz, till: response.endDate });
             _this.getQuestions();
         });
     };
@@ -10922,7 +10923,8 @@ var Quiz = /** @class */ (function (_super) {
                 done: [],
                 postponed: [],
                 currentQuestion: null,
-                qty: 0
+                qty: 0,
+                till: null
             });
             _this.getSummary();
         });
@@ -10938,6 +10940,11 @@ var Quiz = /** @class */ (function (_super) {
             }
         });
     };
+    Quiz.prototype.stopTimer = function () {
+        this.setState({ till: null });
+        alert("Час вийшов! Тестування буде завершене!");
+        this.finishQuiz();
+    };
     Quiz.prototype.render = function () {
         var _this = this;
         if (!this.props.user)
@@ -10947,7 +10954,7 @@ var Quiz = /** @class */ (function (_super) {
         var renderQuiz = (!this.state.quiz) ? React.createElement("div", { className: "start-quiz-area" },
             React.createElement("button", { type: "button", onClick: this.startQuiz.bind(this) }, "\u041F\u043E\u0447\u0430\u0442\u0438 \u043D\u043E\u0432\u0438\u0439 \u0435\u043A\u0437\u0430\u043C\u0435\u043D")) :
             React.createElement("div", null,
-                React.createElement(countdown_1.Countdown, { till: this.state.quiz.endDate }),
+                React.createElement(countdown_1.Countdown, { till: this.state.till, stopTimer: this.stopTimer.bind(this) }),
                 React.createElement("div", null,
                     React.createElement("div", null,
                         React.createElement("span", null, "\u0423\u0441\u044C\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u044C: "),
@@ -11016,6 +11023,13 @@ var Countdown = /** @class */ (function (_super) {
     };
     Countdown.prototype.tick = function () {
         this.setState({ now: new Date() });
+        if (!this.props.till) {
+            clearInterval(this.timerId);
+            return;
+        }
+        if (new Date(this.props.till.toString()).getTime() <= this.state.now.getTime()) {
+            this.props.stopTimer();
+        }
     };
     Countdown.prototype.render = function () {
         if (!this.props.till)

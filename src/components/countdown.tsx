@@ -2,6 +2,7 @@ import * as React from "react";
 
 interface Props{
     till: Date;
+    stopTimer: () => void;
 }
 
 interface State{
@@ -31,6 +32,13 @@ export class Countdown extends React.Component<Props, State>{
 
     tick(){
         this.setState({now: new Date()});
+        if(!this.props.till) {
+            clearInterval(this.timerId);
+            return;
+        }
+        if(new Date(this.props.till.toString()).getTime() <= this.state.now.getTime()) {            
+            this.props.stopTimer();
+        }
     }
 
     render(){

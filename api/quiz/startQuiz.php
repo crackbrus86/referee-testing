@@ -8,7 +8,8 @@ if(isset($_SESSION["currentTUser"])){
     date_default_timezone_set("Europe/Kiev");
     $user = unserialize($_SESSION["currentTUser"]);
     $startDate = date("Y-m-d H:i:s");
-    $endDate = date("Y-m-d H:i:s", strtotime('+2 hours'));
+    // $endDate = date("Y-m-d H:i:s", strtotime('+2 hours'));
+    $endDate = date("Y-m-d H:i:s", strtotime('+1 minutes'));
     $newQuiz = new Quiz(null, $user->id, $startDate, $endDate);
     $quizServise = new QuizService();
     $quizId = $quizServise->insert($newQuiz->memberId, $newQuiz->startDate, $newQuiz->endDate);

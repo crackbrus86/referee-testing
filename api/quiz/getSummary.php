@@ -17,7 +17,7 @@ if(isset($_SESSION["currentTUser"])){
             $summary->score = 0;
         }elseif(strtotime($quiz->dateOfFinish) > strtotime($quiz->endDate)){
             $summary->status = false;
-            $summary->reason = "Тестування було здане невчасно!";
+            $summary->reason = "Тестування було завершене невчасно!";
             $summary->score = $quiz->score;
         }elseif($quiz->score < 90){
             $summary->status = false;

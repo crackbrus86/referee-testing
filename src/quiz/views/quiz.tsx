@@ -18,6 +18,7 @@ interface State{
     currentQuestion: Models.Question;
     qty: number;
     summary: Models.GetSummary_Response;
+    till: Date;
 }
 
 export class Quiz extends React.Component<Props, State>{
@@ -30,7 +31,8 @@ export class Quiz extends React.Component<Props, State>{
             postponed: [],
             currentQuestion: null,
             qty: 0,
-            summary: null
+            summary: null,
+            till: null
         }
     }
 
@@ -46,7 +48,7 @@ export class Quiz extends React.Component<Props, State>{
                 isPassed: response.isPassed,
                 dateOfFinish: response.dateOfFinish
             }
-            this.setState({quiz: quiz});
+            this.setState({quiz: quiz, till: response.endDate});
             this.getQuestions();
         });
     }
@@ -109,7 +111,8 @@ export class Quiz extends React.Component<Props, State>{
                 done: [],
                 postponed: [],
                 currentQuestion: null,
-                qty: 0
+                qty: 0,
+                till: null
             });
             this.getSummary();
         });
@@ -126,13 +129,19 @@ export class Quiz extends React.Component<Props, State>{
         });
     }
 
+    stopTimer(){
+        this.setState({till: null});
+        alert("Час вийшов! Тестування буде завершене!");
+        this.finishQuiz();
+    }
+
     render(){
         if(!this.props.user) return null;
         var user = this.props.user;
         var fullName = user.surname + " " + user.name + " " + user.midName;
         var renderQuiz = (!this.state.quiz)? <div className="start-quiz-area"><button type="button" onClick={this.startQuiz.bind(this)}>Почати новий екзамен</button></div> : 
         <div>
-            <Countdown till={this.state.quiz.endDate} />
+            <Countdown till={this.state.till} stopTimer={this.stopTimer.bind(this)} />
             <div>
                 <div><span>Усього питань: </span>{this.state.qty}</div>
                 <div><span>Залишилось: </span>{this.state.questions.length}</div>
