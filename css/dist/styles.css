@@ -1,11 +1,12 @@
 .modal-black-out, .black-out {
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   bottom: 0px;
   right: 0px;
   z-index: 10000;
-  background-color: rgba(0, 0, 0, 0.6); }
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: auto; }
   .modal-black-out i.fa-spin, .black-out i.fa-spin {
     color: #8921ff;
     position: absolute;
@@ -81,21 +82,25 @@
       cursor: pointer;
       font-size: 1.2em; }
 
-.question-edit-modal {
+.question-edit-modal,
+.quiz-result-details {
   position: absolute;
   top: 30%;
   left: 50%;
   width: 700px;
   margin-left: -350px;
   background-color: #fff; }
-  .question-edit-modal .modal-header {
+  .question-edit-modal .modal-header,
+  .quiz-result-details .modal-header {
     text-align: right;
     border-bottom: 1px solid #dcdcdc;
     padding: 4px;
     font-size: 1.2em; }
-    .question-edit-modal .modal-header .fa-close {
+    .question-edit-modal .modal-header .fa-close,
+    .quiz-result-details .modal-header .fa-close {
       cursor: pointer; }
-  .question-edit-modal button {
+  .question-edit-modal button,
+  .quiz-result-details button {
     border: none;
     padding: 3px 10px;
     cursor: pointer;
@@ -103,37 +108,48 @@
     background-color: #527ace;
     color: #fff;
     text-transform: uppercase; }
-    .question-edit-modal button:disabled {
+    .question-edit-modal button:disabled,
+    .quiz-result-details button:disabled {
       cursor: not-allowed;
       opacity: 0.6; }
-    .question-edit-modal button:hover:not(:disabled) {
+    .question-edit-modal button:hover:not(:disabled),
+    .quiz-result-details button:hover:not(:disabled) {
       background-color: #7d94c5; }
-  .question-edit-modal .question-wrap {
+  .question-edit-modal .question-wrap,
+  .quiz-result-details .question-wrap {
     display: flex;
     flex-direction: row; }
-    .question-edit-modal .question-wrap .question-panel {
+    .question-edit-modal .question-wrap .question-panel,
+    .quiz-result-details .question-wrap .question-panel {
       display: flex;
       flex-direction: column;
       padding: 5px; }
-      .question-edit-modal .question-wrap .question-panel.q-list-panel {
+      .question-edit-modal .question-wrap .question-panel.q-list-panel,
+      .quiz-result-details .question-wrap .question-panel.q-list-panel {
         width: 50%; }
-      .question-edit-modal .question-wrap .question-panel label {
+      .question-edit-modal .question-wrap .question-panel label,
+      .quiz-result-details .question-wrap .question-panel label {
         display: block;
         font-weight: 600;
         color: #0a5fa2;
         font-size: 1.2em;
         line-height: 1.6em;
         text-transform: uppercase; }
-      .question-edit-modal .question-wrap .question-panel textarea {
+      .question-edit-modal .question-wrap .question-panel textarea,
+      .quiz-result-details .question-wrap .question-panel textarea {
         min-width: 300px;
         min-height: 65px; }
-      .question-edit-modal .question-wrap .question-panel input[type=text] {
+      .question-edit-modal .question-wrap .question-panel input[type=text],
+      .quiz-result-details .question-wrap .question-panel input[type=text] {
         min-width: 300px; }
-      .question-edit-modal .question-wrap .question-panel .add-answer {
+      .question-edit-modal .question-wrap .question-panel .add-answer,
+      .quiz-result-details .question-wrap .question-panel .add-answer {
         cursor: pointer; }
-        .question-edit-modal .question-wrap .question-panel .add-answer:hover {
+        .question-edit-modal .question-wrap .question-panel .add-answer:hover,
+        .quiz-result-details .question-wrap .question-panel .add-answer:hover {
           text-decoration: underline; }
-      .question-edit-modal .question-wrap .question-panel .fa-close {
+      .question-edit-modal .question-wrap .question-panel .fa-close,
+      .quiz-result-details .question-wrap .question-panel .fa-close {
         cursor: pointer;
         font-size: 1.2em; }
 
@@ -225,3 +241,11 @@
       background-color: #d8155c; }
     .rt-login form .form-submit:disabled {
       cursor: not-allowed; }
+
+.result-details-body {
+  font-size: 0.7em;
+  font-family: Tahoma;
+  text-align: justify;
+  padding: 10px 30px; }
+  .result-details-body .wrong {
+    color: red; }

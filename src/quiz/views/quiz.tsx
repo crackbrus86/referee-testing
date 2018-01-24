@@ -4,7 +4,7 @@ import * as services from "../services/services";
 import {Countdown} from "../../components/countdown";
 import {QuestionView} from "./partials/question";
 import {Summary} from "./partials/summary";
-
+import {ResultDetails} from "../modals/resultDetails";
 interface Props{
     user: Models.Member;
     onSignOut: () => void;
@@ -19,6 +19,7 @@ interface State{
     qty: number;
     summary: Models.GetSummary_Response;
     till: Date;
+    details: Models.DetailsQuestion[];
 }
 
 export class Quiz extends React.Component<Props, State>{
@@ -32,7 +33,8 @@ export class Quiz extends React.Component<Props, State>{
             currentQuestion: null,
             qty: 0,
             summary: null,
-            till: null
+            till: null,
+            details: []
         }
     }
 
@@ -125,8 +127,21 @@ export class Quiz extends React.Component<Props, State>{
             let summary: Models.GetSummary_Response = JSON.parse(data);
             if(summary){
                 this.setState({summary: summary});
+                console.log(this.state);
             }
         });
+    }
+
+    getQuizDetails(){
+        services.getDetails({
+            id: this.state.quiz.id
+        }).then(data => {
+            this.setState({details: JSON.parse(data)});
+        })
+    }
+
+    closeDetails(){
+        this.setState({details: []});
     }
 
     stopTimer(){
@@ -161,7 +176,8 @@ export class Quiz extends React.Component<Props, State>{
                 {renderQuiz}
             </div>
             {sendQuiz}
-            <Summary summary={this.state.summary} />
+            <Summary summary={this.state.summary} onShowDetails={this.getQuizDetails.bind(this)} />            
+            <ResultDetails details={this.state.details} onClose={this.closeDetails.bind(this)} summary={this.state.summary} user={this.props.user} />
         </div>
     }
 }

@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,7 +76,7 @@ module.exports = React;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(9);
+var load_1 = __webpack_require__(10);
 var dir = "../wp-content/plugins/referee-testing/api/quiz/";
 exports.register = function (contract) {
     return load_1.runAjax({
@@ -131,10 +131,23 @@ exports.getSummary = function (contract) {
         data: contract
     });
 };
+exports.getDetails = function (contract) {
+    return load_1.runAjax({
+        url: dir + "quizDetails.php",
+        type: "POST",
+        data: contract
+    });
+};
 
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = ReactDOM;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -170,26 +183,75 @@ exports.isEmailValid = function (field) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2016 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg)) {
+				classes.push(classNames.apply(null, arg));
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+		window.classNames = classNames;
+	}
+}());
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(4);
-var layout_1 = __webpack_require__(5);
+var ReactDOM = __webpack_require__(2);
+var layout_1 = __webpack_require__(6);
 ReactDOM.render(React.createElement(layout_1.RtQuiz, null), document.getElementById("quiz-app"));
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-module.exports = ReactDOM;
-
-/***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +268,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var login_1 = __webpack_require__(6);
+var login_1 = __webpack_require__(7);
 var quiz_1 = __webpack_require__(12);
 var services = __webpack_require__(1);
 var RtQuiz = /** @class */ (function (_super) {
@@ -251,7 +313,7 @@ exports.RtQuiz = RtQuiz;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -268,10 +330,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var sign_in_1 = __webpack_require__(7);
-var register_1 = __webpack_require__(8);
+var sign_in_1 = __webpack_require__(8);
+var register_1 = __webpack_require__(9);
 var services = __webpack_require__(1);
-var classnames = __webpack_require__(11);
+var classnames = __webpack_require__(4);
 var LoginViewTypes;
 (function (LoginViewTypes) {
     LoginViewTypes[LoginViewTypes["SignIn"] = 0] = "SignIn";
@@ -394,14 +456,14 @@ exports.Login = Login;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(2);
+var Validation = __webpack_require__(3);
 exports.SignIn = function (props) {
     var required = ["email", "password"];
     return React.createElement("div", null,
@@ -422,14 +484,14 @@ exports.SignIn = function (props) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(2);
+var Validation = __webpack_require__(3);
 exports.Register = function (props) {
     var required = ["name", "surname", "midName", "email"];
     return React.createElement("div", null,
@@ -470,13 +532,13 @@ exports.Register = function (props) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(10);
+var $ = __webpack_require__(11);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -498,7 +560,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10758,61 +10820,6 @@ return jQuery;
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2016 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-
-	function classNames () {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				classes.push(classNames.apply(null, arg));
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-		window.classNames = classNames;
-	}
-}());
-
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10834,6 +10841,7 @@ var services = __webpack_require__(1);
 var countdown_1 = __webpack_require__(13);
 var question_1 = __webpack_require__(14);
 var summary_1 = __webpack_require__(15);
+var resultDetails_1 = __webpack_require__(16);
 var Quiz = /** @class */ (function (_super) {
     __extends(Quiz, _super);
     function Quiz(props) {
@@ -10846,7 +10854,8 @@ var Quiz = /** @class */ (function (_super) {
             currentQuestion: null,
             qty: 0,
             summary: null,
-            till: null
+            till: null,
+            details: []
         };
         return _this;
     }
@@ -10937,8 +10946,20 @@ var Quiz = /** @class */ (function (_super) {
             var summary = JSON.parse(data);
             if (summary) {
                 _this.setState({ summary: summary });
+                console.log(_this.state);
             }
         });
+    };
+    Quiz.prototype.getQuizDetails = function () {
+        var _this = this;
+        services.getDetails({
+            id: this.state.quiz.id
+        }).then(function (data) {
+            _this.setState({ details: JSON.parse(data) });
+        });
+    };
+    Quiz.prototype.closeDetails = function () {
+        this.setState({ details: [] });
     };
     Quiz.prototype.stopTimer = function () {
         this.setState({ till: null });
@@ -10979,7 +11000,8 @@ var Quiz = /** @class */ (function (_super) {
                 React.createElement("button", { type: "button", onClick: function () { return _this.props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438")),
             React.createElement("div", { className: "rt-quiz-body" }, renderQuiz),
             sendQuiz,
-            React.createElement(summary_1.Summary, { summary: this.state.summary }));
+            React.createElement(summary_1.Summary, { summary: this.state.summary, onShowDetails: this.getQuizDetails.bind(this) }),
+            React.createElement(resultDetails_1.ResultDetails, { details: this.state.details, onClose: this.closeDetails.bind(this), summary: this.state.summary, user: this.props.user }));
     };
     return Quiz;
 }(React.Component));
@@ -11093,8 +11115,102 @@ exports.Summary = function (props) {
     var title = (props.summary.status) ? React.createElement("span", null, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!") : React.createElement("span", null, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u0435 \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!");
     return React.createElement("div", null,
         React.createElement("div", null, title),
-        React.createElement("div", null, props.summary.reason));
+        React.createElement("div", null, props.summary.reason),
+        React.createElement("button", { type: "button", onClick: function () { return props.onShowDetails(); } }, "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u0434\u0435\u0442\u0430\u043B\u0456"));
 };
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var modal_1 = __webpack_require__(17);
+var classnames = __webpack_require__(4);
+exports.ResultDetails = function (props) {
+    if (!props.details.length)
+        return null;
+    var renderQuestions = props.details.map(function (question, index) { return React.createElement("li", { key: index },
+        React.createElement("span", { className: classnames({ wrong: !question.isTrue }) }, question.text),
+        React.createElement("ul", null, question.answers.map(function (answer, indexA) { return React.createElement("li", { key: indexA, className: classnames({ wrong: !answer.isTrue }) }, answer.answerText); }))); });
+    if (props.user && props.summary) {
+        var fullName = React.createElement("h4", null,
+            "\u0428\u0430\u043D\u043E\u0432\u043D\u0438\u0439 ",
+            props.user.surname,
+            " ",
+            props.user.name,
+            " ",
+            props.user.midName);
+        var result = (props.summary.status) ? "Здане!" : "Не здане!";
+        var reasons = (!props.summary.status) ? props.summary.reason : null;
+        var header = React.createElement("div", null,
+            fullName,
+            React.createElement("p", null,
+                "\u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0431\u0443\u043B\u043E \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0435 \u0437 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u043C ",
+                props.summary.score,
+                "%."),
+            React.createElement("p", null,
+                "\u0414\u0430\u0442\u0430 \u043F\u043E\u0447\u0430\u0442\u043A\u0443: ",
+                props.summary.startDate),
+            React.createElement("p", null,
+                "\u0414\u0430\u0442\u0430 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u044F: ",
+                props.summary.finishDate),
+            React.createElement("p", null, result),
+            React.createElement("p", null, reasons));
+    }
+    return React.createElement(modal_1.Modal, null,
+        React.createElement("div", { className: "quiz-result-details" },
+            React.createElement("div", { className: "modal-header" },
+                React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
+            React.createElement("div", { className: "result-details-body" },
+                header,
+                React.createElement("ul", null, renderQuestions))));
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(2);
+var modalRoot = document.body;
+var Modal = /** @class */ (function (_super) {
+    __extends(Modal, _super);
+    function Modal(props) {
+        var _this = _super.call(this, props) || this;
+        _this.el = document.createElement("div");
+        _this.el.className = "modal-black-out";
+        return _this;
+    }
+    Modal.prototype.componentDidMount = function () {
+        modalRoot.appendChild(this.el);
+    };
+    Modal.prototype.componentWillUnmount = function () {
+        modalRoot.removeChild(this.el);
+    };
+    Modal.prototype.render = function () {
+        return ReactDOM.createPortal(this.props.children, this.el);
+    };
+    return Modal;
+}(React.Component));
+exports.Modal = Modal;
 
 
 /***/ })

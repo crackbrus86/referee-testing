@@ -11,6 +11,8 @@ if(isset($_SESSION["currentTUser"])){
     if($tmpQuiz){
         $quiz = new Quiz($tmpQuiz->id, $tmpQuiz->memberId, $tmpQuiz->startDate, $tmpQuiz->endDate, $tmpQuiz->score, $tmpQuiz->isPassed, $tmpQuiz->dateOfFinish);
         $summary = new stdClass();
+        $summary->startDate = $quiz->startDate;
+        $summary->finishDate = $quiz->dateOfFinish;
         if(!$quiz->isPassed){
             $summary->status = false;
             $summary->reason = "Тестування не було завершене!";

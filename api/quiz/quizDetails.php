@@ -3,18 +3,18 @@ require_once "../config/connect.php";
 require_once "../services/core.php";
 require_once "../services/quizResult.php";
 
-if(isset($_SESSION("currentTUser"))){
-    $quizId = Core::escape($_POST["quizId"]);
+if(isset($_SESSION["currentTUser"])){
+    $quizId = Core::escape($_POST["id"]);
     $quizResltService = new QuizResultService();
-    $totalSummary = $quizResltService->getTotalSummary();
-    $detailSummary = $quizResltService->getDetailSummary();
+    $totalSummary = $quizResltService->getTotalSummary($quizId);
+    $detailSummary = $quizResltService->getDetailSummary($quizId);
     $output = array();
     foreach($totalSummary as $item){
         $question = new stdClass();
         $question->id = $item->id;
         $question->questionId = $item->questionId;
         $question->text = $item->text;
-        $question->isTrue = $item->isTrue;
+        $question->isTrue = !!$item->isTrue;
         $question->answers = array();
         foreach($detailSummary as $aItem){
             $answer = new stdClass();
@@ -30,7 +30,5 @@ if(isset($_SESSION("currentTUser"))){
         }
         array_push($output, $question);
     }
-    echo "<pre>";
-    print_r($output);
-    echo "</pre>";
+    echo json_encode($output);
 }

@@ -1,11 +1,12 @@
 .modal-black-out,.black-out{
-    position: absolute; 
+    position: fixed; 
     top: 0px; 
     left: 0px; 
     bottom: 0px; 
     right: 0px; 
     z-index: 10000; 
     background-color: rgba(0, 0, 0,0.6);
+    overflow: auto;
 
     i.fa-spin{
         color: #8921ff;
@@ -112,7 +113,8 @@
         }
     }
 }
-.question-edit-modal{
+.question-edit-modal,
+.quiz-result-details{
     position: absolute;
     top: 30%;
     left: 50%;
@@ -313,5 +315,15 @@
                 cursor: not-allowed;
             }
         }
+    }
+}
+
+.result-details-body{
+    font-size: 0.7em;
+    font-family: Tahoma;
+    text-align: justify;
+    padding: 10px 30px;    
+    .wrong{
+        color: red;
     }
 }
