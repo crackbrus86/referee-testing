@@ -25,10 +25,10 @@ class QuizResultService{
         return $this->db->query($sql);
     }
 
-    public function getResultByQuizId($quizId)
+    public function getDetailSummary($quizId)
     {
         $sql = $this->db->prepare("SELECT qr.id, qr.quizId, qt.id AS questionId, qt.text AS questionText, an.id AS answerId, 
-        an.text AS answerText, (qr.answerValue = an.isCorrect) AS isCorrect FROM $this->table AS qr
+        an.text AS answerText, (qr.answerValue = an.isCorrect) AS isCorrect, qr.answerValue AS userAnswer FROM $this->table AS qr
             JOIN $this->tb_questions AS qt
                 ON qr.questionId = qt.id
             JOIN $this->tb_answers AS an
@@ -37,11 +37,17 @@ class QuizResultService{
         $result = $this->db->get_results($sql);
         return $result;
     }
-}
 
-// SELECT qr.id, qr.questionId, qn.text, (SUM((qr.answerValue = an.isCorrect)) = COUNT(qr.questionId)) as isTrue FROM wp_rt_quiz_results as qr
-// JOIN wp_rt_answers as an
-// ON qr.answerId = an.id
-// JOIN wp_rt_questions as qn
-// ON qr.questionId = qn.id
-// WHERE quizId = 2 GROUP BY qr.questionId
+    public function getTotalSummary($quizId)
+    {
+        $sql = $this->db->prepare("SELECT qr.id, qr.questionId, qn.text, (SUM((qr.answerValue = an.isCorrect)) = COUNT(qr.questionId)) AS isTrue 
+            FROM $this->table AS qr
+            JOIN $this->tb_answers AS an
+                ON qr.answerId = an.id
+            JOIN $this->tb_questions AS qn
+                ON qr.questionId = qn.id
+            WHERE quizId = %d GROUP BY qr.questionId", $quizId);
+            $result = $this->db->get_results($sql);
+            return $result;
+    }
+}

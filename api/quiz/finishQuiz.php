@@ -21,28 +21,13 @@ if(isset($_SESSION["currentTUser"])){
             $resultService->insert($result->quizId, $result->questionId, $result->answerId, $result->answerValue);
         }
     }
-    $totalResult = $resultService->getResultByQuizId(Core::escape($quiz["id"]));
 
-    $questionsScores = array();
-    foreach($questions as $question){
-        $rFilter = array_filter($totalResult, function($object) use($question){
-            if(isset($object->questionId) && $object->questionId == $question["id"]){
-                return TRUE;
-            }
-            return FALSE;
-        });
-        $score = 1;
-        foreach($rFilter as $item){
-            $score *= $item->isCorrect;
-        }
-        $questionsScores[$question["id"]] = $score;
-    }
-
+    $totalSummary = $resultService->getTotalSummary(Core::escape($quiz["id"]));
     $total = 0;
-    foreach($questionsScores as $key => $value){
-        $total += $value;
+    foreach($totalSummary as $question){
+        $total += $question->isTrue;
     }
-    $max = $qtService->getMaxQuestionsQty(); 
+    $max = $qtService->getMaxQuestionsQty();
     $score = floor(($total / $max) * 100);
 
     $finishDate = date("Y-m-d H:i:s");
