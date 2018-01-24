@@ -23,7 +23,7 @@ if(isset($_SESSION("currentTUser"))){
             $answer->questionId = $aItem->questionId;
             $answer->answerId = $aItem->answerId;
             $answer->answerText = $aItem->answerText;
-            $answer->isTrue = (!$aItem->isCorrect && $aItem->userAnswer)? true : false;
+            $answer->isTrue = (!$aItem->isCorrect && !!$aItem->userAnswer)? false : true;
             if($answer->questionId == $question->questionId){
                 array_push($question->answers, $answer);
             }
