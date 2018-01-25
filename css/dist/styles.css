@@ -244,8 +244,31 @@
 
 .result-details-body {
   font-size: 0.7em;
-  font-family: Tahoma;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: justify;
   padding: 10px 30px; }
   .result-details-body .wrong {
     color: red; }
+
+.rt-quiz {
+  font-size: 0.9em;
+  font-family: Arial, Helvetica, sans-serif; }
+  .rt-quiz .rt-quiz-header {
+    display: flex;
+    flex-direction: row; }
+    .rt-quiz .rt-quiz-header div {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1; }
+      .rt-quiz .rt-quiz-header div.right-button-wrap {
+        text-align: right;
+        width: 20%;
+        display: block; }
+        .rt-quiz .rt-quiz-header div.right-button-wrap button {
+          background-color: maroon;
+          padding: 5px 10px;
+          font-size: 16px;
+          text-transform: uppercase;
+          cursor: pointer; }
+          .rt-quiz .rt-quiz-header div.right-button-wrap button:hover {
+            background-color: #a00606; }

@@ -169,8 +169,8 @@ export class Quiz extends React.Component<Props, State>{
         var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0)? <div><button type="button" onClick={this.finishQuiz.bind(this)}>Завершити тестування</button></div> : null;
         return <div className="rt-quiz">
             <div className="rt-quiz-header">
-                <p>Користувач: {fullName}</p>
-                <button type="button" onClick={() => this.props.onSignOut()}>Вийти</button>
+                <div><p>Користувач: {fullName}</p></div>
+                <div className="right-button-wrap"><button type="button" onClick={() => this.props.onSignOut()}>Вийти</button></div>
             </div>
             <div className="rt-quiz-body">
                 {renderQuiz}
