@@ -22,11 +22,11 @@ export const ResultDetails = (props: Props) => {
         var fullName = <h4>Шановний {props.user.surname} {props.user.name} {props.user.midName}</h4>;
         var result = (props.summary.status)? "Здане!" : "Не здане!";
         var reasons = (!props.summary.status)? props.summary.reason : null;   
-        var header = <div>{fullName}
-            <p>тестування було завершене з результатом {props.summary.score}%.</p>
-            <p>Дата початку: {props.summary.startDate}</p>
-            <p>Дата завершення: {props.summary.finishDate}</p>
-            <p>{result}</p>
+        var header = <div className="result-details-header">{fullName}
+            <p className="score">тестування було завершене з результатом {props.summary.score}%.</p>
+            <p className="date">Дата початку: {props.summary.startDate}</p>
+            <p className="date">Дата завершення: {props.summary.finishDate}</p>
+            <p className="result">{result}</p>
             <p>{reasons}</p>
         </div>;   
     }
@@ -37,7 +37,7 @@ export const ResultDetails = (props: Props) => {
             <div className="modal-header"><i className="fa fa-close" onClick={() => props.onClose()}></i></div>
             <div className="result-details-body">
                 {header}
-                <ul>{renderQuestions}</ul>
+                <ol>{renderQuestions}</ol>
             </div>
         </div>
     </Modal>

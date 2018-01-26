@@ -10975,8 +10975,10 @@ var Quiz = /** @class */ (function (_super) {
         var renderQuiz = (!this.state.quiz) ? React.createElement("div", { className: "start-quiz-area" },
             React.createElement("button", { type: "button", onClick: this.startQuiz.bind(this) }, "\u041F\u043E\u0447\u0430\u0442\u0438 \u043D\u043E\u0432\u0438\u0439 \u0435\u043A\u0437\u0430\u043C\u0435\u043D")) :
             React.createElement("div", null,
-                React.createElement(countdown_1.Countdown, { till: this.state.till, stopTimer: this.stopTimer.bind(this) }),
-                React.createElement("div", null,
+                React.createElement("div", { className: "quiz-timer" },
+                    React.createElement("span", null, "\u0417\u0430\u043B\u0438\u0448\u0438\u043B\u043E\u0441\u044C \u0447\u0430\u0441\u0443: "),
+                    React.createElement(countdown_1.Countdown, { till: this.state.till, stopTimer: this.stopTimer.bind(this) })),
+                React.createElement("div", { className: "quiz-info" },
                     React.createElement("div", null,
                         React.createElement("span", null, "\u0423\u0441\u044C\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u044C: "),
                         this.state.qty),
@@ -10990,7 +10992,7 @@ var Quiz = /** @class */ (function (_super) {
                         React.createElement("span", null, "\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E: "),
                         this.state.done.length)),
                 React.createElement(question_1.QuestionView, { question: this.state.currentQuestion, onAnswer: this.answerQuestion.bind(this), onChange: this.changeAnswer.bind(this), onPostpone: this.postponeQuestion.bind(this) }));
-        var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0) ? React.createElement("div", null,
+        var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0) ? React.createElement("div", { className: "finish-quiz" },
             React.createElement("button", { type: "button", onClick: this.finishQuiz.bind(this) }, "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0438 \u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F")) : null;
         return React.createElement("div", { className: "rt-quiz" },
             React.createElement("div", { className: "rt-quiz-header" },
@@ -11089,17 +11091,17 @@ exports.QuestionView = function (props) {
     if (!props.question)
         return null;
     var answers = props.question.answers.map(function (answer, index) {
-        return React.createElement("div", { key: index },
+        return React.createElement("div", { key: index, className: "answer-body" },
             React.createElement("input", { type: "checkbox", checked: answer.isCorrect, onChange: function (e) { return props.onChange(answer.id, e.target.checked); } }),
             React.createElement("label", null, answer.text));
     });
-    return React.createElement("div", null,
+    return React.createElement("div", { className: "question-content" },
         React.createElement("div", null, props.question.text),
         React.createElement("div", null,
             React.createElement("form", null, answers)),
-        React.createElement("div", null,
-            React.createElement("button", { type: "button", onClick: function () { return props.onPostpone(); } }, "\u041F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438"),
-            React.createElement("button", { type: "button", onClick: function () { return props.onAnswer(); } }, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438")));
+        React.createElement("div", { className: "question-buttons" },
+            React.createElement("button", { type: "button", className: "skip", onClick: function () { return props.onPostpone(); } }, "\u041F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438"),
+            React.createElement("button", { type: "button", className: "submit", onClick: function () { return props.onAnswer(); } }, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438")));
 };
 
 
@@ -11114,11 +11116,12 @@ var React = __webpack_require__(0);
 exports.Summary = function (props) {
     if (!props.summary)
         return null;
-    var title = (props.summary.status) ? React.createElement("span", null, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!") : React.createElement("span", null, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u0435 \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!");
-    return React.createElement("div", null,
-        React.createElement("div", null, title),
-        React.createElement("div", null, props.summary.reason),
-        React.createElement("button", { type: "button", onClick: function () { return props.onShowDetails(); } }, "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u0434\u0435\u0442\u0430\u043B\u0456"));
+    var title = (props.summary.status) ? React.createElement("span", { className: "success" }, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!") : React.createElement("span", { className: "fail" }, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u0435 \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!");
+    return React.createElement("div", { className: "quiz-summary" },
+        React.createElement("div", { className: "summary-title" }, title),
+        React.createElement("div", { className: "summary-content" }, props.summary.reason),
+        React.createElement("div", { className: "details-button-wrap" },
+            React.createElement("button", { type: "button", onClick: function () { return props.onShowDetails(); } }, "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u0434\u0435\u0442\u0430\u043B\u0456")));
 };
 
 
@@ -11148,19 +11151,19 @@ exports.ResultDetails = function (props) {
             props.user.midName);
         var result = (props.summary.status) ? "Здане!" : "Не здане!";
         var reasons = (!props.summary.status) ? props.summary.reason : null;
-        var header = React.createElement("div", null,
+        var header = React.createElement("div", { className: "result-details-header" },
             fullName,
-            React.createElement("p", null,
+            React.createElement("p", { className: "score" },
                 "\u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0431\u0443\u043B\u043E \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0435 \u0437 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u043C ",
                 props.summary.score,
                 "%."),
-            React.createElement("p", null,
+            React.createElement("p", { className: "date" },
                 "\u0414\u0430\u0442\u0430 \u043F\u043E\u0447\u0430\u0442\u043A\u0443: ",
                 props.summary.startDate),
-            React.createElement("p", null,
+            React.createElement("p", { className: "date" },
                 "\u0414\u0430\u0442\u0430 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u044F: ",
                 props.summary.finishDate),
-            React.createElement("p", null, result),
+            React.createElement("p", { className: "result" }, result),
             React.createElement("p", null, reasons));
     }
     return React.createElement(modal_1.Modal, null,
@@ -11169,7 +11172,7 @@ exports.ResultDetails = function (props) {
                 React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
             React.createElement("div", { className: "result-details-body" },
                 header,
-                React.createElement("ul", null, renderQuestions))));
+                React.createElement("ol", null, renderQuestions))));
 };
 
 

@@ -155,9 +155,9 @@ export class Quiz extends React.Component<Props, State>{
         var user = this.props.user;
         var fullName = user.surname + " " + user.name + " " + user.midName;
         var renderQuiz = (!this.state.quiz)? <div className="start-quiz-area"><button type="button" onClick={this.startQuiz.bind(this)}>Почати новий екзамен</button></div> : 
-        <div>
-            <Countdown till={this.state.till} stopTimer={this.stopTimer.bind(this)} />
-            <div>
+        <div> 
+            <div className="quiz-timer"><span>Залишилось часу: </span><Countdown till={this.state.till} stopTimer={this.stopTimer.bind(this)} /></div>           
+            <div className="quiz-info">
                 <div><span>Усього питань: </span>{this.state.qty}</div>
                 <div><span>Залишилось: </span>{this.state.questions.length}</div>
                 <div><span>Пропущено: </span>{this.state.postponed.length}</div>
@@ -166,7 +166,7 @@ export class Quiz extends React.Component<Props, State>{
             <QuestionView question={this.state.currentQuestion} onAnswer={this.answerQuestion.bind(this)} onChange={this.changeAnswer.bind(this)}
             onPostpone={this.postponeQuestion.bind(this)} />
         </div>;
-        var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0)? <div><button type="button" onClick={this.finishQuiz.bind(this)}>Завершити тестування</button></div> : null;
+        var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0)? <div className="finish-quiz"><button type="button" onClick={this.finishQuiz.bind(this)}>Завершити тестування</button></div> : null;
         return <div className="rt-quiz">
             <div className="rt-quiz-header">
                 <div><p>Користувач: {fullName}</p></div>

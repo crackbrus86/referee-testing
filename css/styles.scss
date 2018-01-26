@@ -130,6 +130,10 @@
 
         .fa-close{
             cursor: pointer;
+            color: #a00808;
+            &:hover{
+                color: #a00808;
+            }
         }
     }
 
@@ -318,13 +322,43 @@
     }
 }
 
+.quiz-result-details{
+    top: 10%;
+}
+
 .result-details-body{
     font-size: 0.7em;
     font-family:  Arial, Helvetica, sans-serif;
     text-align: justify;
-    padding: 10px 30px;    
+    padding: 10px 30px;  
+    .result-details-header  {
+        h4{
+            font-size: 1.4em;
+            text-align: center;
+        }
+        p{
+            margin-bottom: 5px;
+            &.score{
+              text-align: center;
+            }
+            &.date{
+                font-size: 1em;
+            }
+            &.result{
+                text-transform: uppercase;
+                font-weight: 600;
+            }
+        }
+    }
     .wrong{
         color: red;
+    }
+    ol{
+        li{
+            ul{
+                list-style-type: circle;
+            }
+        }
     }
 }
 
@@ -359,6 +393,109 @@
         }
     }
     .rt-quiz-body{
+        .start-quiz-area{
+            text-align: center;
+            button{                
+                background-color: #52bf55;
+                text-shadow: 0 0 1px #565656;
+                color: #fff;
+                &:hover{
+                    background-color: #59d05d;
+                }
+            }
+        }
 
+        .quiz-timer{
+            background-color: #c4ccd2;
+            color: #313131;
+            padding: 0 5px;
+            overflow: hidden;
+            span{
+                display: block;
+                float: left;
+            }
+        }
+        .quiz-info{
+            background-color: #f7f7f7;
+            padding: 0 5px;
+        }
+        .question-content{
+            padding-top: 15px;
+            .answer-body{
+                input[type=checkbox]{
+                    width: 20px;
+                    height: 20px;
+                    vertical-align: sub;
+                    margin-right: 5px;
+                }
+            }
+            .question-buttons{
+                text-align: center;
+                button{
+                    padding: 5px 10px;
+                    font-size: 16px;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                    margin: 10px 5px;
+                    &.skip{
+                        background-color: #ec6969;
+                        &:hover{
+                            background-color: #fd7070;
+                        }
+                    }
+                    &.submit{
+                        background-color: #55b158;
+                        &:hover{
+                            background-color: #5fc462;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .finish-quiz{
+        padding-top: 15px;
+        text-align: center;
+        button{
+            padding: 5px 10px;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            background-color: #243696;
+            &:hover{
+                background-color: #3c54dc;
+            }
+        }
+    }
+    .quiz-summary{
+        .summary-title{
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-top: 10px;
+            .success{
+                color: green;
+            }
+            .fail{
+                color: red;
+            }
+        }
+        .summary-content{
+            text-align: center;
+        }
+        .details-button-wrap{
+            text-align: center;
+            button{
+                padding: 5px 10px;
+                font-size: 16px;
+                text-transform: uppercase;
+                cursor: pointer;
+                background-color: #83009a;
+                &:hover{
+                    background-color: #b909d8;
+                }
+            }
+        }
     }
 }

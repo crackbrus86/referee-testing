@@ -98,7 +98,11 @@
     font-size: 1.2em; }
     .question-edit-modal .modal-header .fa-close,
     .quiz-result-details .modal-header .fa-close {
-      cursor: pointer; }
+      cursor: pointer;
+      color: #a00808; }
+      .question-edit-modal .modal-header .fa-close:hover,
+      .quiz-result-details .modal-header .fa-close:hover {
+        color: #a00808; }
   .question-edit-modal button,
   .quiz-result-details button {
     border: none;
@@ -242,13 +246,30 @@
     .rt-login form .form-submit:disabled {
       cursor: not-allowed; }
 
+.quiz-result-details {
+  top: 10%; }
+
 .result-details-body {
   font-size: 0.7em;
   font-family: Arial, Helvetica, sans-serif;
   text-align: justify;
   padding: 10px 30px; }
+  .result-details-body .result-details-header h4 {
+    font-size: 1.4em;
+    text-align: center; }
+  .result-details-body .result-details-header p {
+    margin-bottom: 5px; }
+    .result-details-body .result-details-header p.score {
+      text-align: center; }
+    .result-details-body .result-details-header p.date {
+      font-size: 1em; }
+    .result-details-body .result-details-header p.result {
+      text-transform: uppercase;
+      font-weight: 600; }
   .result-details-body .wrong {
     color: red; }
+  .result-details-body ol li ul {
+    list-style-type: circle; }
 
 .rt-quiz {
   font-size: 0.9em;
@@ -272,3 +293,78 @@
           cursor: pointer; }
           .rt-quiz .rt-quiz-header div.right-button-wrap button:hover {
             background-color: #a00606; }
+  .rt-quiz .rt-quiz-body .start-quiz-area {
+    text-align: center; }
+    .rt-quiz .rt-quiz-body .start-quiz-area button {
+      background-color: #52bf55;
+      text-shadow: 0 0 1px #565656;
+      color: #fff; }
+      .rt-quiz .rt-quiz-body .start-quiz-area button:hover {
+        background-color: #59d05d; }
+  .rt-quiz .rt-quiz-body .quiz-timer {
+    background-color: #c4ccd2;
+    color: #313131;
+    padding: 0 5px;
+    overflow: hidden; }
+    .rt-quiz .rt-quiz-body .quiz-timer span {
+      display: block;
+      float: left; }
+  .rt-quiz .rt-quiz-body .quiz-info {
+    background-color: #f7f7f7;
+    padding: 0 5px; }
+  .rt-quiz .rt-quiz-body .question-content {
+    padding-top: 15px; }
+    .rt-quiz .rt-quiz-body .question-content .answer-body input[type=checkbox] {
+      width: 20px;
+      height: 20px;
+      vertical-align: sub;
+      margin-right: 5px; }
+    .rt-quiz .rt-quiz-body .question-content .question-buttons {
+      text-align: center; }
+      .rt-quiz .rt-quiz-body .question-content .question-buttons button {
+        padding: 5px 10px;
+        font-size: 16px;
+        text-transform: uppercase;
+        cursor: pointer;
+        margin: 10px 5px; }
+        .rt-quiz .rt-quiz-body .question-content .question-buttons button.skip {
+          background-color: #ec6969; }
+          .rt-quiz .rt-quiz-body .question-content .question-buttons button.skip:hover {
+            background-color: #fd7070; }
+        .rt-quiz .rt-quiz-body .question-content .question-buttons button.submit {
+          background-color: #55b158; }
+          .rt-quiz .rt-quiz-body .question-content .question-buttons button.submit:hover {
+            background-color: #5fc462; }
+  .rt-quiz .finish-quiz {
+    padding-top: 15px;
+    text-align: center; }
+    .rt-quiz .finish-quiz button {
+      padding: 5px 10px;
+      font-size: 16px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background-color: #243696; }
+      .rt-quiz .finish-quiz button:hover {
+        background-color: #3c54dc; }
+  .rt-quiz .quiz-summary .summary-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-top: 10px; }
+    .rt-quiz .quiz-summary .summary-title .success {
+      color: green; }
+    .rt-quiz .quiz-summary .summary-title .fail {
+      color: red; }
+  .rt-quiz .quiz-summary .summary-content {
+    text-align: center; }
+  .rt-quiz .quiz-summary .details-button-wrap {
+    text-align: center; }
+    .rt-quiz .quiz-summary .details-button-wrap button {
+      padding: 5px 10px;
+      font-size: 16px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background-color: #83009a; }
+      .rt-quiz .quiz-summary .details-button-wrap button:hover {
+        background-color: #b909d8; }
