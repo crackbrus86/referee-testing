@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,68 +76,10 @@ module.exports = React;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(10);
-var dir = "../wp-content/plugins/referee-testing/api/quiz/";
-exports.register = function (contract) {
-    return load_1.runAjax({
-        url: dir + "register.php",
-        type: "POST",
-        data: contract
-    });
-};
-exports.signIn = function (contract) {
-    return load_1.runAjax({
-        url: dir + "signin.php",
-        type: "POST",
-        data: contract
-    });
-};
-exports.getUser = function () {
-    return load_1.runAjax({
-        url: dir + "getUser.php",
-        type: "GET"
-    });
-};
-exports.signOut = function (contract) {
-    return load_1.runAjax({
-        url: dir + "signout.php",
-        type: "GET",
-        data: contract
-    });
-};
-exports.startQuiz = function () {
-    return load_1.runAjax({
-        url: dir + "startQuiz.php",
-        type: "POST"
-    });
-};
-exports.getQuestions = function () {
-    return load_1.runAjax({
-        url: dir + "getQuestions.php",
-        type: "GET"
-    });
-};
-exports.finishQuiz = function (contract) {
-    return load_1.runAjax({
-        url: dir + "finishQuiz.php",
-        type: "POST",
-        data: contract
-    });
-};
-exports.getSummary = function (contract) {
-    return load_1.runAjax({
-        url: dir + "getSummary.php",
-        type: "POST",
-        data: contract
-    });
-};
-exports.getDetails = function (contract) {
-    return load_1.runAjax({
-        url: dir + "quizDetails.php",
-        type: "POST",
-        data: contract
-    });
-};
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(2);
+var results_1 = __webpack_require__(3);
+ReactDOM.render(React.createElement(results_1.Results, null), document.getElementById("results-app"));
 
 
 /***/ }),
@@ -152,38 +94,104 @@ module.exports = ReactDOM;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-exports.isFormValid = function (formObject, required) {
-    for (var i = 0; i < required.length; i++) {
-        if (!formObject[required[i]])
-            return true;
+var index_1 = __webpack_require__(4);
+var services = __webpack_require__(8);
+var Results = /** @class */ (function (_super) {
+    __extends(Results, _super);
+    function Results(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            results: []
+        };
+        return _this;
     }
-    return false;
-};
-exports.isFieldValid = function (field, text) {
-    if (text === void 0) { text = "Це поле є обов'язковим"; }
-    if (!!field)
-        return null;
-    return React.createElement("i", { className: "invalid" },
-        "*",
-        React.createElement("sub", null, text));
-};
-exports.isEmailValid = function (field) {
-    if (!field)
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Це поле є обов'язковим"));
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    if (!pattern.test(field))
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Не вірно вказано email"));
-};
+    Results.prototype.componentWillMount = function () {
+        var _this = this;
+        services.getAll().then(function (data) {
+            _this.setState({ results: JSON.parse(data) });
+        });
+    };
+    Results.prototype.render = function () {
+        return React.createElement("div", null,
+            React.createElement(index_1.Grid, { items: this.state.results, columns: [
+                    {
+                        title: "Особа що проходить тестування",
+                        field: "fullName"
+                    },
+                    {
+                        title: "Email",
+                        field: "email"
+                    }
+                ] }));
+    };
+    return Results;
+}(React.Component));
+exports.Results = Results;
 
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var button_1 = __webpack_require__(5);
+var cell_1 = __webpack_require__(7);
+exports.Grid = function (props) {
+    var renderItem = function (item) {
+        return props.columns.map(function (column, index) {
+            return (column.type == "button") ?
+                React.createElement(button_1.GridButton, { cellProps: column, index: index, item: item }) :
+                React.createElement(cell_1.GridCell, { cellProps: column, index: index, item: item });
+        });
+    };
+    var renderHeader = props.columns.map(function (column, index) {
+        var styleWidth = (column.width) ? { width: column.width } : {};
+        return React.createElement("th", { key: index, style: styleWidth }, column.title);
+    });
+    var renderRows = props.items.map(function (item, index) {
+        return React.createElement("tr", { key: index }, renderItem(item));
+    });
+    return React.createElement("table", { className: props.classNames },
+        React.createElement("thead", null,
+            React.createElement("tr", { key: 0 }, renderHeader)),
+        React.createElement("tbody", null, renderRows));
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var classnames = __webpack_require__(6);
+exports.GridButton = function (props) {
+    var icon = (props.cellProps.icon) ? props.cellProps.icon : "";
+    var styleWidth = (props.cellProps.width) ? { width: props.cellProps.width } : {};
+    return React.createElement("td", { key: props.index, style: styleWidth },
+        React.createElement("i", { className: classnames('grid-button', 'fa', icon), onClick: function () { return props.cellProps.action(); } }));
+};
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -238,221 +246,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var layout_1 = __webpack_require__(6);
-ReactDOM.render(React.createElement(layout_1.RtQuiz, null), document.getElementById("quiz-app"));
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var login_1 = __webpack_require__(7);
-var quiz_1 = __webpack_require__(12);
-var services = __webpack_require__(1);
-var RtQuiz = /** @class */ (function (_super) {
-    __extends(RtQuiz, _super);
-    function RtQuiz(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            user: null
-        };
-        return _this;
-    }
-    RtQuiz.prototype.setUser = function (member) {
-        this.setState({ user: member });
-    };
-    RtQuiz.prototype.getUser = function () {
-        var _this = this;
-        services.getUser().then(function (data) {
-            if (data)
-                _this.setUser(JSON.parse(data));
-        });
-    };
-    RtQuiz.prototype.signOut = function () {
-        var _this = this;
-        services.signOut({
-            logout: this.state.user.id
-        }).then(function () {
-            _this.setState({ user: null });
-            _this.getUser();
-        });
-    };
-    RtQuiz.prototype.componentDidMount = function () {
-        this.getUser();
-    };
-    RtQuiz.prototype.render = function () {
-        return React.createElement("div", null,
-            React.createElement(login_1.Login, { user: this.state.user, setUser: this.setUser.bind(this) }),
-            React.createElement(quiz_1.Quiz, { user: this.state.user, onSignOut: this.signOut.bind(this) }));
-    };
-    return RtQuiz;
-}(React.Component));
-exports.RtQuiz = RtQuiz;
-
-
-/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var sign_in_1 = __webpack_require__(8);
-var register_1 = __webpack_require__(9);
-var services = __webpack_require__(1);
-var classnames = __webpack_require__(4);
-var LoginViewTypes;
-(function (LoginViewTypes) {
-    LoginViewTypes[LoginViewTypes["SignIn"] = 0] = "SignIn";
-    LoginViewTypes[LoginViewTypes["Register"] = 1] = "Register";
-})(LoginViewTypes || (LoginViewTypes = {}));
-var Login = /** @class */ (function (_super) {
-    __extends(Login, _super);
-    function Login(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            member: {
-                name: '',
-                surname: '',
-                midName: '',
-                email: ''
-            },
-            viewType: 0,
-            password: '',
-            confirm: '',
-            signData: {
-                email: '',
-                password: ''
-            }
-        };
-        return _this;
-    }
-    Login.prototype.showSingIn = function () {
-        this.setState({ viewType: LoginViewTypes.SignIn });
-    };
-    Login.prototype.showRegister = function () {
-        this.setState({ viewType: LoginViewTypes.Register });
-    };
-    Login.prototype.registerMember = function () {
-        var _this = this;
-        services.register({
-            name: this.state.member.name,
-            surname: this.state.member.surname,
-            midName: this.state.member.midName,
-            email: this.state.member.email,
-            password: this.state.password,
-            confirm: this.state.confirm
-        }).then(function (data) {
-            var response = JSON.parse(data);
-            if (response.status)
-                _this.restoreDefaults();
-            alert(response.message);
-        });
-    };
-    Login.prototype.changeMember = function (field, value) {
-        var mb = this.state.member;
-        mb[field] = value;
-        this.setState({ member: mb });
-    };
-    Login.prototype.changePassword = function (type, value) {
-        switch (type) {
-            case "password":
-                this.setState({ password: value });
-                break;
-            case "confirm":
-                this.setState({ confirm: value });
-                break;
-        }
-    };
-    Login.prototype.restoreDefaults = function () {
-        this.setState({
-            member: {
-                name: '',
-                surname: '',
-                midName: '',
-                email: ''
-            },
-            viewType: LoginViewTypes.SignIn,
-            password: '',
-            confirm: ''
-        });
-    };
-    Login.prototype.changeSignData = function (field, value) {
-        var sd = this.state.signData;
-        sd[field] = value;
-        this.setState({ signData: sd });
-    };
-    Login.prototype.signIn = function () {
-        var _this = this;
-        services.signIn({
-            email: this.state.signData.email,
-            password: this.state.signData.password
-        }).then(function (data) {
-            var response = JSON.parse(data);
-            if (response.state) {
-                _this.restoreDefaulysSignIn();
-                alert(response.message);
-                _this.props.setUser(response.object);
-            }
-            else {
-                alert(response.message);
-            }
-        });
-    };
-    Login.prototype.restoreDefaulysSignIn = function () {
-        this.setState({ signData: {
-                email: '',
-                password: ''
-            } });
-    };
-    Login.prototype.render = function () {
-        if (!!this.props.user)
-            return null;
-        var form = (this.state.viewType) ?
-            React.createElement(register_1.Register, { member: this.state.member, password: this.state.password, confirm: this.state.confirm, onRegister: this.registerMember.bind(this), onMemberChange: this.changeMember.bind(this), onPasswordChange: this.changePassword.bind(this) }) :
-            React.createElement(sign_in_1.SignIn, { credentials: this.state.signData, onChange: this.changeSignData.bind(this), onSignIn: this.signIn.bind(this) });
-        return React.createElement("div", { className: "rt-login" },
-            React.createElement("div", { className: "rt-login-header" },
-                React.createElement("button", { type: "button", className: classnames("sign-in", { active: !this.state.viewType }), onClick: this.showSingIn.bind(this) }, "\u0423\u0432\u0456\u0439\u0442\u0438"),
-                React.createElement("button", { type: "button", className: classnames("register", { active: !!this.state.viewType }), onClick: this.showRegister.bind(this) }, "\u0417\u0430\u0440\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F")),
-            form);
-    };
-    return Login;
-}(React.Component));
-exports.Login = Login;
+exports.GridCell = function (props) {
+    var styleWidth = (props.cellProps.width) ? { width: props.cellProps.width } : {};
+    return React.createElement("td", { key: props.index, style: styleWidth }, props.item[props.cellProps.field]);
+};
 
 
 /***/ }),
@@ -462,24 +266,13 @@ exports.Login = Login;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var Validation = __webpack_require__(3);
-exports.SignIn = function (props) {
-    var required = ["email", "password"];
-    return React.createElement("div", null,
-        React.createElement("form", null,
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "Email",
-                    Validation.isFieldValid(props.credentials.email)),
-                React.createElement("input", { type: "email", value: props.credentials.email, onChange: function (e) { return props.onChange("email", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "\u041F\u0430\u0440\u043E\u043B\u044C",
-                    Validation.isFieldValid(props.credentials.password)),
-                React.createElement("input", { type: "password", value: props.credentials.password, onChange: function (e) { return props.onChange("password", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("button", { type: "button", className: "form-submit", onClick: function () { return props.onSignIn(); }, disabled: Validation.isFormValid(props.credentials, required) }, "\u0423\u0432\u0456\u0439\u0442\u0438"))));
+var load_1 = __webpack_require__(9);
+var dir = "../wp-content/plugins/referee-testing/api/results/";
+exports.getAll = function () {
+    return load_1.runAjax({
+        url: dir + "getAll.php",
+        type: "GET"
+    });
 };
 
 
@@ -490,55 +283,7 @@ exports.SignIn = function (props) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var Validation = __webpack_require__(3);
-exports.Register = function (props) {
-    var required = ["name", "surname", "midName", "email"];
-    return React.createElement("div", null,
-        React.createElement("form", null,
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "\u041F\u0440\u0456\u0437\u0432\u0438\u0449\u0435",
-                    Validation.isFieldValid(props.member.surname)),
-                React.createElement("input", { type: "text", value: props.member.surname, onChange: function (e) { return props.onMemberChange("surname", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "\u0406\u043C'\u044F",
-                    Validation.isFieldValid(props.member.name)),
-                React.createElement("input", { type: "text", value: props.member.name, onChange: function (e) { return props.onMemberChange("name", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "\u041F\u043E-\u0431\u0430\u0442\u044C\u043A\u043E\u0432\u0456",
-                    Validation.isFieldValid(props.member.midName)),
-                React.createElement("input", { type: "text", value: props.member.midName, onChange: function (e) { return props.onMemberChange("midName", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "Email",
-                    Validation.isEmailValid(props.member.email)),
-                React.createElement("input", { type: "email", value: props.member.email, onChange: function (e) { return props.onMemberChange("email", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "\u041F\u0430\u0440\u043E\u043B\u044C",
-                    Validation.isFieldValid(props.password)),
-                React.createElement("input", { type: "password", value: props.password, onChange: function (e) { return props.onPasswordChange("password", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("label", null,
-                    "\u041F\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043D\u043D\u044F \u043F\u0430\u0440\u043E\u043B\u044F",
-                    Validation.isFieldValid(props.confirm)),
-                React.createElement("input", { type: "password", value: props.confirm, onChange: function (e) { return props.onPasswordChange("confirm", e.target.value); } })),
-            React.createElement("div", null,
-                React.createElement("button", { type: "button", className: "form-submit", onClick: function () { return props.onRegister(); }, disabled: Validation.isFormValid(props.member, required) || !props.password.length || !props.confirm.length }, "\u0420\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F"))));
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(11);
+var $ = __webpack_require__(10);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -560,7 +305,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10819,419 +10564,6 @@ return jQuery;
 } );
 
 
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var services = __webpack_require__(1);
-var countdown_1 = __webpack_require__(13);
-var question_1 = __webpack_require__(14);
-var summary_1 = __webpack_require__(15);
-var resultDetails_1 = __webpack_require__(16);
-var Quiz = /** @class */ (function (_super) {
-    __extends(Quiz, _super);
-    function Quiz(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            quiz: null,
-            questions: [],
-            done: [],
-            postponed: [],
-            currentQuestion: null,
-            qty: 0,
-            summary: null,
-            till: null,
-            details: []
-        };
-        return _this;
-    }
-    Quiz.prototype.startQuiz = function () {
-        var _this = this;
-        services.startQuiz().then(function (date) {
-            var response = JSON.parse(date);
-            var quiz = {
-                id: response.id,
-                memberId: response.memberId,
-                startDate: response.startDate,
-                endDate: response.endDate,
-                score: response.score,
-                isPassed: response.isPassed,
-                dateOfFinish: response.dateOfFinish
-            };
-            _this.setState({ quiz: quiz, till: response.endDate });
-            _this.getQuestions();
-        });
-    };
-    Quiz.prototype.getQuestions = function () {
-        var _this = this;
-        services.getQuestions().then(function (data) {
-            var response = JSON.parse(data);
-            _this.setState({ questions: response, qty: response.length });
-            _this.getNextQuestion();
-        });
-    };
-    Quiz.prototype.getNextQuestion = function () {
-        var questions = this.state.questions;
-        if (!questions.length) {
-            this.setState({ currentQuestion: null });
-            this.resetPostponed();
-        }
-        else {
-            this.setState({ currentQuestion: questions.shift() });
-            this.setState({ questions: questions });
-        }
-    };
-    Quiz.prototype.resetPostponed = function () {
-        var postponed = this.state.postponed;
-        if (postponed.length) {
-            this.setState({ currentQuestion: postponed.shift() });
-            this.setState({ questions: postponed });
-        }
-    };
-    Quiz.prototype.postponeQuestion = function () {
-        var postponed = this.state.postponed;
-        postponed.push(this.state.currentQuestion);
-        this.getNextQuestion();
-    };
-    Quiz.prototype.answerQuestion = function () {
-        var done = this.state.done;
-        done.push(this.state.currentQuestion);
-        this.getNextQuestion();
-    };
-    Quiz.prototype.changeAnswer = function (id, value) {
-        var question = this.state.currentQuestion;
-        question.answers.forEach(function (answer) {
-            if (answer.id == id)
-                answer.isCorrect = value;
-            return answer;
-        });
-        this.setState({ currentQuestion: question });
-    };
-    Quiz.prototype.finishQuiz = function () {
-        var _this = this;
-        services.finishQuiz({
-            quiz: this.state.quiz,
-            questions: this.state.done
-        }).then(function () {
-            _this.setState({
-                questions: [],
-                done: [],
-                postponed: [],
-                currentQuestion: null,
-                qty: 0,
-                till: null
-            });
-            _this.getSummary();
-        });
-    };
-    Quiz.prototype.getSummary = function () {
-        var _this = this;
-        services.getSummary({
-            id: this.state.quiz.id
-        }).then(function (data) {
-            var summary = JSON.parse(data);
-            if (summary) {
-                _this.setState({ summary: summary });
-            }
-        });
-    };
-    Quiz.prototype.getQuizDetails = function () {
-        var _this = this;
-        services.getDetails({
-            id: this.state.quiz.id
-        }).then(function (data) {
-            _this.setState({ details: JSON.parse(data) });
-        });
-    };
-    Quiz.prototype.closeDetails = function () {
-        this.setState({ details: [] });
-    };
-    Quiz.prototype.stopTimer = function () {
-        this.setState({ till: null });
-        alert("Час вийшов! Тестування буде завершене!");
-        this.finishQuiz();
-    };
-    Quiz.prototype.componentWillReceiveProps = function (nextProps) {
-        if (nextProps.user) {
-            this.setState({
-                quiz: null,
-                questions: [],
-                done: [],
-                postponed: [],
-                currentQuestion: null,
-                qty: 0,
-                summary: null,
-                till: null,
-                details: []
-            });
-        }
-    };
-    Quiz.prototype.render = function () {
-        var _this = this;
-        if (!this.props.user)
-            return null;
-        var user = this.props.user;
-        var fullName = user.surname + " " + user.name + " " + user.midName;
-        var renderQuiz = (!this.state.quiz) ? React.createElement("div", { className: "start-quiz-area" },
-            React.createElement("button", { type: "button", onClick: this.startQuiz.bind(this) }, "\u041F\u043E\u0447\u0430\u0442\u0438 \u043D\u043E\u0432\u0438\u0439 \u0435\u043A\u0437\u0430\u043C\u0435\u043D")) :
-            React.createElement("div", null,
-                React.createElement("div", { className: "quiz-timer" },
-                    React.createElement("span", null, "\u0417\u0430\u043B\u0438\u0448\u0438\u043B\u043E\u0441\u044C \u0447\u0430\u0441\u0443: "),
-                    React.createElement(countdown_1.Countdown, { till: this.state.till, stopTimer: this.stopTimer.bind(this) })),
-                React.createElement("div", { className: "quiz-info" },
-                    React.createElement("div", null,
-                        React.createElement("span", null, "\u0423\u0441\u044C\u043E\u0433\u043E \u043F\u0438\u0442\u0430\u043D\u044C: "),
-                        this.state.qty),
-                    React.createElement("div", null,
-                        React.createElement("span", null, "\u0417\u0430\u043B\u0438\u0448\u0438\u043B\u043E\u0441\u044C: "),
-                        this.state.questions.length),
-                    React.createElement("div", null,
-                        React.createElement("span", null, "\u041F\u0440\u043E\u043F\u0443\u0449\u0435\u043D\u043E: "),
-                        this.state.postponed.length),
-                    React.createElement("div", null,
-                        React.createElement("span", null, "\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E: "),
-                        this.state.done.length)),
-                React.createElement(question_1.QuestionView, { question: this.state.currentQuestion, onAnswer: this.answerQuestion.bind(this), onChange: this.changeAnswer.bind(this), onPostpone: this.postponeQuestion.bind(this) }));
-        var sendQuiz = (this.state.qty === this.state.done.length && this.state.qty != 0) ? React.createElement("div", { className: "finish-quiz" },
-            React.createElement("button", { type: "button", onClick: this.finishQuiz.bind(this) }, "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u0438 \u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F")) : null;
-        return React.createElement("div", { className: "rt-quiz" },
-            React.createElement("div", { className: "rt-quiz-header" },
-                React.createElement("div", null,
-                    React.createElement("p", null,
-                        "\u041A\u043E\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447: ",
-                        fullName)),
-                React.createElement("div", { className: "right-button-wrap" },
-                    React.createElement("button", { type: "button", onClick: function () { return _this.props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438"))),
-            React.createElement("div", { className: "rt-quiz-body" }, renderQuiz),
-            sendQuiz,
-            React.createElement(summary_1.Summary, { summary: this.state.summary, onShowDetails: this.getQuizDetails.bind(this) }),
-            React.createElement(resultDetails_1.ResultDetails, { details: this.state.details, onClose: this.closeDetails.bind(this), summary: this.state.summary, user: this.props.user }));
-    };
-    return Quiz;
-}(React.Component));
-exports.Quiz = Quiz;
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var Countdown = /** @class */ (function (_super) {
-    __extends(Countdown, _super);
-    function Countdown(props) {
-        var _this = _super.call(this, props) || this;
-        _this.timerId = null;
-        _this.state = {
-            now: new Date()
-        };
-        return _this;
-    }
-    Countdown.prototype.componentDidMount = function () {
-        var _this = this;
-        this.timerId = setInterval(function () { return _this.tick(); }, 1000);
-    };
-    Countdown.prototype.componentWillUnmount = function () {
-        clearInterval(this.timerId);
-    };
-    Countdown.prototype.tick = function () {
-        this.setState({ now: new Date() });
-        if (!this.props.till) {
-            clearInterval(this.timerId);
-            return;
-        }
-        if (new Date(this.props.till.toString()).getTime() <= this.state.now.getTime()) {
-            this.props.stopTimer();
-        }
-    };
-    Countdown.prototype.render = function () {
-        if (!this.props.till)
-            return null;
-        var endTime = new Date(this.props.till.toString());
-        var timeDiff = Math.abs(endTime.getTime() - this.state.now.getTime());
-        var diffHours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
-        var diffMin = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-        var diffSec = Math.floor((timeDiff % (1000 * 60)) / 1000);
-        return React.createElement("div", null,
-            React.createElement("div", null,
-                diffHours,
-                " \u0433\u043E\u0434. ",
-                diffMin,
-                " \u0445\u0432. ",
-                diffSec,
-                " \u0441\u0435\u043A."));
-    };
-    return Countdown;
-}(React.Component));
-exports.Countdown = Countdown;
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-exports.QuestionView = function (props) {
-    if (!props.question)
-        return null;
-    var answers = props.question.answers.map(function (answer, index) {
-        return React.createElement("div", { key: index, className: "answer-body" },
-            React.createElement("input", { type: "checkbox", checked: answer.isCorrect, onChange: function (e) { return props.onChange(answer.id, e.target.checked); } }),
-            React.createElement("label", null, answer.text));
-    });
-    return React.createElement("div", { className: "question-content" },
-        React.createElement("div", null, props.question.text),
-        React.createElement("div", null,
-            React.createElement("form", null, answers)),
-        React.createElement("div", { className: "question-buttons" },
-            React.createElement("button", { type: "button", className: "skip", onClick: function () { return props.onPostpone(); } }, "\u041F\u0440\u043E\u043F\u0443\u0441\u0442\u0438\u0442\u0438"),
-            React.createElement("button", { type: "button", className: "submit", onClick: function () { return props.onAnswer(); } }, "\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438")));
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-exports.Summary = function (props) {
-    if (!props.summary)
-        return null;
-    var title = (props.summary.status) ? React.createElement("span", { className: "success" }, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!") : React.createElement("span", { className: "fail" }, "\u0422\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u043D\u0435 \u043F\u0440\u043E\u0439\u0434\u0435\u043D\u0435!");
-    return React.createElement("div", { className: "quiz-summary" },
-        React.createElement("div", { className: "summary-title" }, title),
-        React.createElement("div", { className: "summary-content" }, props.summary.reason),
-        React.createElement("div", { className: "details-button-wrap" },
-            React.createElement("button", { type: "button", onClick: function () { return props.onShowDetails(); } }, "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u0438 \u0434\u0435\u0442\u0430\u043B\u0456")));
-};
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(17);
-var classnames = __webpack_require__(4);
-exports.ResultDetails = function (props) {
-    if (!props.details.length)
-        return null;
-    var renderQuestions = props.details.map(function (question, index) { return React.createElement("li", { key: index },
-        React.createElement("span", { className: classnames({ wrong: !question.isTrue }) }, question.text),
-        React.createElement("ul", null, question.answers.map(function (answer, indexA) { return React.createElement("li", { key: indexA, className: classnames({ wrong: !answer.isTrue }) }, answer.answerText); }))); });
-    if (props.user && props.summary) {
-        var fullName = React.createElement("h4", null,
-            "\u0428\u0430\u043D\u043E\u0432\u043D\u0438\u0439 ",
-            props.user.surname,
-            " ",
-            props.user.name,
-            " ",
-            props.user.midName);
-        var result = (props.summary.status) ? "Здане!" : "Не здане!";
-        var reasons = (!props.summary.status) ? props.summary.reason : null;
-        var header = React.createElement("div", { className: "result-details-header" },
-            fullName,
-            React.createElement("p", { className: "score" },
-                "\u0442\u0435\u0441\u0442\u0443\u0432\u0430\u043D\u043D\u044F \u0431\u0443\u043B\u043E \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u0435 \u0437 \u0440\u0435\u0437\u0443\u043B\u044C\u0442\u0430\u0442\u043E\u043C ",
-                props.summary.score,
-                "%."),
-            React.createElement("p", { className: "date" },
-                "\u0414\u0430\u0442\u0430 \u043F\u043E\u0447\u0430\u0442\u043A\u0443: ",
-                props.summary.startDate),
-            React.createElement("p", { className: "date" },
-                "\u0414\u0430\u0442\u0430 \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043D\u043D\u044F: ",
-                props.summary.finishDate),
-            React.createElement("p", { className: "result" }, result),
-            React.createElement("p", null, reasons));
-    }
-    return React.createElement(modal_1.Modal, null,
-        React.createElement("div", { className: "quiz-result-details" },
-            React.createElement("div", { className: "modal-header" },
-                React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
-            React.createElement("div", { className: "result-details-body" },
-                header,
-                React.createElement("ol", null, renderQuestions))));
-};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var modalRoot = document.body;
-var Modal = /** @class */ (function (_super) {
-    __extends(Modal, _super);
-    function Modal(props) {
-        var _this = _super.call(this, props) || this;
-        _this.el = document.createElement("div");
-        _this.el.className = "modal-black-out";
-        return _this;
-    }
-    Modal.prototype.componentDidMount = function () {
-        modalRoot.appendChild(this.el);
-    };
-    Modal.prototype.componentWillUnmount = function () {
-        modalRoot.removeChild(this.el);
-    };
-    Modal.prototype.render = function () {
-        return ReactDOM.createPortal(this.props.children, this.el);
-    };
-    return Modal;
-}(React.Component));
-exports.Modal = Modal;
-
-
 /***/ })
 /******/ ]);
-//# sourceMappingURL=quiz-bundle.js.map
+//# sourceMappingURL=results-bundle.js.map

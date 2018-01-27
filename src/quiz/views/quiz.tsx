@@ -127,7 +127,6 @@ export class Quiz extends React.Component<Props, State>{
             let summary: Models.GetSummary_Response = JSON.parse(data);
             if(summary){
                 this.setState({summary: summary});
-                console.log(this.state);
             }
         });
     }
@@ -148,6 +147,22 @@ export class Quiz extends React.Component<Props, State>{
         this.setState({till: null});
         alert("Час вийшов! Тестування буде завершене!");
         this.finishQuiz();
+    }
+
+    componentWillReceiveProps(nextProps: Props){
+        if(nextProps.user){
+            this.setState({
+                quiz: null,
+                questions: [],
+                done: [],
+                postponed: [],
+                currentQuestion: null,
+                qty: 0,
+                summary: null,
+                till: null,
+                details: []
+            })
+        }
     }
 
     render(){

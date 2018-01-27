@@ -26,7 +26,7 @@ wp_register_style('app-styles', plugins_url('/css/dist/styles.css',__FILE__));
 wp_enqueue_style('app-styles');
 
 function quizzApp(){
-    wp_register_script('quiz_bundle', plugins_url('/dist/quiz-bundle.js', __FILE__));
+    wp_register_script('quiz_bundle', plugins_url('/dist/quiz-bundle.js?v='.time(), __FILE__));
     wp_enqueue_script('quiz_bundle');
     $otput=<<<_END
 <div id="quiz-app"></div>
@@ -38,11 +38,17 @@ add_shortcode('rtQuiz', 'quizzApp');
 class RefereeTesting {
     public function initSettings(){
         add_menu_page("Referee Testing", "Тестування", "manage_options", "referee-testing", array("RefereeTesting", "editQuestons"));
+        add_submenu_page("referee-testing", "Результати екзамену", "Результати", "manage_options", "results", array("RefereeTesting", "reviewResults"));
     }
 
     public function loadQuestionsApp(){
-        wp_register_script('questions_bundle', plugins_url('/dist/questions-bundle.js', __FILE__));
+        wp_register_script('questions_bundle', plugins_url('/dist/questions-bundle.js?v='.time(), __FILE__));
         wp_enqueue_script('questions_bundle');
+    }
+
+    public function loadResultsApp(){
+        wp_register_script('results_bundle', plugins_url('/dist/results-bundle.js?v='.time(), __FILE__));
+        wp_enqueue_script('results_bundle');
     }
 
     public function initDb(){
@@ -56,6 +62,18 @@ class RefereeTesting {
 <div class="container-fluid">
         <h2>$plName</h2>
         <div id="app"></div>
+</div>
+_END;
+echo $otput;
+    }
+
+    public function reviewResults(){
+        RefereeTesting::loadResultsApp();
+        $plName = "Результати тестування";
+        $otput=<<<_END
+<div class="container-fluid">
+        <h2>$plName</h2>
+        <div id="results-app"></div>
 </div>
 _END;
 echo $otput;
