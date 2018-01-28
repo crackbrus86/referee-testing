@@ -250,7 +250,7 @@
   top: 10%; }
 
 .result-details-body {
-  font-size: 0.7em;
+  font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   text-align: justify;
   padding: 10px 30px; }
@@ -425,3 +425,33 @@
           color: #6868ea; }
           .rt-results-grid tbody tr td .grid-button.fa-eye:hover {
             color: #60a2ef; }
+
+.rt-filter {
+  background-color: #6b79e0;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  padding: 10px; }
+  .rt-filter h4 {
+    font-size: 1.5em;
+    margin: 0 0 5px 0;
+    font-weight: 400; }
+  .rt-filter form .rt-filter-left {
+    display: block;
+    float: left; }
+    .rt-filter form .rt-filter-left label {
+      cursor: pointer;
+      font-size: 1.2em;
+      line-height: 25px; }
+    .rt-filter form .rt-filter-left .rdt {
+      color: #000; }
+  .rt-filter form button {
+    background-color: #d8d8d8;
+    border: none;
+    padding: 5px 20px;
+    margin: 25px 10px 0;
+    cursor: pointer;
+    box-shadow: 0 0 1px 0 #585757; }
+    .rt-filter form button i {
+      color: #b32424; }
+    .rt-filter form button:hover {
+      background-color: #f1f0f0; }

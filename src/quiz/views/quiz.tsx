@@ -4,7 +4,7 @@ import * as services from "../services/services";
 import {Countdown} from "../../components/countdown";
 import {QuestionView} from "./partials/question";
 import {Summary} from "./partials/summary";
-import {ResultDetails} from "../modals/resultDetails";
+import {ResultDetails} from "../../shared/modals/resultDetails";
 interface Props{
     user: Models.Member;
     onSignOut: () => void;

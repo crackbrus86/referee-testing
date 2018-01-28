@@ -2,20 +2,26 @@ import * as React from "react";
 import * as Models from "../models/index";
 import {Grid} from "../../components/grid/index";
 import * as services from "../services/services";
+import {Filter} from "./partials/filter";
+import {ResultDetails} from "../../shared/modals/resultDetails";
 
 interface Props{
 
 }
 
 interface State{
-    results: Models.ResultModel[]
+    results: Models.ResultModel[],
+    details: Models.DetailsQuestion[],
+    userFullname: string;
 }
 
 export class Results extends React.Component<Props, State>{
     constructor(props: Props){
         super(props);
         this.state = {
-            results: []
+            results: [],
+            details: [],
+            userFullname: null
         }
     }
 
@@ -35,6 +41,26 @@ export class Results extends React.Component<Props, State>{
         });
     }
 
+    runFilter(year: string){
+        services.filter({
+            year: year
+        }).then(data => {
+            this.setState({results: this.mapResponse(JSON.parse(data))});
+        });
+    }
+
+    getDetails(result: Models.GetAll_Response){
+        services.getDetails({
+            id: Number(result.id)
+        }).then(data => {
+            this.setState({userFullname: result.fullName, details: JSON.parse(data)});
+        });
+    }
+
+    closeDetails(){
+        this.setState({userFullname: null, details: []});
+    }
+
     componentWillMount(){
         services.getAll().then(data => {
             this.setState({results: this.mapResponse(JSON.parse(data))});
@@ -43,13 +69,14 @@ export class Results extends React.Component<Props, State>{
 
     render(){
         return <div>
+            <Filter onFilter={this.runFilter.bind(this)} />
             <Grid classNames="rt-results-grid" items={this.state.results} columns={[
                 {
                     type: "button",
                     icon: "fa-eye",
                     alt: "Показати деталі",
                     width: "25px",
-                    action: (item) => console.log(item)
+                    action: (item) => this.getDetails(item)
                 },
                 {
                     type: "button",
@@ -97,6 +124,7 @@ export class Results extends React.Component<Props, State>{
                 }
 
             ]} />
+            <ResultDetails details={this.state.details} onClose={this.closeDetails.bind(this)} fullName={this.state.userFullname} />
         </div>
     }
 }

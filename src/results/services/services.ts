@@ -9,3 +9,19 @@ export const getAll = () => {
         type: "GET"
     })
 }
+
+export const filter = (contract: Models.Filter_Contract) => {
+    return runAjax({
+        url: dir + "filter.php",
+        type: "POST",
+        data: contract
+    })
+}
+
+export const getDetails = (contract: Models.GetDetails_Contract) => {
+    return runAjax({
+        url: dir + "quizDetails.php",
+        type: "POST",
+        data: contract
+    })
+}

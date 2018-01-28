@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Modal} from "../../components/modal";
-import * as Models from "../models/quiz";
+import * as Models from "../models/index";
 import * as classnames from "classnames";
 
 interface Props{
@@ -8,6 +8,7 @@ interface Props{
     onClose: () => void;
     user?: Models.Member;
     summary?: Models.GetSummary_Response;
+    fullName?: string;
 }
 
 export const ResultDetails = (props: Props) => {
@@ -29,6 +30,11 @@ export const ResultDetails = (props: Props) => {
             <p className="result">{result}</p>
             <p>{reasons}</p>
         </div>;   
+    }
+    if(props.fullName){
+        var header = <div className="result-details-header">
+            <h4>{props.fullName}</h4>
+        </div>
     }
     
 

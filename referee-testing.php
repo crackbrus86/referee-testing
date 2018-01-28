@@ -49,6 +49,8 @@ class RefereeTesting {
     public function loadResultsApp(){
         wp_register_script('results_bundle', plugins_url('/dist/results-bundle.js?v='.time(), __FILE__));
         wp_enqueue_script('results_bundle');
+        wp_register_style('react-datetime', plugins_url('/css/dist/react-datetime.css',__FILE__));
+        wp_enqueue_style('react-datetime');        
     }
 
     public function initDb(){
