@@ -1,0 +1,82 @@
+.rt-results-grid{
+    width: 100% !important;
+    border-spacing: unset;
+    thead{
+        color: #ffffff;
+        background: #6c7ae0;
+        tr{
+            th{
+                font-size: 18px;
+                color: #fff;
+                line-height: 1.2;
+                font-weight: unset !important;
+                padding-top: 19px;
+                padding-bottom: 19px;
+            }
+        }
+    }
+    tbody{
+        tr{
+            display: table-row;
+            background-color: #fff;
+            &:hover{
+                background-color: #ececff;
+            }
+            td{
+                font-size: 15px;
+                color: #666666;
+                line-height: 1.2;
+                font-weight: unset !important;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                padding-left: 10px;
+                border-bottom: 1px solid #f2f2f2;
+
+                &.td-center{
+                    text-align: center;
+                }
+
+                &.grid-bool{
+                    text-align: center;
+                    i{
+                        font-size: 1.2em;
+                        &.fa-thumbs-o-up{
+                            color: green;
+                        }
+                        &.fa-thumbs-o-down{
+                            color: red;
+                        }
+                    }
+                }
+
+                &.grid-button{
+                    text-align: center;
+                    padding: 0 8px;
+                }
+
+                .grid-button{
+                    padding: 10px 5px;
+                    width: 25px;
+                    height: 15px;
+                    font-size: 25px;
+                    text-align: center;
+                    vertical-align: middle;
+                    cursor: pointer;
+
+                    &.fa-close{
+                        color: #af0909;
+                        &:hover{
+                            color: #f33636;
+                        }
+                    } 
+                    &.fa-eye{
+                        color: #6868ea;
+                        &:hover{
+                            color: #60a2ef;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

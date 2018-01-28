@@ -368,3 +368,60 @@
       background-color: #83009a; }
       .rt-quiz .quiz-summary .details-button-wrap button:hover {
         background-color: #b909d8; }
+
+.rt-results-grid {
+  width: 100% !important;
+  border-spacing: unset; }
+  .rt-results-grid thead {
+    color: #ffffff;
+    background: #6c7ae0; }
+    .rt-results-grid thead tr th {
+      font-size: 18px;
+      color: #fff;
+      line-height: 1.2;
+      font-weight: unset !important;
+      padding-top: 19px;
+      padding-bottom: 19px; }
+  .rt-results-grid tbody tr {
+    display: table-row;
+    background-color: #fff; }
+    .rt-results-grid tbody tr:hover {
+      background-color: #ececff; }
+    .rt-results-grid tbody tr td {
+      font-size: 15px;
+      color: #666666;
+      line-height: 1.2;
+      font-weight: unset !important;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      padding-left: 10px;
+      border-bottom: 1px solid #f2f2f2; }
+      .rt-results-grid tbody tr td.td-center {
+        text-align: center; }
+      .rt-results-grid tbody tr td.grid-bool {
+        text-align: center; }
+        .rt-results-grid tbody tr td.grid-bool i {
+          font-size: 1.2em; }
+          .rt-results-grid tbody tr td.grid-bool i.fa-thumbs-o-up {
+            color: green; }
+          .rt-results-grid tbody tr td.grid-bool i.fa-thumbs-o-down {
+            color: red; }
+      .rt-results-grid tbody tr td.grid-button {
+        text-align: center;
+        padding: 0 8px; }
+      .rt-results-grid tbody tr td .grid-button {
+        padding: 10px 5px;
+        width: 25px;
+        height: 15px;
+        font-size: 25px;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer; }
+        .rt-results-grid tbody tr td .grid-button.fa-close {
+          color: #af0909; }
+          .rt-results-grid tbody tr td .grid-button.fa-close:hover {
+            color: #f33636; }
+        .rt-results-grid tbody tr td .grid-button.fa-eye {
+          color: #6868ea; }
+          .rt-results-grid tbody tr td .grid-button.fa-eye:hover {
+            color: #60a2ef; }

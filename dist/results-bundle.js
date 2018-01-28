@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,127 +71,6 @@ module.exports = React;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var results_1 = __webpack_require__(3);
-ReactDOM.render(React.createElement(results_1.Results, null), document.getElementById("results-app"));
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-module.exports = ReactDOM;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var index_1 = __webpack_require__(4);
-var services = __webpack_require__(8);
-var Results = /** @class */ (function (_super) {
-    __extends(Results, _super);
-    function Results(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            results: []
-        };
-        return _this;
-    }
-    Results.prototype.componentWillMount = function () {
-        var _this = this;
-        services.getAll().then(function (data) {
-            _this.setState({ results: JSON.parse(data) });
-        });
-    };
-    Results.prototype.render = function () {
-        return React.createElement("div", null,
-            React.createElement(index_1.Grid, { items: this.state.results, columns: [
-                    {
-                        title: "Особа що проходить тестування",
-                        field: "fullName"
-                    },
-                    {
-                        title: "Email",
-                        field: "email"
-                    }
-                ] }));
-    };
-    return Results;
-}(React.Component));
-exports.Results = Results;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var button_1 = __webpack_require__(5);
-var cell_1 = __webpack_require__(7);
-exports.Grid = function (props) {
-    var renderItem = function (item) {
-        return props.columns.map(function (column, index) {
-            return (column.type == "button") ?
-                React.createElement(button_1.GridButton, { cellProps: column, index: index, item: item }) :
-                React.createElement(cell_1.GridCell, { cellProps: column, index: index, item: item });
-        });
-    };
-    var renderHeader = props.columns.map(function (column, index) {
-        var styleWidth = (column.width) ? { width: column.width } : {};
-        return React.createElement("th", { key: index, style: styleWidth }, column.title);
-    });
-    var renderRows = props.items.map(function (item, index) {
-        return React.createElement("tr", { key: index }, renderItem(item));
-    });
-    return React.createElement("table", { className: props.classNames },
-        React.createElement("thead", null,
-            React.createElement("tr", { key: 0 }, renderHeader)),
-        React.createElement("tbody", null, renderRows));
-};
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var classnames = __webpack_require__(6);
-exports.GridButton = function (props) {
-    var icon = (props.cellProps.icon) ? props.cellProps.icon : "";
-    var styleWidth = (props.cellProps.width) ? { width: props.cellProps.width } : {};
-    return React.createElement("td", { key: props.index, style: styleWidth },
-        React.createElement("i", { className: classnames('grid-button', 'fa', icon), onClick: function () { return props.cellProps.action(); } }));
-};
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -246,16 +125,222 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 7 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(3);
+var results_1 = __webpack_require__(4);
+ReactDOM.render(React.createElement(results_1.Results, null), document.getElementById("results-app"));
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = ReactDOM;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var index_1 = __webpack_require__(5);
+var services = __webpack_require__(9);
+var Results = /** @class */ (function (_super) {
+    __extends(Results, _super);
+    function Results(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            results: []
+        };
+        return _this;
+    }
+    Results.prototype.mapResponse = function (data) {
+        return data.map(function (item) {
+            return {
+                id: Number(item.id),
+                memberId: Number(item.memberId),
+                fullName: item.fullName,
+                email: item.email,
+                start: item.start,
+                finish: item.finish,
+                score: Number(item.score),
+                isSuccessful: item.isSuccessful,
+                inTime: item.inTime
+            };
+        });
+    };
+    Results.prototype.componentWillMount = function () {
+        var _this = this;
+        services.getAll().then(function (data) {
+            _this.setState({ results: _this.mapResponse(JSON.parse(data)) });
+        });
+    };
+    Results.prototype.render = function () {
+        return React.createElement("div", null,
+            React.createElement(index_1.Grid, { classNames: "rt-results-grid", items: this.state.results, columns: [
+                    {
+                        type: "button",
+                        icon: "fa-eye",
+                        alt: "Показати деталі",
+                        width: "25px",
+                        action: function (item) { return console.log(item); }
+                    },
+                    {
+                        type: "button",
+                        icon: "fa-close",
+                        alt: "Видалити",
+                        width: "25px"
+                    },
+                    {
+                        type: "text",
+                        title: "Особа що проходить тестування",
+                        field: "fullName",
+                        width: "300px"
+                    },
+                    {
+                        type: "text",
+                        title: "Email",
+                        field: "email",
+                        width: "200px"
+                    },
+                    {
+                        type: "text",
+                        title: "Тестування розпочато",
+                        field: "start"
+                    },
+                    {
+                        type: "text",
+                        title: "Тестування закінчено",
+                        field: "finish"
+                    },
+                    {
+                        type: "bool",
+                        title: "Тестування пройдене вчасно",
+                        field: "inTime"
+                    },
+                    {
+                        type: "text",
+                        title: "Результат (% правильних відповідей)",
+                        field: "score",
+                        classNames: "td-center"
+                    },
+                    {
+                        type: "bool",
+                        title: "Тестування пройдене успішно",
+                        field: "isSuccessful"
+                    }
+                ] }));
+    };
+    return Results;
+}(React.Component));
+exports.Results = Results;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var button_1 = __webpack_require__(6);
+var cell_1 = __webpack_require__(7);
+var boolCell_1 = __webpack_require__(8);
+var classnames = __webpack_require__(1);
+exports.Grid = function (props) {
+    var renderItem = function (item) {
+        return props.columns.map(function (column, index) {
+            var cell = contentFabric(column, item);
+            var styleWidth = (column.width) ? { width: column.width } : {};
+            var clNames = (column.classNames) ? classNamesFabric(column) + " " + column.classNames : classNamesFabric(column);
+            return React.createElement("td", { key: index, style: styleWidth, className: classnames(clNames) }, cell);
+        });
+    };
+    var contentFabric = function (column, item) {
+        switch (column.type) {
+            case "text":
+                return React.createElement(cell_1.GridCell, { cellProps: column, item: item });
+            case "button":
+                return React.createElement(button_1.GridButton, { cellProps: column, item: item });
+            case "bool":
+                return React.createElement(boolCell_1.GridBool, { cellProps: column, item: item });
+            default:
+                return React.createElement(cell_1.GridCell, { cellProps: column, item: item });
+        }
+    };
+    var classNamesFabric = function (column) {
+        switch (column.type) {
+            case "text":
+                return "grid-text";
+            case "button":
+                return "grid-button";
+            case "bool":
+                return "grid-bool";
+            default:
+                return "grid-text";
+        }
+    };
+    var renderHeader = props.columns.map(function (column, index) {
+        var styleWidth = (column.width) ? { width: column.width } : {};
+        return React.createElement("th", { key: index, style: styleWidth }, column.title);
+    });
+    var renderRows = props.items.map(function (item, i) {
+        return React.createElement("tr", { key: i }, renderItem(item));
+    });
+    return React.createElement("table", { className: props.classNames },
+        React.createElement("thead", null,
+            React.createElement("tr", null, renderHeader)),
+        React.createElement("tbody", null, renderRows));
+};
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var classnames = __webpack_require__(1);
+exports.GridButton = function (props) {
+    var icon = (props.cellProps.icon) ? props.cellProps.icon : "";
+    var func = function () {
+        if (props.cellProps.action)
+            props.cellProps.action(props.item);
+    };
+    return React.createElement("i", { className: classnames('grid-button', 'fa', icon), title: props.cellProps.alt, onClick: function () { return func(); } });
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.GridCell = function (props) {
-    var styleWidth = (props.cellProps.width) ? { width: props.cellProps.width } : {};
-    return React.createElement("td", { key: props.index, style: styleWidth }, props.item[props.cellProps.field]);
+    return props.item[props.cellProps.field];
 };
 
 
@@ -266,13 +351,11 @@ exports.GridCell = function (props) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(9);
-var dir = "../wp-content/plugins/referee-testing/api/results/";
-exports.getAll = function () {
-    return load_1.runAjax({
-        url: dir + "getAll.php",
-        type: "GET"
-    });
+var React = __webpack_require__(0);
+var classnames = __webpack_require__(1);
+exports.GridBool = function (props) {
+    var icon = (props.item[props.cellProps.field]) ? "fa-thumbs-o-up" : "fa-thumbs-o-down";
+    return React.createElement("i", { className: classnames('fa', icon) });
 };
 
 
@@ -283,7 +366,24 @@ exports.getAll = function () {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(10);
+var load_1 = __webpack_require__(10);
+var dir = "../wp-content/plugins/referee-testing/api/results/";
+exports.getAll = function () {
+    return load_1.runAjax({
+        url: dir + "getAll.php",
+        type: "GET"
+    });
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var $ = __webpack_require__(11);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -305,7 +405,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

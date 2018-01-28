@@ -19,23 +19,83 @@ export class Results extends React.Component<Props, State>{
         }
     }
 
+    mapResponse(data: Models.GetAll_Response[]): Models.ResultModel[]{
+        return data.map((item): Models.ResultModel => {
+            return {
+                id: Number(item.id),
+                memberId: Number(item.memberId),
+                fullName: item.fullName,
+                email: item.email,
+                start: item.start,
+                finish: item.finish,
+                score: Number(item.score),
+                isSuccessful: item.isSuccessful,
+                inTime: item.inTime
+            }
+        });
+    }
+
     componentWillMount(){
         services.getAll().then(data => {
-            this.setState({results: JSON.parse(data)});
+            this.setState({results: this.mapResponse(JSON.parse(data))});
         })
     }
 
     render(){
         return <div>
-            <Grid items={this.state.results} columns={[
+            <Grid classNames="rt-results-grid" items={this.state.results} columns={[
                 {
-                    title: "Особа що проходить тестування",
-                    field: "fullName"
+                    type: "button",
+                    icon: "fa-eye",
+                    alt: "Показати деталі",
+                    width: "25px",
+                    action: (item) => console.log(item)
                 },
                 {
+                    type: "button",
+                    icon: "fa-close",
+                    alt: "Видалити",
+                    width: "25px"
+                },
+                {
+                    type: "text",
+                    title: "Особа що проходить тестування",
+                    field: "fullName",
+                    width: "300px"
+                },
+                {
+                    type: "text",
                     title: "Email",
-                    field: "email"
+                    field: "email",
+                    width: "200px"
+                },
+                {
+                    type: "text",
+                    title: "Тестування розпочато",
+                    field: "start"
+                },
+                {
+                    type: "text",
+                    title: "Тестування закінчено",
+                    field: "finish"
+                },
+                {
+                    type: "bool",
+                    title: "Тестування пройдене вчасно",
+                    field: "inTime"
+                },
+                {
+                    type: "text",
+                    title: "Результат (% правильних відповідей)",
+                    field: "score",
+                    classNames: "td-center"
+                },
+                {
+                    type: "bool",
+                    title: "Тестування пройдене успішно",
+                    field: "isSuccessful"
                 }
+
             ]} />
         </div>
     }
