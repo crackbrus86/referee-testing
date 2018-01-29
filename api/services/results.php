@@ -33,4 +33,16 @@ class ResultsService{
         }
         return $response;
     }
+
+    public function deleteQuiz($quizId)
+    {
+        $sql = $this->db->prepare("DELETE FROM $this->quizTable WHERE id = %d", $quizId);
+        return $this->db->query($sql);
+    }
+
+    public function deleteResultByQuizId($quizId)
+    {
+        $sql = $this->db->prepare("DELETE FROM $this->quizResultsTable WHERE quizId = %d", $quizId);
+        return $this->db->query($sql);
+    }
 }

@@ -25,3 +25,11 @@ export const getDetails = (contract: Models.GetDetails_Contract) => {
         data: contract
     })
 }
+
+export const deleteQuiz = (contract: Models.Delete_Contract) => {
+    return runAjax({
+        url: dir + "delete.php",
+        type: "POST",
+        data: contract
+    })
+}

@@ -63,3 +63,7 @@ export interface DetailsQuestion{
     isTrue: boolean;
     answers: DetailsAnswer[]
 }
+
+export interface Delete_Contract{
+    quizId: number;
+}

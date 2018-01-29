@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 132);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1911,7 +1911,7 @@ function loadLocale(name) {
         try {
             oldLocale = globalLocale._abbr;
             var aliasedRequire = require;
-            __webpack_require__(150)("./" + name);
+            __webpack_require__(151)("./" + name);
             getSetGlobalLocale(oldLocale);
         } catch (e) {}
     }
@@ -4603,7 +4603,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(149)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)(module)))
 
 /***/ }),
 /* 1 */
@@ -4817,7 +4817,7 @@ process.umask = function() { return 0; };
 
 
 var React = __webpack_require__(1);
-var factory = __webpack_require__(147);
+var factory = __webpack_require__(148);
 
 if (typeof React === 'undefined') {
   throw Error(
@@ -17257,15 +17257,57 @@ return zhTw;
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
 var ReactDOM = __webpack_require__(7);
-var results_1 = __webpack_require__(133);
-ReactDOM.render(React.createElement(results_1.Results, null), document.getElementById("results-app"));
+var modalRoot = document.body;
+var Modal = /** @class */ (function (_super) {
+    __extends(Modal, _super);
+    function Modal(props) {
+        var _this = _super.call(this, props) || this;
+        _this.el = document.createElement("div");
+        _this.el.className = "modal-black-out";
+        return _this;
+    }
+    Modal.prototype.componentDidMount = function () {
+        modalRoot.appendChild(this.el);
+    };
+    Modal.prototype.componentWillUnmount = function () {
+        modalRoot.removeChild(this.el);
+    };
+    Modal.prototype.render = function () {
+        return ReactDOM.createPortal(this.props.children, this.el);
+    };
+    return Modal;
+}(React.Component));
+exports.Modal = Modal;
 
 
 /***/ }),
 /* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(1);
+var ReactDOM = __webpack_require__(7);
+var results_1 = __webpack_require__(134);
+ReactDOM.render(React.createElement(results_1.Results, null), document.getElementById("results-app"));
+
+
+/***/ }),
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17282,10 +17324,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var index_1 = __webpack_require__(134);
-var services = __webpack_require__(138);
-var filter_1 = __webpack_require__(141);
-var resultDetails_1 = __webpack_require__(156);
+var index_1 = __webpack_require__(135);
+var services = __webpack_require__(139);
+var filter_1 = __webpack_require__(142);
+var resultDetails_1 = __webpack_require__(157);
+var confirm_1 = __webpack_require__(158);
 var Results = /** @class */ (function (_super) {
     __extends(Results, _super);
     function Results(props) {
@@ -17293,7 +17336,12 @@ var Results = /** @class */ (function (_super) {
         _this.state = {
             results: [],
             details: [],
-            userFullname: null
+            userFullname: null,
+            filter: null,
+            deleteDialog: {
+                quizId: null,
+                show: false
+            }
         };
         return _this;
     }
@@ -17317,7 +17365,7 @@ var Results = /** @class */ (function (_super) {
         services.filter({
             year: year
         }).then(function (data) {
-            _this.setState({ results: _this.mapResponse(JSON.parse(data)) });
+            _this.setState({ filter: year, results: _this.mapResponse(JSON.parse(data)) });
         });
     };
     Results.prototype.getDetails = function (result) {
@@ -17331,11 +17379,40 @@ var Results = /** @class */ (function (_super) {
     Results.prototype.closeDetails = function () {
         this.setState({ userFullname: null, details: [] });
     };
-    Results.prototype.componentWillMount = function () {
+    Results.prototype.removeQuiz = function (result) {
+        this.setState({ deleteDialog: {
+                quizId: Number(result.id),
+                show: true
+            } });
+    };
+    Results.prototype.closeDeleteDialog = function () {
+        this.setState({ deleteDialog: {
+                quizId: null,
+                show: false
+            } });
+    };
+    Results.prototype.confirmDeleting = function () {
+        var _this = this;
+        services.deleteQuiz({
+            quizId: this.state.deleteDialog.quizId
+        }).then(function () {
+            _this.closeDeleteDialog();
+            if (_this.state.filter) {
+                _this.runFilter(_this.state.filter);
+            }
+            else {
+                _this.fetch();
+            }
+        });
+    };
+    Results.prototype.fetch = function () {
         var _this = this;
         services.getAll().then(function (data) {
-            _this.setState({ results: _this.mapResponse(JSON.parse(data)) });
+            _this.setState({ filter: null, results: _this.mapResponse(JSON.parse(data)) });
         });
+    };
+    Results.prototype.componentWillMount = function () {
+        this.fetch();
     };
     Results.prototype.render = function () {
         var _this = this;
@@ -17353,7 +17430,8 @@ var Results = /** @class */ (function (_super) {
                         type: "button",
                         icon: "fa-close",
                         alt: "Видалити",
-                        width: "25px"
+                        width: "25px",
+                        action: function (item) { return _this.removeQuiz(item); }
                     },
                     {
                         type: "text",
@@ -17394,7 +17472,8 @@ var Results = /** @class */ (function (_super) {
                         field: "isSuccessful"
                     }
                 ] }),
-            React.createElement(resultDetails_1.ResultDetails, { details: this.state.details, onClose: this.closeDetails.bind(this), fullName: this.state.userFullname }));
+            React.createElement(resultDetails_1.ResultDetails, { details: this.state.details, onClose: this.closeDetails.bind(this), fullName: this.state.userFullname }),
+            React.createElement(confirm_1.ConfirmDialog, { show: this.state.deleteDialog.show, message: "Ви впевнені, що хочете видалити цей запис?", onClose: this.closeDeleteDialog.bind(this), onConfirm: this.confirmDeleting.bind(this) }));
     };
     return Results;
 }(React.Component));
@@ -17402,16 +17481,16 @@ exports.Results = Results;
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var button_1 = __webpack_require__(135);
-var cell_1 = __webpack_require__(136);
-var boolCell_1 = __webpack_require__(137);
+var button_1 = __webpack_require__(136);
+var cell_1 = __webpack_require__(137);
+var boolCell_1 = __webpack_require__(138);
 var classnames = __webpack_require__(4);
 exports.Grid = function (props) {
     var renderItem = function (item) {
@@ -17461,7 +17540,7 @@ exports.Grid = function (props) {
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17480,7 +17559,7 @@ exports.GridButton = function (props) {
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17492,7 +17571,7 @@ exports.GridCell = function (props) {
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17507,13 +17586,13 @@ exports.GridBool = function (props) {
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(139);
+var load_1 = __webpack_require__(140);
 var dir = "../wp-content/plugins/referee-testing/api/results/";
 exports.getAll = function () {
     return load_1.runAjax({
@@ -17535,16 +17614,23 @@ exports.getDetails = function (contract) {
         data: contract
     });
 };
+exports.deleteQuiz = function (contract) {
+    return load_1.runAjax({
+        url: dir + "delete.php",
+        type: "POST",
+        data: contract
+    });
+};
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(140);
+var $ = __webpack_require__(141);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -17566,7 +17652,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27826,7 +27912,7 @@ return jQuery;
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27843,7 +27929,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var Datetime = __webpack_require__(142);
+var Datetime = __webpack_require__(143);
 var moment = __webpack_require__(0);
 var Filter = /** @class */ (function (_super) {
     __extends(Filter, _super);
@@ -27874,18 +27960,18 @@ exports.Filter = Filter;
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var assign = __webpack_require__(11),
-	PropTypes = __webpack_require__(143),
+	PropTypes = __webpack_require__(144),
 	createClass = __webpack_require__(3),
 	moment = __webpack_require__(0),
 	React = __webpack_require__(1),
-	CalendarContainer = __webpack_require__(151)
+	CalendarContainer = __webpack_require__(152)
 	;
 
 var TYPES = PropTypes;
@@ -28335,7 +28421,7 @@ module.exports = Datetime;
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28360,17 +28446,17 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(144)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(145)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(146)();
+  module.exports = __webpack_require__(147)();
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28389,7 +28475,7 @@ var warning = __webpack_require__(9);
 var assign = __webpack_require__(12);
 
 var ReactPropTypesSecret = __webpack_require__(10);
-var checkPropTypes = __webpack_require__(145);
+var checkPropTypes = __webpack_require__(146);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -28920,7 +29006,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28987,7 +29073,7 @@ module.exports = checkPropTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29052,7 +29138,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29068,7 +29154,7 @@ module.exports = function() {
 
 var _assign = __webpack_require__(12);
 
-var emptyObject = __webpack_require__(148);
+var emptyObject = __webpack_require__(149);
 var _invariant = __webpack_require__(5);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -29930,7 +30016,7 @@ module.exports = factory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29954,7 +30040,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -29982,7 +30068,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -30239,10 +30325,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 150;
+webpackContext.id = 151;
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30250,10 +30336,10 @@ webpackContext.id = 150;
 
 var React = __webpack_require__(1),
 	createClass = __webpack_require__(3),
-	DaysView = __webpack_require__(152),
-	MonthsView = __webpack_require__(153),
-	YearsView = __webpack_require__(154),
-	TimeView = __webpack_require__(155)
+	DaysView = __webpack_require__(153),
+	MonthsView = __webpack_require__(154),
+	YearsView = __webpack_require__(155),
+	TimeView = __webpack_require__(156)
 	;
 
 var CalendarContainer = createClass({
@@ -30273,7 +30359,7 @@ module.exports = CalendarContainer;
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30424,7 +30510,7 @@ module.exports = DateTimePickerDays;
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30538,7 +30624,7 @@ module.exports = DateTimePickerMonths;
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30650,7 +30736,7 @@ module.exports = DateTimePickerYears;
 
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30892,14 +30978,14 @@ module.exports = DateTimePickerTime;
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var modal_1 = __webpack_require__(157);
+var modal_1 = __webpack_require__(132);
 var classnames = __webpack_require__(4);
 exports.ResultDetails = function (props) {
     if (!props.details.length)
@@ -30947,45 +31033,26 @@ exports.ResultDetails = function (props) {
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(7);
-var modalRoot = document.body;
-var Modal = /** @class */ (function (_super) {
-    __extends(Modal, _super);
-    function Modal(props) {
-        var _this = _super.call(this, props) || this;
-        _this.el = document.createElement("div");
-        _this.el.className = "modal-black-out";
-        return _this;
-    }
-    Modal.prototype.componentDidMount = function () {
-        modalRoot.appendChild(this.el);
-    };
-    Modal.prototype.componentWillUnmount = function () {
-        modalRoot.removeChild(this.el);
-    };
-    Modal.prototype.render = function () {
-        return ReactDOM.createPortal(this.props.children, this.el);
-    };
-    return Modal;
-}(React.Component));
-exports.Modal = Modal;
+var modal_1 = __webpack_require__(132);
+exports.ConfirmDialog = function (props) {
+    if (!props.show)
+        return null;
+    return React.createElement(modal_1.Modal, null,
+        React.createElement("div", { className: "confirm-dialog" },
+            React.createElement("div", { className: "confirm-dialog-header" },
+                React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
+            React.createElement("div", { className: "confirm-dialog-content" }, props.message),
+            React.createElement("div", { className: "confirm-dialog-footer" },
+                React.createElement("button", { type: "button", className: "confirm", onClick: function () { return props.onConfirm(); } }, "\u0422\u0430\u043A"),
+                React.createElement("button", { type: "button", className: "cancel", onClick: function () { return props.onClose(); } }, "\u041D\u0456"))));
+};
 
 
 /***/ })
