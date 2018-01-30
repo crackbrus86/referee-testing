@@ -51,3 +51,12 @@
         `answerValue` INT(1)
     ) {$charset_collate}";
     dbDelta($sql);
+
+    $tb_settings = $wpdb->get_blog_prefix()."rt_settings";
+    $sql = "CREATE TABLE IF NOT EXISTS {$tb_settings} (
+        `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        `settingName` VARCHAR(200),
+        `settingValue` VARCHAR(200),
+        `settingType` VARCHAR(10)
+    ) {$charset_collate}";
+    dbDelta($sql);

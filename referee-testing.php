@@ -39,6 +39,7 @@ class RefereeTesting {
     public function initSettings(){
         add_menu_page("Referee Testing", "Тестування", "manage_options", "referee-testing", array("RefereeTesting", "editQuestons"));
         add_submenu_page("referee-testing", "Результати екзамену", "Результати", "manage_options", "results", array("RefereeTesting", "reviewResults"));
+        add_submenu_page("referee-testing", "Налаштування", "Налаштування", "manage_options", "rt-settings", array("RefereeTesting", "editSettings"));
     }
 
     public function loadQuestionsApp(){
@@ -51,6 +52,11 @@ class RefereeTesting {
         wp_enqueue_script('results_bundle');
         wp_register_style('react-datetime', plugins_url('/css/dist/react-datetime.css',__FILE__));
         wp_enqueue_style('react-datetime');        
+    }
+
+    public function loadSettingsApp(){
+        wp_register_script("settings_bundle", plugins_url("/dist/settings-bundle.js?v=".time(), __FILE__));
+        wp_enqueue_script("settings_bundle");
     }
 
     public function initDb(){
@@ -76,6 +82,18 @@ echo $otput;
 <div class="container-fluid">
         <h2>$plName</h2>
         <div id="results-app"></div>
+</div>
+_END;
+echo $otput;
+    }
+
+    public function editSettings(){
+        RefereeTesting::loadSettingsApp();
+        $plName = "Налаштування тестування";
+        $otput = <<<_END
+<div class="container-fluid">
+        <h2>$plName</h2>
+        <div id="settings-app"></div>
 </div>
 _END;
 echo $otput;
