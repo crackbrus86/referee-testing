@@ -26,3 +26,11 @@ export const savePass = (contract: Models.SavePass_Contract) => {
         data: contract
     })
 }
+
+export const getPassId = (contract: Models.GetPassId_Contract) => {
+    return runAjax({
+        url: dir + "getPassId.php",
+        type: "GET",
+        data: contract
+    })
+}

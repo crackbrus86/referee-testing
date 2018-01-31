@@ -141,7 +141,18 @@ var Settings = /** @class */ (function (_super) {
             settingName: this.state.examinator.name
         }).then(function (data) {
             var response = JSON.parse(data);
-            _this.setState({ examinator: response });
+            if (!!response.name)
+                _this.setState({ examinator: response });
+        });
+    };
+    Settings.prototype.getPassId = function () {
+        var _this = this;
+        services.getPassId({
+            settingName: this.state.examPass.name
+        }).then(function (data) {
+            var response = JSON.parse(data);
+            if (response)
+                _this.setState({ examPass: __assign({}, _this.state.examPass, { id: response.id }) });
         });
     };
     Settings.prototype.changeLogin = function (value) {
@@ -177,6 +188,7 @@ var Settings = /** @class */ (function (_super) {
     };
     Settings.prototype.componentWillMount = function () {
         this.getLogin();
+        this.getPassId();
     };
     Settings.prototype.render = function () {
         var _this = this;
@@ -188,7 +200,7 @@ var Settings = /** @class */ (function (_super) {
                 React.createElement("button", { type: "button", disabled: !this.state.examinator.value.length, onClick: this.saveLogin.bind(this) }, "\u041E\u043D\u043E\u0432\u0438\u0442\u0438 \u043B\u043E\u0433\u0456\u043D \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430")),
             React.createElement("div", null,
                 React.createElement("label", null, "\u041F\u0430\u0440\u043E\u043B\u044C \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430"),
-                React.createElement("input", { type: "password", value: this.state.examPass.value, onChange: function (e) { return _this.changeLogin(e.target.value); } }),
+                React.createElement("input", { type: "password", value: this.state.examPass.value, onChange: function (e) { return _this.changePass(e.target.value); } }),
                 React.createElement("button", { type: "button", disabled: !this.state.examPass.value.length, onClick: this.savePass.bind(this) }, "\u041E\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u0430\u0440\u043E\u043B\u044C \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430")));
     };
     return Settings;
@@ -223,6 +235,13 @@ exports.savePass = function (contract) {
     return load_1.runAjax({
         url: dir + "savePass.php",
         type: "POST",
+        data: contract
+    });
+};
+exports.getPassId = function (contract) {
+    return load_1.runAjax({
+        url: dir + "getPassId.php",
+        type: "GET",
         data: contract
     });
 };

@@ -31,7 +31,19 @@ export class Settings extends React.Component<any, State>{
             settingName: this.state.examinator.name
         }).then((data) => {
             let response: Models.Setting = JSON.parse(data);
-            this.setState({examinator: response});
+            if(!!response.name) this.setState({examinator: response});
+        })
+    }
+
+    getPassId(){
+        services.getPassId({
+            settingName: this.state.examPass.name
+        }).then(data => {
+            var response = JSON.parse(data);
+            if(response) this.setState({examPass: {
+                ...this.state.examPass,
+                id: response.id
+            }})
         })
     }
 
@@ -79,6 +91,7 @@ export class Settings extends React.Component<any, State>{
 
     componentWillMount(){
         this.getLogin();
+        this.getPassId();
     }
 
     render(){
@@ -91,7 +104,7 @@ export class Settings extends React.Component<any, State>{
             </div>
             <div>
                 <label>Пароль екзаменатора</label>
-                <input type="password" value={this.state.examPass.value} onChange={(e) => this.changeLogin(e.target.value)} />
+                <input type="password" value={this.state.examPass.value} onChange={(e) => this.changePass(e.target.value)} />
                 <button type="button" disabled={!this.state.examPass.value.length} onClick={this.savePass.bind(this)}>Оновити пароль екзаменатора</button>
             </div>            
         </div>

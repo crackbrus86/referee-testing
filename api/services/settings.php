@@ -47,4 +47,9 @@ class SettingsService{
         $response = $this->db->get_row($sql);
         return new Setting($response->id, $response->settingName, $response->settingValue, $response->settingType);
     }
+    public function getSettingId($settingName)
+    {
+        $sql = $this->db->prepare("SELECT id FROM $this->table WHERE settingName = %s", $settingName);
+        return $this->db->get_row($sql);
+    }
 }

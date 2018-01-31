@@ -16,3 +16,7 @@ export interface SavePass_Contract{
 export interface GetLogin_Contract{
     settingName: string;
 }
+
+export interface GetPassId_Contract{
+    settingName: string;
+}
