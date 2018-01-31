@@ -97,12 +97,12 @@ export class Settings extends React.Component<any, State>{
     render(){
         return <div className="rt-settings">
             <h4>Дані екзаменатора</h4>
-            <div>
+            <div className="rt-setting">
                 <label>Логін екзаменатора</label>
                 <input type="text" value={this.state.examinator.value} onChange={(e) => this.changeLogin(e.target.value)} />
                 <button type="button" disabled={!this.state.examinator.value.length} onClick={this.saveLogin.bind(this)}>Оновити логін екзаменатора</button>
             </div>
-            <div>
+            <div className="rt-setting">
                 <label>Пароль екзаменатора</label>
                 <input type="password" value={this.state.examPass.value} onChange={(e) => this.changePass(e.target.value)} />
                 <button type="button" disabled={!this.state.examPass.value.length} onClick={this.savePass.bind(this)}>Оновити пароль екзаменатора</button>

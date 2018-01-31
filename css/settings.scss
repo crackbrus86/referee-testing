@@ -1,0 +1,50 @@
+.rt-settings{
+    background-color: #8806bd;
+    width: 100%;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 6px;
+    h4{
+        font-size: 1.6em;
+        font-weight: 300;
+        margin: 10px 0 15px;
+    }
+    .rt-setting{
+        label{
+            display: block;
+            font-size: 1.2em;
+            padding: 5px 0;
+            cursor: auto;
+        }
+        input{
+            height: 30px;
+            width: 200px;
+            border: none;
+            box-shadow: 0 0 3px 0 #000;
+            margin-right: 10px;
+            &:focus{
+                background-color: #e5fbfd;
+            }
+        }
+        button{
+            height: 30px;
+            width: 230px;
+            background-color: #b4b7b4;
+            border: none;
+            color: #fff;
+            text-shadow: 0 0 1px #000;
+            font-size: 1.1em;
+            box-shadow: 0 0 5px 0 #000;
+            cursor: pointer;
+            &:disabled{
+                background-color: #b4b7b4;
+                cursor: not-allowed;
+                text-shadow: none;
+                opacity: 0.8;
+            }
+            &:hover:not(:disabled){
+                background-color: #c5c5c5;
+            }
+        }
+    }
+}

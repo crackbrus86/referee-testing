@@ -194,11 +194,11 @@ var Settings = /** @class */ (function (_super) {
         var _this = this;
         return React.createElement("div", { className: "rt-settings" },
             React.createElement("h4", null, "\u0414\u0430\u043D\u0456 \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430"),
-            React.createElement("div", null,
+            React.createElement("div", { className: "rt-setting" },
                 React.createElement("label", null, "\u041B\u043E\u0433\u0456\u043D \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430"),
                 React.createElement("input", { type: "text", value: this.state.examinator.value, onChange: function (e) { return _this.changeLogin(e.target.value); } }),
                 React.createElement("button", { type: "button", disabled: !this.state.examinator.value.length, onClick: this.saveLogin.bind(this) }, "\u041E\u043D\u043E\u0432\u0438\u0442\u0438 \u043B\u043E\u0433\u0456\u043D \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430")),
-            React.createElement("div", null,
+            React.createElement("div", { className: "rt-setting" },
                 React.createElement("label", null, "\u041F\u0430\u0440\u043E\u043B\u044C \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430"),
                 React.createElement("input", { type: "password", value: this.state.examPass.value, onChange: function (e) { return _this.changePass(e.target.value); } }),
                 React.createElement("button", { type: "button", disabled: !this.state.examPass.value.length, onClick: this.savePass.bind(this) }, "\u041E\u043D\u043E\u0432\u0438\u0442\u0438 \u043F\u0430\u0440\u043E\u043B\u044C \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430")));
