@@ -37,7 +37,9 @@ export class Login extends React.Component<Props, State>{
             confirm: '',
             signData: {
                 email: '',
-                password: ''
+                password: '',
+                examLogin: '',
+                examPass: ''
             }
         }
     }
@@ -105,7 +107,9 @@ export class Login extends React.Component<Props, State>{
     signIn(){
         services.signIn({
             email: this.state.signData.email,
-            password: this.state.signData.password
+            password: this.state.signData.password,
+            examLogin: this.state.signData.examLogin,
+            examPass: this.state.signData.examPass
         }).then(data => {
             let response: Models.SignIn_Response = JSON.parse(data);
             if(response.state){
@@ -121,7 +125,9 @@ export class Login extends React.Component<Props, State>{
     restoreDefaulysSignIn(){
         this.setState({signData: {
             email: '',
-            password: ''
+            password: '',
+            examLogin: '',
+            examPass: ''
         }});
     }
 

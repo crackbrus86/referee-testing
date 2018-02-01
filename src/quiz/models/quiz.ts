@@ -10,6 +10,8 @@ export interface Member{
 export interface SignIn{
     email: string;
     password: string;
+    examLogin: string;
+    examPass: string;
     [key: string]: any;
 }
 
@@ -30,6 +32,8 @@ export interface Register_Response{
 export interface SignIn_Contract{
     email: string;
     password: string;
+    examLogin: string;
+    examPass: string;
 }
 
 export interface SignIn_Response{

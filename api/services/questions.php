@@ -5,7 +5,7 @@ require_once "../models/question.php";
 class QuestionsService{
     private $tableName;
     private $db;
-    const MAX_QUIZ_QUESTIONS = 5;
+    const MAX_QUIZ_QUESTIONS = 75;
 
     public function __construct()
     {

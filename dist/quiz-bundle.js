@@ -355,7 +355,9 @@ var Login = /** @class */ (function (_super) {
             confirm: '',
             signData: {
                 email: '',
-                password: ''
+                password: '',
+                examLogin: '',
+                examPass: ''
             }
         };
         return _this;
@@ -419,7 +421,9 @@ var Login = /** @class */ (function (_super) {
         var _this = this;
         services.signIn({
             email: this.state.signData.email,
-            password: this.state.signData.password
+            password: this.state.signData.password,
+            examLogin: this.state.signData.examLogin,
+            examPass: this.state.signData.examPass
         }).then(function (data) {
             var response = JSON.parse(data);
             if (response.state) {
@@ -435,7 +439,9 @@ var Login = /** @class */ (function (_super) {
     Login.prototype.restoreDefaulysSignIn = function () {
         this.setState({ signData: {
                 email: '',
-                password: ''
+                password: '',
+                examLogin: '',
+                examPass: ''
             } });
     };
     Login.prototype.render = function () {
@@ -465,19 +471,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var Validation = __webpack_require__(3);
 exports.SignIn = function (props) {
-    var required = ["email", "password"];
+    var required = ["email", "password", "examLogin", "examPass"];
     return React.createElement("div", null,
         React.createElement("form", null,
             React.createElement("div", null,
                 React.createElement("label", null,
-                    "Email",
+                    "\u0412\u0430\u0448 email",
                     Validation.isFieldValid(props.credentials.email)),
                 React.createElement("input", { type: "email", value: props.credentials.email, onChange: function (e) { return props.onChange("email", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("label", null,
-                    "\u041F\u0430\u0440\u043E\u043B\u044C",
+                    "\u0412\u0430\u0448 \u043F\u0430\u0440\u043E\u043B\u044C",
                     Validation.isFieldValid(props.credentials.password)),
                 React.createElement("input", { type: "password", value: props.credentials.password, onChange: function (e) { return props.onChange("password", e.target.value); } })),
+            React.createElement("div", null,
+                React.createElement("label", null,
+                    "\u041B\u043E\u0433\u0456\u043D \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430",
+                    Validation.isFieldValid(props.credentials.examLogin)),
+                React.createElement("input", { type: "text", value: props.credentials.examLogin, onChange: function (e) { return props.onChange("examLogin", e.target.value); } })),
+            React.createElement("div", null,
+                React.createElement("label", null,
+                    "\u041F\u0430\u0440\u043E\u043B\u044C \u0435\u043A\u0437\u0430\u043C\u0435\u043D\u0430\u0442\u043E\u0440\u0430",
+                    Validation.isFieldValid(props.credentials.examPass)),
+                React.createElement("input", { type: "password", value: props.credentials.examPass, onChange: function (e) { return props.onChange("examPass", e.target.value); } })),
             React.createElement("div", null,
                 React.createElement("button", { type: "button", className: "form-submit", onClick: function () { return props.onSignIn(); }, disabled: Validation.isFormValid(props.credentials, required) }, "\u0423\u0432\u0456\u0439\u0442\u0438"))));
 };
@@ -11179,6 +11195,10 @@ exports.ResultDetails = function (props) {
                 props.summary.finishDate),
             React.createElement("p", { className: "result" }, result),
             React.createElement("p", null, reasons));
+    }
+    if (props.fullName) {
+        var header = React.createElement("div", { className: "result-details-header" },
+            React.createElement("h4", null, props.fullName));
     }
     return React.createElement(modal_1.Modal, null,
         React.createElement("div", { className: "quiz-result-details" },

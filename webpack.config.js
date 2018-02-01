@@ -1,7 +1,7 @@
 module.exports = {
-    entry: "./src/settings/index.tsx",
+    entry: "./src/quiz/index.tsx",
     output: {
-        filename: "settings-bundle.js",
+        filename: "quiz-bundle.js",
         path: __dirname + "/dist"
     },
     devtool: "source-map",
