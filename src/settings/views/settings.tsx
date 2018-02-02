@@ -85,6 +85,7 @@ export class Settings extends React.Component<any, State>{
         services.savePass({
             pass: this.state.examPass
         }).then(() => {
+            alert("Пароль було оновлено!");
             this.resetPass();
         });
     }

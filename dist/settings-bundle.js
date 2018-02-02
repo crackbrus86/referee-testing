@@ -183,6 +183,7 @@ var Settings = /** @class */ (function (_super) {
         services.savePass({
             pass: this.state.examPass
         }).then(function () {
+            alert("Пароль було оновлено!");
             _this.resetPass();
         });
     };

@@ -16,12 +16,9 @@ enum AlertTypes{
 
 export const AlertDialog = (props: Props) => {
     if(!props.show) return null;
-    var typeClass = (props.type)? AlertTypes.Error : AlertTypes.Success;
+    var typeClass = (props.type)? AlertTypes.Success : AlertTypes.Error;
     return <Modal>
         <div className={classnames("alert-dialog", typeClass)}>
-            <div className="alert-dialog-header">
-                <i className="fa fa-close" onClick={() => props.onClose()}></i>
-            </div>
             <div className="alert-dialog-content">
                 {props.message}
             </div>
