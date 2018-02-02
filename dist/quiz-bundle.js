@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -76,7 +76,7 @@ module.exports = React;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var load_1 = __webpack_require__(10);
+var load_1 = __webpack_require__(11);
 var dir = "../wp-content/plugins/referee-testing/api/quiz/";
 exports.register = function (contract) {
     return load_1.runAjax({
@@ -142,48 +142,6 @@ exports.getDetails = function (contract) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-module.exports = ReactDOM;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-exports.isFormValid = function (formObject, required) {
-    for (var i = 0; i < required.length; i++) {
-        if (!formObject[required[i]])
-            return true;
-    }
-    return false;
-};
-exports.isFieldValid = function (field, text) {
-    if (text === void 0) { text = "Це поле є обов'язковим"; }
-    if (!!field)
-        return null;
-    return React.createElement("i", { className: "invalid" },
-        "*",
-        React.createElement("sub", null, text));
-};
-exports.isEmailValid = function (field) {
-    if (!field)
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Це поле є обов'язковим"));
-    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
-    if (!pattern.test(field))
-        return React.createElement("i", { className: "invalid" },
-            "*",
-            React.createElement("sub", null, "Не вірно вказано email"));
-};
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -238,20 +196,49 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 5 */
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = ReactDOM;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var layout_1 = __webpack_require__(6);
-ReactDOM.render(React.createElement(layout_1.RtQuiz, null), document.getElementById("quiz-app"));
+exports.isFormValid = function (formObject, required) {
+    for (var i = 0; i < required.length; i++) {
+        if (!formObject[required[i]])
+            return true;
+    }
+    return false;
+};
+exports.isFieldValid = function (field, text) {
+    if (text === void 0) { text = "Це поле є обов'язковим"; }
+    if (!!field)
+        return null;
+    return React.createElement("i", { className: "invalid" },
+        "*",
+        React.createElement("sub", null, text));
+};
+exports.isEmailValid = function (field) {
+    if (!field)
+        return React.createElement("i", { className: "invalid" },
+            "*",
+            React.createElement("sub", null, "Це поле є обов'язковим"));
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    if (!pattern.test(field))
+        return React.createElement("i", { className: "invalid" },
+            "*",
+            React.createElement("sub", null, "Не вірно вказано email"));
+};
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -268,8 +255,63 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var login_1 = __webpack_require__(7);
-var quiz_1 = __webpack_require__(12);
+var ReactDOM = __webpack_require__(3);
+var modalRoot = document.body;
+var Modal = /** @class */ (function (_super) {
+    __extends(Modal, _super);
+    function Modal(props) {
+        var _this = _super.call(this, props) || this;
+        _this.el = document.createElement("div");
+        _this.el.className = "modal-black-out";
+        return _this;
+    }
+    Modal.prototype.componentDidMount = function () {
+        modalRoot.appendChild(this.el);
+    };
+    Modal.prototype.componentWillUnmount = function () {
+        modalRoot.removeChild(this.el);
+    };
+    Modal.prototype.render = function () {
+        return ReactDOM.createPortal(this.props.children, this.el);
+    };
+    return Modal;
+}(React.Component));
+exports.Modal = Modal;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var ReactDOM = __webpack_require__(3);
+var layout_1 = __webpack_require__(7);
+ReactDOM.render(React.createElement(layout_1.RtQuiz, null), document.getElementById("quiz-app"));
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var login_1 = __webpack_require__(8);
+var quiz_1 = __webpack_require__(14);
 var services = __webpack_require__(1);
 var RtQuiz = /** @class */ (function (_super) {
     __extends(RtQuiz, _super);
@@ -313,7 +355,7 @@ exports.RtQuiz = RtQuiz;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -330,10 +372,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var sign_in_1 = __webpack_require__(8);
-var register_1 = __webpack_require__(9);
+var sign_in_1 = __webpack_require__(9);
+var register_1 = __webpack_require__(10);
 var services = __webpack_require__(1);
-var classnames = __webpack_require__(4);
+var classnames = __webpack_require__(2);
+var alert_1 = __webpack_require__(13);
 var LoginViewTypes;
 (function (LoginViewTypes) {
     LoginViewTypes[LoginViewTypes["SignIn"] = 0] = "SignIn";
@@ -358,6 +401,11 @@ var Login = /** @class */ (function (_super) {
                 password: '',
                 examLogin: '',
                 examPass: ''
+            },
+            alert: {
+                show: false,
+                type: true,
+                message: ""
             }
         };
         return _this;
@@ -427,22 +475,42 @@ var Login = /** @class */ (function (_super) {
         }).then(function (data) {
             var response = JSON.parse(data);
             if (response.state) {
-                _this.restoreDefaulysSignIn();
-                alert(response.message);
+                _this.restoreDefaultsSignIn();
+                // alert(response.message);
+                _this.showAlert(response.message);
                 _this.props.setUser(response.object);
             }
             else {
-                alert(response.message);
+                // alert(response.message);
+                _this.showAlert(response.message, false);
             }
         });
     };
-    Login.prototype.restoreDefaulysSignIn = function () {
+    Login.prototype.restoreDefaultsSignIn = function () {
         this.setState({ signData: {
                 email: '',
                 password: '',
                 examLogin: '',
                 examPass: ''
             } });
+    };
+    Login.prototype.showAlert = function (message, type) {
+        if (type === void 0) { type = true; }
+        this.setState({
+            alert: {
+                show: true,
+                type: type,
+                message: message
+            }
+        });
+    };
+    Login.prototype.closeAlert = function () {
+        this.setState({
+            alert: {
+                show: false,
+                message: ""
+            }
+        });
     };
     Login.prototype.render = function () {
         if (!!this.props.user)
@@ -454,7 +522,8 @@ var Login = /** @class */ (function (_super) {
             React.createElement("div", { className: "rt-login-header" },
                 React.createElement("button", { type: "button", className: classnames("sign-in", { active: !this.state.viewType }), onClick: this.showSingIn.bind(this) }, "\u0423\u0432\u0456\u0439\u0442\u0438"),
                 React.createElement("button", { type: "button", className: classnames("register", { active: !!this.state.viewType }), onClick: this.showRegister.bind(this) }, "\u0417\u0430\u0440\u0435\u0454\u0441\u0442\u0440\u0443\u0432\u0430\u0442\u0438\u0441\u044F")),
-            form);
+            form,
+            React.createElement(alert_1.AlertDialog, { show: this.state.alert.show, message: this.state.alert.message, type: this.state.alert.type, onClose: this.closeAlert.bind(this) }));
     };
     return Login;
 }(React.Component));
@@ -462,14 +531,14 @@ exports.Login = Login;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(3);
+var Validation = __webpack_require__(4);
 exports.SignIn = function (props) {
     var required = ["email", "password", "examLogin", "examPass"];
     return React.createElement("div", null,
@@ -500,14 +569,14 @@ exports.SignIn = function (props) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var Validation = __webpack_require__(3);
+var Validation = __webpack_require__(4);
 exports.Register = function (props) {
     var required = ["name", "surname", "midName", "email"];
     return React.createElement("div", null,
@@ -548,13 +617,13 @@ exports.Register = function (props) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var $ = __webpack_require__(11);
+var $ = __webpack_require__(12);
 var beforeFunc = function () {
     var blackout = document.createElement("div");
     blackout.className = "black-out";
@@ -576,7 +645,7 @@ exports.runAjax = function (props) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10836,7 +10905,36 @@ return jQuery;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var modal_1 = __webpack_require__(5);
+var classnames = __webpack_require__(2);
+var AlertTypes;
+(function (AlertTypes) {
+    AlertTypes["Error"] = "alert-error";
+    AlertTypes["Success"] = "alert-success";
+})(AlertTypes || (AlertTypes = {}));
+exports.AlertDialog = function (props) {
+    if (!props.show)
+        return null;
+    var typeClass = (props.type) ? AlertTypes.Error : AlertTypes.Success;
+    return React.createElement(modal_1.Modal, null,
+        React.createElement("div", { className: classnames("alert-dialog", typeClass) },
+            React.createElement("div", { className: "alert-dialog-header" },
+                React.createElement("i", { className: "fa fa-close", onClick: function () { return props.onClose(); } })),
+            React.createElement("div", { className: "alert-dialog-content" }, props.message),
+            React.createElement("div", { className: "alert-dialog-footer" },
+                React.createElement("button", { type: "button", className: "alert-ok", onClick: function () { return props.onClose(); } }, "Ok"))));
+};
+
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10854,10 +10952,10 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var services = __webpack_require__(1);
-var countdown_1 = __webpack_require__(13);
-var question_1 = __webpack_require__(14);
-var summary_1 = __webpack_require__(15);
-var resultDetails_1 = __webpack_require__(16);
+var countdown_1 = __webpack_require__(15);
+var question_1 = __webpack_require__(16);
+var summary_1 = __webpack_require__(17);
+var resultDetails_1 = __webpack_require__(18);
 var Quiz = /** @class */ (function (_super) {
     __extends(Quiz, _super);
     function Quiz(props) {
@@ -11043,7 +11141,7 @@ exports.Quiz = Quiz;
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11110,7 +11208,7 @@ exports.Countdown = Countdown;
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11136,7 +11234,7 @@ exports.QuestionView = function (props) {
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11156,15 +11254,15 @@ exports.Summary = function (props) {
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var modal_1 = __webpack_require__(17);
-var classnames = __webpack_require__(4);
+var modal_1 = __webpack_require__(5);
+var classnames = __webpack_require__(2);
 exports.ResultDetails = function (props) {
     if (!props.details.length)
         return null;
@@ -11208,48 +11306,6 @@ exports.ResultDetails = function (props) {
                 header,
                 React.createElement("ol", null, renderQuestions))));
 };
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var modalRoot = document.body;
-var Modal = /** @class */ (function (_super) {
-    __extends(Modal, _super);
-    function Modal(props) {
-        var _this = _super.call(this, props) || this;
-        _this.el = document.createElement("div");
-        _this.el.className = "modal-black-out";
-        return _this;
-    }
-    Modal.prototype.componentDidMount = function () {
-        modalRoot.appendChild(this.el);
-    };
-    Modal.prototype.componentWillUnmount = function () {
-        modalRoot.removeChild(this.el);
-    };
-    Modal.prototype.render = function () {
-        return ReactDOM.createPortal(this.props.children, this.el);
-    };
-    return Modal;
-}(React.Component));
-exports.Modal = Modal;
 
 
 /***/ })

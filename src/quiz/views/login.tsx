@@ -4,6 +4,7 @@ import {SignIn} from "./partials/sign.in";
 import {Register} from  "./partials/register";
 import * as services from "../services/services";
 import * as classnames from "classnames";
+import {AlertDialog} from "../../components/alert";
 
 interface Props{
     user: Models.Member;
@@ -14,7 +15,12 @@ interface State{
     viewType?: number;
     password?: string;
     confirm?: string;
-    signData?: Models.SignIn
+    signData?: Models.SignIn;
+    alert?: {
+        show: boolean;
+        type?: boolean;
+        message: string;
+    }
 }
 
 enum LoginViewTypes {
@@ -40,6 +46,11 @@ export class Login extends React.Component<Props, State>{
                 password: '',
                 examLogin: '',
                 examPass: ''
+            },
+            alert: {
+                show: false,
+                type: true,
+                message: ""
             }
         }
     }
@@ -113,22 +124,43 @@ export class Login extends React.Component<Props, State>{
         }).then(data => {
             let response: Models.SignIn_Response = JSON.parse(data);
             if(response.state){
-                this.restoreDefaulysSignIn();
-                alert(response.message);
+                this.restoreDefaultsSignIn();
+                // alert(response.message);
+                this.showAlert(response.message);
                 this.props.setUser(response.object);
             }else{
-                alert(response.message);
+                // alert(response.message);
+                this.showAlert(response.message, false);
             }
         });
     }
 
-    restoreDefaulysSignIn(){
+    restoreDefaultsSignIn(){
         this.setState({signData: {
             email: '',
             password: '',
             examLogin: '',
             examPass: ''
         }});
+    }
+
+    showAlert(message: string, type: boolean = true){
+        this.setState({
+            alert: {
+                show: true,
+                type: type,
+                message: message
+            }
+        })
+    }
+
+    closeAlert(){
+        this.setState({
+            alert: {
+                show: false,
+                message: ""
+            }
+        })
     }
 
     render(){
@@ -145,6 +177,11 @@ export class Login extends React.Component<Props, State>{
                 <button type="button" className={classnames("register", {active: !!this.state.viewType})} onClick={this.showRegister.bind(this)}>Зареєструватися</button>
             </div>
             {form}
+            <AlertDialog 
+            show={this.state.alert.show} 
+            message={this.state.alert.message} 
+            type={this.state.alert.type}
+            onClose={this.closeAlert.bind(this)}  />
         </div>
     }
 }
