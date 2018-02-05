@@ -26,7 +26,7 @@ class ResultsService{
         FROM $this->quizTable AS qz 
         JOIN $this->membersTable AS mb
         ON qz.memberId = mb.id
-        WHERE qz.isPassed = 1 AND YEAR(qz.startDate) = %s", $year);
+        WHERE qz.isPassed = 1 AND YEAR(qz.startDate) = %s ORDER BY fullName ASC, start DESC", $year);
         $results = $this->db->get_results($sql);
         foreach($results as $result){
             array_push($response, new Result($result));
