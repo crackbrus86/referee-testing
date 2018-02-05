@@ -10940,8 +10940,10 @@ var Quiz = /** @class */ (function (_super) {
     Quiz.prototype.finishQuiz = function () {
         var _this = this;
         services.finishQuiz({
-            quiz: this.state.quiz,
-            questions: this.state.done
+            json: JSON.stringify({
+                quiz: this.state.quiz,
+                questions: this.state.done
+            })
         }).then(function () {
             _this.setState({
                 questions: [],

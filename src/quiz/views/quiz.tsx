@@ -105,8 +105,10 @@ export class Quiz extends React.Component<Props, State>{
 
     finishQuiz(){
         services.finishQuiz({
-            quiz: this.state.quiz,
-            questions: this.state.done
+            json: JSON.stringify({
+                quiz: this.state.quiz,
+                questions: this.state.done
+            })
         }).then(() => {
             this.setState({
                 questions: [],

@@ -5,12 +5,14 @@ require_once "../models/quizResult.php";
 require_once "../services/quizResult.php";
 require_once "../services/quiz.php";
 require_once "../services/questions.php";
+require_once "../services/core.php";
 
 
 if(isset($_SESSION["currentTUser"])){
     date_default_timezone_set("Europe/Kiev");
-    $quiz = $_POST["quiz"];
-    $questions = $_POST["questions"];
+    $data = json_decode(Core::escape($_POST["json"]), true);
+    $quiz = $data["quiz"];
+    $questions = $data["questions"];
     $quizServise = new QuizService();
     $resultService = new QuizResultService();
     $qtService = new QuestionsService();

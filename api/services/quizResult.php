@@ -21,7 +21,7 @@ class QuizResultService{
     {
         $quizResult = new QuizResult($quizId, $questionId, $answerId, $answerValue);
         $sql = $this->db->prepare("INSERT INTO $this->table (quizId, questionId, answerId, answerValue) VALUES (%d, %d, %d, %d)", 
-        $quizResult->quizId, $quizResult->questionId, $quizResult->answerId, (int)($quizResult->answerValue == "true"));
+        $quizResult->quizId, $quizResult->questionId, $quizResult->answerId, $quizResult->answerValue);
         return $this->db->query($sql);
     }
 

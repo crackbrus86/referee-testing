@@ -72,8 +72,7 @@ export interface Quiz{
 }
 
 export interface FinishQuiz_Contract{
-    quiz: Quiz,
-    questions: Question[]
+    json: string;
 }
 
 export interface GetSummary_Contract{
