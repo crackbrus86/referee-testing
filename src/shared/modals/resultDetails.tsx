@@ -16,7 +16,10 @@ export const ResultDetails = (props: Props) => {
     var renderQuestions = props.details.map((question, index) => <li key={index}>
         <span className={classnames({wrong: !question.isTrue})}>{question.text}</span>
         <ul>
-            {question.answers.map((answer, indexA) => <li key={indexA} className={classnames({wrong: !answer.isTrue})}>{answer.answerText}</li>)}
+            {question.answers.map((answer, indexA) => {
+                var isChecked = (answer.checked) ? <i className="fa fa-check"></i> : null;
+                return <li key={indexA} className={classnames({wrong: !answer.isTrue})}>{isChecked}{answer.answerText}</li>
+            })}
         </ul>
     </li>);
     if(props.user && props.summary){

@@ -23,7 +23,8 @@ if(isset($_SESSION["currentTUser"])){
             $answer->questionId = $aItem->questionId;
             $answer->answerId = $aItem->answerId;
             $answer->answerText = $aItem->answerText;
-            $answer->isTrue = (!$aItem->isCorrect && !!$aItem->userAnswer)? false : true;
+            $answer->checked = filter_var($aItem->userAnswer, FILTER_VALIDATE_BOOLEAN);
+            $answer->isTrue = ((!!$aItem->userAnswer && !$aItem->isCorrect) || (!$aItem->isCorrect))? false : true;
             if($answer->questionId == $question->questionId){
                 array_push($question->answers, $answer);
             }

@@ -93,6 +93,7 @@ export interface DetailsAnswer{
     answerText: string;
     questionId: number;
     quizId: number;
+    checked: boolean;
     isTrue: boolean;
 }
 

@@ -270,6 +270,8 @@
     color: red; }
   .result-details-body ol li ul {
     list-style-type: circle; }
+    .result-details-body ol li ul li .fa-check {
+      margin-right: 5px; }
 
 .rt-quiz {
   font-size: 0.9em;

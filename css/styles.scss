@@ -357,6 +357,11 @@
         li{
             ul{
                 list-style-type: circle;
+                li{
+                    .fa-check{
+                        margin-right: 5px
+                    }
+                }
             }
         }
     }

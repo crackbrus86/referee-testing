@@ -11172,7 +11172,12 @@ exports.ResultDetails = function (props) {
         return null;
     var renderQuestions = props.details.map(function (question, index) { return React.createElement("li", { key: index },
         React.createElement("span", { className: classnames({ wrong: !question.isTrue }) }, question.text),
-        React.createElement("ul", null, question.answers.map(function (answer, indexA) { return React.createElement("li", { key: indexA, className: classnames({ wrong: !answer.isTrue }) }, answer.answerText); }))); });
+        React.createElement("ul", null, question.answers.map(function (answer, indexA) {
+            var isChecked = (answer.checked) ? React.createElement("i", { className: "fa fa-check" }) : null;
+            return React.createElement("li", { key: indexA, className: classnames({ wrong: !answer.isTrue }) },
+                isChecked,
+                answer.answerText);
+        }))); });
     if (props.user && props.summary) {
         var fullName = React.createElement("h4", null,
             "\u0428\u0430\u043D\u043E\u0432\u043D\u0438\u0439 ",
