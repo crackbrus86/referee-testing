@@ -210,6 +210,7 @@
       font-weight: 300;
       color: #fff;
       text-shadow: 0 0 1px #000;
+      border: none;
       cursor: pointer; }
       .rt-login .rt-login-header button.sign-in {
         background-color: #59d05d; }
@@ -221,6 +222,8 @@
           background-color: #af73f3; }
       .rt-login .rt-login-header button.active {
         text-decoration: underline; }
+  .rt-login form div {
+    text-align: left; }
   .rt-login form label {
     font-size: 14px; }
   .rt-login form input {
@@ -240,7 +243,8 @@
     font-weight: 300;
     color: #fff;
     text-shadow: 0 0 1px #000;
-    background-color: #bf1252; }
+    background-color: #bf1252;
+    border: none; }
     .rt-login form .form-submit:hover {
       background-color: #d8155c; }
     .rt-login form .form-submit:disabled {
@@ -274,11 +278,12 @@
       margin-right: 5px; }
 
 .rt-quiz {
-  font-size: 0.9em;
+  font-size: 1.1em;
   font-family: Arial, Helvetica, sans-serif; }
   .rt-quiz .rt-quiz-header {
     display: flex;
-    flex-direction: row; }
+    flex-direction: row;
+    margin-bottom: 10px; }
     .rt-quiz .rt-quiz-header div {
       display: flex;
       flex-direction: column;
@@ -289,10 +294,13 @@
         display: block; }
         .rt-quiz .rt-quiz-header div.right-button-wrap button {
           background-color: maroon;
-          padding: 5px 10px;
+          padding: 8px 10px;
           font-size: 16px;
           text-transform: uppercase;
-          cursor: pointer; }
+          cursor: pointer;
+          border: none;
+          color: #fff;
+          font-weight: 600; }
           .rt-quiz .rt-quiz-header div.right-button-wrap button:hover {
             background-color: #a00606; }
   .rt-quiz .rt-quiz-body .start-quiz-area {
@@ -300,7 +308,13 @@
     .rt-quiz .rt-quiz-body .start-quiz-area button {
       background-color: #52bf55;
       text-shadow: 0 0 1px #565656;
-      color: #fff; }
+      color: #fff;
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 600;
+      border: none;
+      padding: 8px 10px;
+      cursor: pointer; }
       .rt-quiz .rt-quiz-body .start-quiz-area button:hover {
         background-color: #59d05d; }
   .rt-quiz .rt-quiz-body .quiz-timer {
@@ -315,7 +329,16 @@
     background-color: #f7f7f7;
     padding: 0 5px; }
   .rt-quiz .rt-quiz-body .question-content {
-    padding-top: 15px; }
+    padding-top: 15px;
+    font-size: 1.2em;
+    line-height: 31px; }
+    .rt-quiz .rt-quiz-body .question-content form {
+      background-color: #e9f6ff;
+      margin-top: 10px;
+      padding-right: 10px; }
+    .rt-quiz .rt-quiz-body .question-content .answer-body label {
+      font-weight: 300;
+      font-size: 0.9em; }
     .rt-quiz .rt-quiz-body .question-content .answer-body input[type=checkbox] {
       width: 20px;
       height: 20px;
@@ -328,7 +351,10 @@
         font-size: 16px;
         text-transform: uppercase;
         cursor: pointer;
-        margin: 10px 5px; }
+        margin: 10px 5px;
+        color: #fff;
+        border: none;
+        font-weight: 600; }
         .rt-quiz .rt-quiz-body .question-content .question-buttons button.skip {
           background-color: #ec6969; }
           .rt-quiz .rt-quiz-body .question-content .question-buttons button.skip:hover {
@@ -345,7 +371,10 @@
       font-size: 16px;
       text-transform: uppercase;
       cursor: pointer;
-      background-color: #243696; }
+      background-color: #243696;
+      color: #fff;
+      border: none;
+      font-weight: 600; }
       .rt-quiz .finish-quiz button:hover {
         background-color: #3c54dc; }
   .rt-quiz .quiz-summary .summary-title {
@@ -361,13 +390,17 @@
   .rt-quiz .quiz-summary .summary-content {
     text-align: center; }
   .rt-quiz .quiz-summary .details-button-wrap {
-    text-align: center; }
+    text-align: center;
+    margin-top: 10px; }
     .rt-quiz .quiz-summary .details-button-wrap button {
       padding: 5px 10px;
       font-size: 16px;
       text-transform: uppercase;
       cursor: pointer;
-      background-color: #83009a; }
+      background-color: #83009a;
+      color: #fff;
+      border: none;
+      font-weight: 600; }
       .rt-quiz .quiz-summary .details-button-wrap button:hover {
         background-color: #b909d8; }
 

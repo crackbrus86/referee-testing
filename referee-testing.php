@@ -9,8 +9,8 @@ define('RT_DIR', plugin_dir_path(__FILE__));
 add_action("admin_menu", array("RefereeTesting", "initSettings"));
 add_action("admin_init", array("RefereeTesting", "initDb"));
 
-add_action( 'init', 'do_session_start' ); 
-function do_session_start() { 
+add_action( 'init', 'do_session_start_rt' ); 
+function do_session_start_rt() { 
     if ( !session_id() ) session_start(); 
 }
 
