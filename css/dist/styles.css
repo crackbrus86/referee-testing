@@ -13,6 +13,41 @@
     left: 50%;
     top: 50%; }
 
+.questions-app .sign-inner {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  background-color: #fff;
+  box-shadow: 0 0 4px 1px #c1c1c1;
+  padding: 4px; }
+  .questions-app .sign-inner label {
+    display: block;
+    text-align: center;
+    margin-bottom: 4px; }
+  .questions-app .sign-inner input {
+    display: block;
+    width: 100%; }
+  .questions-app .sign-inner button {
+    display: block;
+    margin: 5px auto;
+    cursor: pointer;
+    background-color: #0a5fa2;
+    color: #fff;
+    border: 1px solid #0a5fa2;
+    padding: 3px 10px; }
+    .questions-app .sign-inner button:hover {
+      background-color: #0e72be; }
+
+.questions-app .sign-out-button button {
+  margin-bottom: 10px;
+  cursor: pointer;
+  background-color: #8a0000;
+  color: #fff;
+  border: 1px solid #8a0000;
+  padding: 3px 10px; }
+  .questions-app .sign-out-button button:hover {
+    background-color: #9e0101; }
+
 .questions-app .questions-app-header {
   background-color: #fff;
   margin-right: 25px;

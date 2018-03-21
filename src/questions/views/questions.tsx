@@ -5,11 +5,15 @@ import {QuestionsList} from "./questionsList";
 import * as services from "../services/services";
 import {QuestionModal} from "../modals/editModal";
 import {ConfirmDialog} from "../../components/confirm";
+import {SignInnerForm} from "./partials/signinnerForm";
+import {SignOutForm} from "./partials/signOutForm";
 
 export interface QuestionsState{
     questions: Models.Question[];
     defaultQuestion: Models.Question;
     modalQuestion: Models.Question;
+    isVerified: boolean;
+    code: string;
     deleteDialog?: {
         questionId: number;
         show: boolean;
@@ -29,7 +33,9 @@ export class Questions extends React.Component<any,QuestionsState>{
             deleteDialog: {
                 questionId: null,
                 show: false
-            }
+            },
+            isVerified: false,
+            code: ''
         }
     }
 
@@ -127,12 +133,50 @@ export class Questions extends React.Component<any,QuestionsState>{
         });
     }
 
+    verifyCapabilities(){
+        services.verify().then(response => {
+            let resp: Models.ResponseModel = JSON.parse(response);
+            if(resp.status){
+                this.fetchQuestions();
+                this.setState({isVerified: true});
+            }else{
+                this.setState({isVerified: false});
+            }
+        });
+    }
+
+    signIn(){
+        services.signIn({
+            code: this.state.code
+        }).then(response => {
+            let resp: Models.ResponseModel = JSON.parse(response);
+            if(resp.status){
+                this.fetchQuestions();
+                this.setState({isVerified: true, code: ''});
+            }else{
+                alert(resp.message);
+            }
+        })
+    }
+
+    signOut(){
+        services.signOut().then(() => {
+            this.verifyCapabilities();
+        });
+    }
+
+    handleCodeChange(code: string){
+        this.setState({code: code});
+    }
+
     componentDidMount(){
-        this.fetchQuestions();
+        this.verifyCapabilities();
     }
 
     render(){
-        return <div className="questions-app">
+        var questionsApp = (this.state.isVerified)?<React.Fragment>
+            <SignOutForm
+            onSignOut={this.signOut.bind(this)} />
             <QuestionsHeader 
                 question={this.state.defaultQuestion} 
                 changeQuestion={this.changeQuestion.bind(this)} 
@@ -141,8 +185,13 @@ export class Questions extends React.Component<any,QuestionsState>{
                 changeDefaultAnswer={this.changeAnswer.bind(this)}
                 deleteAnswer={this.deleteAnswer.bind(this)}
                 />
-            <QuestionsList questions={this.state.questions} onEdit={this.chooseModalQuestion.bind(this)} onDelete={this.openDeleteDialog.bind(this)} />
-            <QuestionModal question={this.state.modalQuestion} 
+            <QuestionsList 
+            questions={this.state.questions} 
+            onEdit={this.chooseModalQuestion.bind(this)} 
+            onDelete={this.openDeleteDialog.bind(this)} />
+
+            <QuestionModal 
+            question={this.state.modalQuestion} 
             changeQuestion={this.changeQuestion.bind(this)}
             changeAnswer={this.changeAnswer.bind(this)}
             addAnswer={this.addAswer.bind(this)}
@@ -156,6 +205,13 @@ export class Questions extends React.Component<any,QuestionsState>{
             onClose={this.closeDialog.bind(this)}
             onConfirm={this.deleteQuestion.bind(this)}
             />
+        </React.Fragment>: <SignInnerForm 
+        code={this.state.code}
+        onCodeChange={this.handleCodeChange.bind(this)}
+        onSignIn={this.signIn.bind(this)} />;
+        
+        return <div className="questions-app">
+            {questionsApp}
         </div>
     }
 }

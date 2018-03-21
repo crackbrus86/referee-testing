@@ -177,6 +177,8 @@ var questionsList_1 = __webpack_require__(7);
 var services = __webpack_require__(9);
 var editModal_1 = __webpack_require__(12);
 var confirm_1 = __webpack_require__(13);
+var signinnerForm_1 = __webpack_require__(14);
+var signOutForm_1 = __webpack_require__(15);
 var Questions = /** @class */ (function (_super) {
     __extends(Questions, _super);
     function Questions(props) {
@@ -192,7 +194,9 @@ var Questions = /** @class */ (function (_super) {
             deleteDialog: {
                 questionId: null,
                 show: false
-            }
+            },
+            isVerified: false,
+            code: ''
         };
         return _this;
     }
@@ -293,15 +297,54 @@ var Questions = /** @class */ (function (_super) {
             _this.fetchQuestions();
         });
     };
+    Questions.prototype.verifyCapabilities = function () {
+        var _this = this;
+        services.verify().then(function (response) {
+            var resp = JSON.parse(response);
+            if (resp.status) {
+                _this.fetchQuestions();
+                _this.setState({ isVerified: true });
+            }
+            else {
+                _this.setState({ isVerified: false });
+            }
+        });
+    };
+    Questions.prototype.signIn = function () {
+        var _this = this;
+        services.signIn({
+            code: this.state.code
+        }).then(function (response) {
+            var resp = JSON.parse(response);
+            if (resp.status) {
+                _this.fetchQuestions();
+                _this.setState({ isVerified: true, code: '' });
+            }
+            else {
+                alert(resp.message);
+            }
+        });
+    };
+    Questions.prototype.signOut = function () {
+        var _this = this;
+        services.signOut().then(function () {
+            _this.verifyCapabilities();
+        });
+    };
+    Questions.prototype.handleCodeChange = function (code) {
+        this.setState({ code: code });
+    };
     Questions.prototype.componentDidMount = function () {
-        this.fetchQuestions();
+        this.verifyCapabilities();
     };
     Questions.prototype.render = function () {
-        return React.createElement("div", { className: "questions-app" },
+        var questionsApp = (this.state.isVerified) ? React.createElement(React.Fragment, null,
+            React.createElement(signOutForm_1.SignOutForm, { onSignOut: this.signOut.bind(this) }),
             React.createElement(header_1.QuestionsHeader, { question: this.state.defaultQuestion, changeQuestion: this.changeQuestion.bind(this), addAnswer: this.addAswer.bind(this), createQuestion: this.createQuestion.bind(this), changeDefaultAnswer: this.changeAnswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this) }),
             React.createElement(questionsList_1.QuestionsList, { questions: this.state.questions, onEdit: this.chooseModalQuestion.bind(this), onDelete: this.openDeleteDialog.bind(this) }),
             React.createElement(editModal_1.QuestionModal, { question: this.state.modalQuestion, changeQuestion: this.changeQuestion.bind(this), changeAnswer: this.changeAnswer.bind(this), addAnswer: this.addAswer.bind(this), deleteAnswer: this.deleteAnswer.bind(this), saveQuestion: this.updateQuestion.bind(this), onClose: this.closeModalQuestion.bind(this) }),
-            React.createElement(confirm_1.ConfirmDialog, { show: this.state.deleteDialog.show, message: "Ви впевнені що хочете видалити це питання?", onClose: this.closeDialog.bind(this), onConfirm: this.deleteQuestion.bind(this) }));
+            React.createElement(confirm_1.ConfirmDialog, { show: this.state.deleteDialog.show, message: "Ви впевнені що хочете видалити це питання?", onClose: this.closeDialog.bind(this), onConfirm: this.deleteQuestion.bind(this) })) : React.createElement(signinnerForm_1.SignInnerForm, { code: this.state.code, onCodeChange: this.handleCodeChange.bind(this), onSignIn: this.signIn.bind(this) });
+        return React.createElement("div", { className: "questions-app" }, questionsApp);
     };
     return Questions;
 }(React.Component));
@@ -404,6 +447,25 @@ exports.deleteQuestion = function (contract) {
         url: dir + "delete.php",
         type: "POST",
         data: contract
+    });
+};
+exports.verify = function () {
+    return load_1.runAjax({
+        url: dir + "verifyinner.php",
+        type: "POST"
+    });
+};
+exports.signIn = function (contract) {
+    return load_1.runAjax({
+        url: dir + "signinner.php",
+        type: "POST",
+        data: contract
+    });
+};
+exports.signOut = function () {
+    return load_1.runAjax({
+        url: dir + "signout.php",
+        type: "PoST"
     });
 };
 
@@ -10746,6 +10808,38 @@ exports.ConfirmDialog = function (props) {
             React.createElement("div", { className: "confirm-dialog-footer" },
                 React.createElement("button", { type: "button", className: "confirm", onClick: function () { return props.onConfirm(); } }, "\u0422\u0430\u043A"),
                 React.createElement("button", { type: "button", className: "cancel", onClick: function () { return props.onClose(); } }, "\u041D\u0456"))));
+};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+exports.SignInnerForm = function (props) {
+    return React.createElement(React.Fragment, null,
+        React.createElement("div", { className: "sign-inner" },
+            React.createElement("label", null, "\u0412\u0432\u0435\u0434\u0456\u0442\u044C \u043F\u0430\u0440\u043E\u043B\u044C \u0440\u0435\u0434\u0430\u043A\u0442\u043E\u0440\u0430"),
+            React.createElement("input", { type: "text", value: props.code, onChange: function (e) { return props.onCodeChange(e.target.value); } }),
+            React.createElement("button", { type: "button", onClick: function () { return props.onSignIn(); } }, "\u0412\u0445\u0456\u0434")));
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+exports.SignOutForm = function (props) {
+    return React.createElement(React.Fragment, null,
+        React.createElement("div", { className: "sign-out-button" },
+            React.createElement("button", { type: "button", onClick: function () { return props.onSignOut(); } }, "\u0412\u0438\u0439\u0442\u0438")));
 };
 
 

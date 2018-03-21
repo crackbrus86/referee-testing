@@ -25,3 +25,13 @@ export interface UpdateQuestion_Contract{
 export interface DeleteQuestion_Cotract{
     questionId: number;
 }
+
+export interface ResponseModel{
+    status: boolean,
+    message?: string,
+    data?: any
+}
+
+export interface SignIn_Contract{
+    code: string;
+}
