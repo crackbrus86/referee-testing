@@ -1,7 +1,6 @@
 import * as React from "react";
 import * as Datetime from "react-datetime";
 import * as moment from "moment";
-import { Moment } from "moment";
 interface Props{
     onFilter: ($year: string) => void;
 }
@@ -28,7 +27,7 @@ export class Filter extends React.Component<Props, State>{
             <form>
                 <div className="rt-filter-left">
                 <label>Рік складання іспиту</label>
-                <Datetime value={this.state.year} dateFormat="YYYY" timeFormat={false} closeOnSelect={true} onChange={(v) => this.changeFilter(v)}/>
+                <Datetime value={this.state.year} dateFormat="YYYY" timeFormat={false} closeOnSelect={true} onChange={(v: any) => this.changeFilter(v)}/>
                 </div>
                 <button type="button" title="Фільтрувати" onClick={() => this.props.onFilter(this.state.year)}><i className="fa fa-filter"></i></button>
             </form>

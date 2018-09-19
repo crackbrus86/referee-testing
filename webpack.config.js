@@ -1,21 +1,24 @@
+const path = require('path');
+
 module.exports = {
-    entry: "./src/questions/index.tsx",
-    output: {
-        filename: "questions-bundle.js",
-        path: __dirname + "/dist"
+    entry: {
+        questions: "./src/questions/index.tsx",
+        quiz: "./src/quiz/index.tsx",
+        results: "./src/results/index.tsx",
+        settings: "./src/settings/index.tsx"
     },
-    devtool: "source-map",
+    mode: 'development',
+    output: {
+        path: path.resolve(__dirname, "dist"),
+        filename: '[name]-bundle.js'
+    },
+    devtool: "inline-source-map",
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json"]
+        extensions: [".ts", ".tsx", ".js"]
     },
     module: {
         rules: [
-            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader"}
+            { test: /\.tsx?$/, loader: "ts-loader", exclude: /node_modules/ }
         ]
-    },
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
     }
 }

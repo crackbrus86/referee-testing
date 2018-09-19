@@ -27,10 +27,10 @@ export const runAjax = (props: runAjaxProps) => {
     }).done(afterFunc)
 }
 
-if (!('remove' in Element.prototype)) {
-    Element.prototype.remove = function() {
-        if (this.parentNode) {
-            this.parentNode.removeChild(this);
-        }
-    };
-}
+// if (!('remove' in Element.prototype)) {
+//     Element.prototype.remove = function(){
+//         if (this.parentNode) {
+//             this.parentNode.removeChild(this);
+//         }
+//     };
+// }
