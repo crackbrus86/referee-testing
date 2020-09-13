@@ -21,9 +21,9 @@ if(isset($_SESSION["currentTUser"])){
             $summary->status = false;
             $summary->reason = "Тестування було завершене невчасно!";
             $summary->score = $quiz->score;
-        }elseif($quiz->score < 90){
+        }elseif($quiz->score < 80){
             $summary->status = false;
-            $summary->reason = "Результат тестування має менше 90% правильних відповідей! Ваш результат ".$quiz->score."%.";
+            $summary->reason = "Результат тестування має менше 80% правильних відповідей! Ваш результат ".$quiz->score."%.";
             $summary->score = $quiz->score;
         }else{
             $summary->status = true;

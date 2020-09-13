@@ -22,7 +22,7 @@ class ResultsService{
         $response = array();
         $sql = $this->db->prepare("SELECT qz.id, qz.memberId, CONCAT(mb.surname,' ', mb.name,' ', mb.midName) AS fullName, mb.email, 
         qz.startDate AS start, qz.dateOfFinish AS finish, IF(qz.dateOfFinish <= qz.endDate, 1, 0) AS inTime,
-        qz.score, IF(qz.score < 90, 0, 1) AS isSuccessful
+        qz.score, IF(qz.score < 80, 0, 1) AS isSuccessful
         FROM $this->quizTable AS qz 
         JOIN $this->membersTable AS mb
         ON qz.memberId = mb.id

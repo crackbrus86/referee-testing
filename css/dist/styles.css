@@ -472,9 +472,9 @@
         text-align: center; }
         .rt-results-grid tbody tr td.grid-bool i {
           font-size: 1.2em; }
-          .rt-results-grid tbody tr td.grid-bool i.fa-thumbs-o-up {
+          .rt-results-grid tbody tr td.grid-bool i.fa-thumbs-up {
             color: green; }
-          .rt-results-grid tbody tr td.grid-bool i.fa-thumbs-o-down {
+          .rt-results-grid tbody tr td.grid-bool i.fa-thumbs-down {
             color: red; }
       .rt-results-grid tbody tr td.grid-button {
         text-align: center;
