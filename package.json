@@ -32,7 +32,7 @@
     "@types/moment": "^2.13.0",
     "@types/webpack": "^4.41.22",
     "awesome-typescript-loader": "^3.4.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "node-sass": "^4.14.1",
     "react-datetime": "^2.15.0",
     "source-map-loader": "^0.2.3",
