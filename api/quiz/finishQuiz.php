@@ -12,7 +12,7 @@ if(isset($_SESSION["currentTUser"])){
     date_default_timezone_set("Europe/Kiev");
     $data = json_decode(Core::escape($_POST["json"]), true);
     $quiz = $data["quiz"];
-    $questions = $data["questions"];
+    $questions = json_decode($data["questions"], true);
     $quizServise = new QuizService();
     $resultService = new QuizResultService();
     $qtService = new QuestionsService();
