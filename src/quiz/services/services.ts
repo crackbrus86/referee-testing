@@ -52,7 +52,8 @@ export const finishQuiz = (contract: Models.FinishQuiz_Contract) => {
     return runAjax({
         url: dir + "finishQuiz.php",
         type: "POST",
-        data: contract
+        data: contract,
+        dataType: 'application/json'
     })
 }
 

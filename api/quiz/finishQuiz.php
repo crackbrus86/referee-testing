@@ -10,7 +10,7 @@ require_once "../services/core.php";
 
 if(isset($_SESSION["currentTUser"])){
     date_default_timezone_set("Europe/Kiev");
-    $data = json_decode(Core::escape($_POST["json"]), true);
+    $data = json_decode(file_get_contents('php://input'), true);
     $quiz = $data["quiz"];
     $questions = $data["questions"];
 

@@ -4,6 +4,7 @@ export interface runAjaxProps{
     url: string;
     type: string;
     data?: any;
+    dataType?: 'text' | 'html' | 'xml' | 'json' | 'jsonp' | 'application/json';
 }
 
 var beforeFunc = () => {
@@ -22,8 +23,9 @@ export const runAjax = (props: runAjaxProps) => {
     return $.ajax({
         url: props.url,
         type: props.type,
-        data: props.data,
-        beforeSend: beforeFunc
+        data: props.dataType === 'application/json' ? JSON.stringify(props.data) : props.data,
+        beforeSend: beforeFunc,
+        contentType: props.dataType
     }).done(afterFunc)
 }
 

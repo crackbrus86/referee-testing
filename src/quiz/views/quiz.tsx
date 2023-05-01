@@ -105,10 +105,8 @@ export class Quiz extends React.Component<Props, State>{
 
     finishQuiz(){
         services.finishQuiz({
-            json: JSON.stringify({
-                quiz: this.state.quiz,
-                questions: this.state.done
-            })
+            quiz: this.state.quiz,
+            questions: this.state.done
         }).then(() => {
             this.setState({
                 questions: [],
@@ -164,6 +162,14 @@ export class Quiz extends React.Component<Props, State>{
                 till: null,
                 details: []
             })
+        }
+    }
+
+    componentDidMount(): void {
+        if(Array.prototype.hasOwnProperty('toJSON'))
+        {
+            let arrayPrototype: any = Array.prototype;
+            delete arrayPrototype.toJSON;
         }
     }
 
